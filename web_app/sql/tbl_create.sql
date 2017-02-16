@@ -1,5 +1,5 @@
-CREATE DATABASE test_db;
-USE test_db;
+CREATE DATABASE model_db;
+USE model_db;
 
 CREATE TABLE User(
     username varchar(40),
