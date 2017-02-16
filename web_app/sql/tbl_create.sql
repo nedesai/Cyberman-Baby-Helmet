@@ -14,7 +14,7 @@ CREATE TABLE Patient(
     patientid int NOT NULL AUTO_INCREMENT,
     firstname varchar(40),
     lastname varchar(40),
-    PRIMARY KEY(albumid)
+    PRIMARY KEY(patientid)
 );
 
 CREATE TABLE Model(
