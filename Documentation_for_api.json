@@ -2,7 +2,7 @@ GET /patients
 
 Request
 {
-	"userid" : "userid"
+	"username" : "username"
 }
 
 Response
@@ -22,7 +22,7 @@ POST /patients
 
 Request
 {
-	"userid" : "id",
+	"username" : "id",
 	"firstname" : "patient's first name",
 	"lastname" : "patient's last name",
 	"dob" : "patient's date of birth,
@@ -39,7 +39,7 @@ DELETE /patients
 
 Request
 {
-	"userid" : "userid",
+	"username" : "username",
 	"patientid" : "patientid"
 }
 Response
@@ -55,7 +55,7 @@ GET /models
 
 Request
 {
-	"userid" : "userid",
+	"username" : "username",
 	"patientid" : "patientid"
 }
 
@@ -79,7 +79,7 @@ POST /models
 
 Request
 {
-	"userid" : "userid",
+	"username" : "username",
 	"patientid" : "patientid",
 	"file" : "the file uploaded"
 	"description" : "description of the model"
@@ -101,7 +101,7 @@ DELETE /models
 
 Request
 {
-	"userid" : "userid",
+	"username" : "username",
 	"patientid" : "patientid",
 	"modelid" : "model id of model to be deleted, check it permissions to delete"
 }
