@@ -1,0 +1,112 @@
+GET /patients
+
+Request
+{
+	"userid" : "userid"
+}
+
+Response
+{
+	"patients": [
+		{
+			"patientid" : "patientid",
+			"firstname" : "firstname",
+			"lastname" : "lastname",
+			"dob" : "birthday(mm-dd-yyy)",
+		}
+	]
+}
+
+
+POST /patients
+
+Request
+{
+	"userid" : "id",
+	"firstname" : "patient's first name",
+	"lastname" : "patient's last name",
+	"dob" : "patient's date of birth,
+}
+
+Response
+{
+
+}
+200 0k
+
+
+DELETE /patients
+
+Request
+{
+	"userid" : "userid",
+	"patientid" : "patientid"
+}
+Response
+200 ok
+{
+	
+}
+
+
+-----------------------------------------------------------
+
+GET /models
+
+Request
+{
+	"userid" : "userid",
+	"patientid" : "patientid"
+}
+
+Response
+200 ok
+{
+	"models" : [
+		{
+			"url" : "link to s3 image where it can be downloaded",
+			"description" : "description of the model at this specific link"
+		}	
+	]
+}
+403 Forbidden
+{
+	"error" : "error message, user does not have permission to access this patient's models"
+}
+
+
+POST /models
+
+Request
+{
+	"userid" : "userid",
+	"patientid" : "patientid",
+	"file" : "the file uploaded"
+	"description" : "description of the model"
+}
+
+Response 
+200 ok
+{
+	
+}
+
+400 Bad Request
+{
+	"error" : "error message"
+}
+
+
+DELETE /models
+
+Request
+{
+	"userid" : "userid",
+	"patientid" : "patientid",
+	"modelid" : "model id of model to be deleted, check it permissions to delete"
+}
+
+Response
+200 ok
+
+403 Forbidden
