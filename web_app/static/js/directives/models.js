@@ -1,4 +1,5 @@
 app.directive('models', ['$http', function($http){
+	f
 	return {
 		restrict: 'E',
 		scope: {
@@ -10,6 +11,9 @@ app.directive('models', ['$http', function($http){
 		},
 		templateUrl: 'static/js/directives/models.html',
 		link: function(scope, element, attrs) {
+			scope.printmodel = function(url) {
+				//$http.get(to octoprint api /url);
+			}
 		}
 	}
 }]);

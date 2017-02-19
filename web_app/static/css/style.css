@@ -3,5 +3,8 @@ p {
 
 .image-container {
 	height:100%;
+}
 
+.model-image {
+	display: block;
 }

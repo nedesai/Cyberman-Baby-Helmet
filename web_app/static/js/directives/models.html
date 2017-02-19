@@ -1,5 +1,12 @@
-<p> models </p>
+<h1 class="col-sm-offset-3"> Patient's Models </h1>
 
+<div class="model-image" ng-repeat="model in models">
+	<img src="model.img">
+	<button type="button" class="btn btn-success" ng-click="printmodel(model.url)">Print This Model</button>
+</div>
+
+<!--
 <div class="col-xs-8 image-container">
   <img class="pic-image" src="{{ url_for('static', filename='images/' + data.current + '.' + data.current_format) }}" />
 </div>
+-->
