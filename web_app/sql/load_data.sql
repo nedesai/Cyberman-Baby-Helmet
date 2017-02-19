@@ -4,13 +4,13 @@ INSERT INTO User (username, firstname, lastname, email, password) VALUES
 ('headmodel22', 'Dr. Head', 'Modelberg', 'head@model.com', 'testpass123'),
 ('babyhelmet44', 'Dr. Bobby', 'McHelmet', 'baby@helmet.com', 'password44');
 
-INSERT INTO Patient (firstname, lastname) VALUES
-('Alice', 'Alicestein'),
-('Betty', 'Beyster'),
-('Chad', 'Chadson'),
-('Daniel', 'Danson'),
-('John', 'Johnson'),
-('Paul', 'Paulson');
+INSERT INTO Patient (firstname, lastname, dob) VALUES
+('Alice', 'Alicestein', '2016-03-27'),
+('Betty', 'Beyster', '2016-05-06'),
+('Chad', 'Chadson', '2016-03-15'),
+('Daniel', 'Danson', '2016-12-01'),
+('John', 'Johnson', '2016-01-22'),
+('Paul', 'Paulson', '2016-05-13');
 
 INSERT INTO Model (patientid, filename, filetype, url, description) VALUES
 ('5', 'model_1', 'fbx', 'test.com', 'test description'),

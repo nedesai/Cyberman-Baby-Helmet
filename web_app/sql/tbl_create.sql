@@ -15,6 +15,7 @@ CREATE TABLE Patient(
     patientid int NOT NULL AUTO_INCREMENT,
     firstname varchar(40),
     lastname varchar(40),
+    dob date NOT NULL,
     PRIMARY KEY(patientid)
 );
 
