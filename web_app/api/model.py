@@ -1,12 +1,11 @@
 from flask import *
 from extensions import connect_to_database
 from datetime import datetime
+from .api_utilities import data_missing_keys, check_user_permissions, NO_ERRORS
 # import boto3
 import hashlib
 
 model = Blueprint('model', __name__, template_folder='templates')
-
-NO_ERRORS = "NO_ERRORS"
 
 #-----------#
 # Model API #
@@ -25,6 +24,8 @@ def model_route():
         required_keys = ['username', 'patientid']
         if request.method == 'DELETE':
             required_keys.append('modelid')
+        elif request.method == 'POST':
+            required_keys.append('filetype, description')
         if data_missing_keys(json_data, required_keys):
             error = 'Error: request missing required keys'
             return jsonify(error=error), 422
@@ -73,7 +74,6 @@ def model_route():
         model_description = json_data['description']
         username = json_data['username']
         patientid = json_data['patientid']
-        filename = json_data['filename']
         filetype = json_data['filetype']
         # model_file = request.files['file']
         current_date_time = datetime.now()
@@ -86,9 +86,9 @@ def model_route():
         '''
 
         cur = db.cursor()
-        sql_string = 'INSERT INTO Model (patientid, filename, filetype, description, url) VALUES (\''
-        sql_string += patientid + '\', \'' + filename + '\', \''
-        sql_string += filetype + '\', \'' + model_description + '\', \'' + str(hash_url) + '\')'
+        sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
+        sql_string += patientid + '\', \'' + filetype + '\', \''
+        sql_string += model_description + '\', \'' + str(hash_url) + '\')'
         cur.execute(sql_string)
 
         return jsonify({}), 200
@@ -102,21 +102,3 @@ def model_route():
         cur.execute('DELETE FROM Model WHERE modelid=' + json_data['modelid'])
         return jsonify({}), 200
 
-#-----------#
-# Utilities #
-#-----------#
-def data_missing_keys(json_data, required_keys):
-    missing_keys = False
-    for key in required_keys:
-        if key not in json_data:
-            print(key)
-            missing_keys = True
-    return missing_keys
-
-def check_user_permissions(db, username, patient):
-    error = NO_ERRORS
-    cur = db.cursor()
-    cur.execute('SELECT * FROM UserPatientLink WHERE username=\'' + username+ '\' AND patientid=' + patient)
-    if len(cur.fetchall()) == 0:
-        error = 'Error: User does not have permission to access this patient\'s models'
-    return error, 403
