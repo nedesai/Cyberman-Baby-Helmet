@@ -1,4 +1,4 @@
-app.directive('models', ['http', function($http){
+app.directive('models', ['$http', function($http){
 	return {
 		restrict: 'E',
 		scope: {
