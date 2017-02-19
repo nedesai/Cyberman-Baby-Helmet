@@ -81,7 +81,6 @@ Request
 {
 	"username" : "username",
 	"patientid" : "patientid",
-	"filename" : "the file uploaded name",
 	"filetype" : "the file uploaded type",
 	"description" : "description of the model"
 }
@@ -111,15 +110,3 @@ Response
 200 ok
 
 403 Forbidden
-
-===============================================================================
-
-POST Tests for /models
-
-{
-"username": "babyhelmet44",
-"patientid": "3",
-"filename": "test",
-"filetype": "fbx",
-"description": "this is a baby head"
-}
