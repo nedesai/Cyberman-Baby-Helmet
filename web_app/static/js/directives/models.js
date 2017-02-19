@@ -1,5 +1,4 @@
 app.directive('models', ['$http', function($http){
-	f
 	return {
 		restrict: 'E',
 		scope: {
