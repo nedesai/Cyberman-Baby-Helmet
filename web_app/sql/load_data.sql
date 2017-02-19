@@ -12,19 +12,19 @@ INSERT INTO Patient (firstname, lastname) VALUES
 ('John', 'Johnson'),
 ('Paul', 'Paulson');
 
-INSERT INTO Model (patientid, filename, filetype) VALUES
-('5', 'model_1', 'fbx'),
-('2', 'model_2', 'fbx'),
-('1', 'model_3', 'fbx'),
-('6', 'model_4', 'fbx'),
-('3', 'model_5', 'fbx'),
-('1', 'model_6', 'fbx'),
-('6', 'model_7', 'fbx'),
-('5', 'model_8', 'fbx'),
-('4', 'model_9', 'fbx'),
-('6', 'model_10', 'fbx'),
-('2', 'model_11', 'fbx'),
-('4', 'model_12', 'fbx');
+INSERT INTO Model (patientid, filename, filetype, url, description) VALUES
+('5', 'model_1', 'fbx', 'test.com', 'test description'),
+('5', 'model_2', 'fbx', 'test.com', 'test description'),
+('6', 'model_3', 'fbx', 'test.com', 'test description'),
+('1', 'model_4', 'fbx', 'test.com', 'test description'),
+('2', 'model_5', 'fbx', 'test.com', 'test description'),
+('2', 'model_6', 'fbx', 'test.com', 'test description'),
+('4', 'model_7', 'fbx', 'test.com', 'test description'),
+('4', 'model_8', 'fbx', 'test.com', 'test description'),
+('4', 'model_9', 'fbx', 'test.com', 'test description'),
+('1', 'model_10', 'fbx', 'test.com', 'test description'),
+('5', 'model_11', 'fbx', 'test.com', 'test description'),
+('3', 'model_12', 'fbx', 'test.com', 'test description');
 
 INSERT INTO UserPatientLink (username, patientid) VALUES
 ('headmodel22', '1'),
