@@ -1,6 +1,6 @@
 app.controller('CybermanController', ['$scope', function($scope) {
 	
-	$scope.username = "root";
+	$scope.username = "headmodel22";
 	
 	$scope.obj = {
 		patientid: -1, 
