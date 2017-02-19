@@ -6,7 +6,7 @@
     <!-- angularjs -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
     <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <!-- Bootstrap css-->
@@ -15,17 +15,22 @@
     <title>Head Models</title>
 </head>
 
-<body data-ng-app="Cyberman" data-ng-controller="CybermanController">
-  
-  <patients ng-switch-default></patients>
+<body ng-app="Cyberman" ng-controller="CybermanController">
+  <p>hello</p>
+  <patients ng-switch-default username=username></patients>
   <models ng-switch-when="models"></models>
+  <p>{* obj[patientid] *}</p>
+  <p> {{ username }} </p>
+  <p> {* username *} </p>
 
   <!-- For Anglular files -->
-  <script src="/static/js/app.js" ></script>
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/controllers/CybermanController.js"></script>  
+  <script src="/static/js/directives/patients.js"></script>
+  <script src="/static/js/directives/models.js"></script>
 
   <!-- Bootstrap js -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 
 </body>
 
