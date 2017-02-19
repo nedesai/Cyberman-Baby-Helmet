@@ -24,13 +24,13 @@ def model_route():
         # Check for missing keys
         required_keys = ['username', 'patientid']
         if request.method == 'DELETE':
-            missing_keys.append('modelid')
-        if data_missing_keys(json_data, missing_keys):
+            required_keys.append('modelid')
+        if data_missing_keys(json_data, required_keys):
             error = 'Error: request missing required keys'
             return jsonify(error=error), 422
 
         # Check if the user has permission to access this patient's data
-        error, status_code = check_user_permissions(db, username, json_data['patientid'])
+        error, status_code = check_user_permissions(db, json_data['username'], json_data['patientid'])
         if error != NO_ERRORS:
             return jsonify(error=error), status_code
 
@@ -61,7 +61,7 @@ def model_route():
         cur.execute('SELECT url, description FROM Model WHERE patientid=' + patientid)
         models = []
         for m in cur.fetchall():
-            models.append( { url: m['url'], description: m['description'] } )
+            models.append( { 'url': m['url'], 'description': m['description'] } )
 
         return jsonify(models=models), 200
 
@@ -69,15 +69,16 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
-        check_errors()
-
-        model_description = request.form['description']
+        json_data = request.get_json()
+        model_description = json_data['description']
         username = json_data['username']
-        patientid = json_data['patientID']
-        model_file = request.files['file']
+        patientid = json_data['patientid']
+        filename = json_data['filename']
+        filetype = json_data['filetype']
+        # model_file = request.files['file']
         current_date_time = datetime.now()
 
-        hash_url = hashlib.sha512(str.encode(patientid + current_date_time))
+        hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         '''
         s3_client = boto3.client('s3')
@@ -85,20 +86,21 @@ def model_route():
         '''
 
         cur = db.cursor()
-        sql_string = 'INSERT INTO Model (filename, description, uploaddate)'
-        sql_string += 'VALUES (\'' + hash_url + '\', \'' +  model_description + '\', \'' + current_date_time + '\')'
-        sql_string += 'WHERE patientid=\'patientid\''
+        sql_string = 'INSERT INTO Model (patientid, filename, filetype, description, url) VALUES (\''
+        sql_string += patientid + '\', \'' + filename + '\', \''
+        sql_string += filetype + '\', \'' + model_description + '\', \'' + str(hash_url) + '\')'
         cur.execute(sql_string)
 
-        return 200
+        return jsonify({}), 200
 
     #-----------------#
     # DELETE requests #
     #-----------------#
     elif request.method == 'DELETE':
+        json_data = request.get_json()
         cur = db.cursor()
         cur.execute('DELETE FROM Model WHERE modelid=' + json_data['modelid'])
-        return 200
+        return jsonify({}), 200
 
 #-----------#
 # Utilities #
