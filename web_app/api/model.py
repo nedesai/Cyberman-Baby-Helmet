@@ -2,7 +2,7 @@ from flask import *
 from extensions import connect_to_database
 from datetime import datetime
 from .api_utilities import data_missing_keys, check_user_permissions, NO_ERRORS
-# import boto3
+import boto3
 import hashlib
 
 model = Blueprint('model', __name__, template_folder='templates')
@@ -80,10 +80,10 @@ def model_route():
 
         hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
-        '''
+
         s3_client = boto3.client('s3')
         s3_client.upload_file(model_file, 'babyhead', model_file)
-        '''
+
 
         cur = db.cursor()
         sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
