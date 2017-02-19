@@ -8,7 +8,7 @@ app.directive('patients', ['http', function($http){
 			$scope.patients = $http.get("api/patients/?username=" + $scope.username);
 		},
 		templateUrl: 'static/js/directives/patients.html',
-		link: function(scope, elem, attrs) {
+		link: function(scope, element, attrs) {
 			scope.clickedpatient = function(id) {
 				scope.obj.patientid = id;
 				scope.obj.viewmodel = true;
