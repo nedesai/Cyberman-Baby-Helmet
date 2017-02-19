@@ -1,5 +1,5 @@
+/*
 var app = angular.module("Cyberman", ['ngRoute']);
-
 
 app.config(['$interpolateProvider', function($interpolateProvider, $routeProvider) {
   $interpolateProvider.startSymbol('{*');
@@ -8,5 +8,13 @@ app.config(['$interpolateProvider', function($interpolateProvider, $routeProvide
 	.otherwise({
 		redirectTo: '/'
 	});
+}]);
+*/
+
+var app = angular.module("Cyberman", []);
+
+app.config(['$interpolateProvider', function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{*');
+  $interpolateProvider.endSymbol('*}');
 }]);
 

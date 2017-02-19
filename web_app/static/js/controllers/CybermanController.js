@@ -4,6 +4,6 @@ app.controller('CybermanController', ['$scope', function($scope) {
 	
 	$scope.obj = {
 		patientid: -1, 
-		modelview: false
+		viewmodel: false
 	};
 }]);

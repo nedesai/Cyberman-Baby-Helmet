@@ -11,7 +11,7 @@ app.directive('patients', ['http', function($http){
 		link: function(scope, elem, attrs) {
 			scope.clickedpatient = function(id) {
 				scope.obj.patientid = id;
-				scope.obj.modelview = true;
+				scope.obj.viewmodel = true;
 			}
 		}
 	}
