@@ -22,6 +22,7 @@ CREATE TABLE Model(
     patientid int,
     filename varchar(40),
     filetype char(3),
+    description varchar(200),
     uploaddate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(modelid),
     FOREIGN KEY(patientid) REFERENCES Patient(patientid)
