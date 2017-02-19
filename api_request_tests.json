@@ -1,0 +1,46 @@
+----GET Tests for /model
+Valid request:
+GET localhost:3000/api/v1/patient?username=headmodel22&patientid=3
+
+----POST Tests for /model
+
+Valid request:
+{
+"username": "babyhelmet44",
+"patientid": "3",
+"filetype": "fbx",
+"description": "this is a baby head"
+}
+
+----DELETE Tests for /model
+
+Valid request:
+{
+"username": "babyhelmet44",
+"patientid": "3",
+"model_id": "4"
+}
+
+----GET Tests for /patient
+
+Valid request:
+GET localhost:3000/api/v1/patient?username=headmodel22&patientid=3
+
+----POST Tests for /patient
+
+Valid request:
+{
+"username": "headmodel22",
+"firstname": "Baby",
+"lastname": "Head",
+"dob": "2017-01-13"
+}
+
+----DELETE Tests for /patient
+
+Valid request:
+{
+"username": "headmodel22",
+"patientid": "2"
+}
+
