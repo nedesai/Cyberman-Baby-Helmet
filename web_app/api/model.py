@@ -75,7 +75,7 @@ def model_route():
         username = json_data['username']
         patientid = json_data['patientid']
         filetype = json_data['filetype']
-        # model_file = request.files['file']
+        model_file = request.files['file']
         current_date_time = datetime.now()
 
         hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
