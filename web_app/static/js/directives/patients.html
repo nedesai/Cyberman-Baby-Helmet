@@ -6,23 +6,18 @@
 
 <form class="col-sm-offset-1 container-fluid add_patient" name="add_patient" data-ng-show="showAdd">
 	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40"></div>
-	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Lastname" data-ng-model="input_lsstname" maxlength="40"></div>
+	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Lastname" data-ng-model="input_lastname" maxlength="40"></div>
 	<div class="input-group date col-sm-2" data-provide="datepicker">
-	    <input type="text" id="datepicker" class="form-control">
+	    <input type="text" id="datepicker" class="form-control" data-ng-model="input_dob">
 	    <div class="input-group-addon">
 	        <span class="glyphicon glyphicon-th"></span>
 	    </div>
 	</div>
-	<div class="col-sm-2"><input type="submit" value="Add" class="btn-sm btn-success active" data-ng-click=""></div>
+	<div class="col-sm-2"><input type="submit" value="Add" class="btn-sm btn-success active" data-ng-click="showAdd =addnewpatient(input_firstname, input_lastname, input_dob)"></div>
 </form>
 
-<script>
-	$('#datepicker input').click(function(event){
-	   $('#datepicker').data("DatePicker").show();
-	});
-</script>
 
-<div ng-repeat = "patient in patients" ng-click=clickedpatient(patient.patientid) class="patients panel panel-default">
+<div ng-repeat = "patient in patients" ng-click="clickedpatient(patient.patientid)" class="patients panel panel-default">
 <div class="panel-body">
 	<div class="col-sm-3 patientinfo"> <p> {* patient.firstname *} </p> </div> 
 	<div class="col-sm-3 patientinfo"> <p> {* patient.lastname *} </p> </div> 
