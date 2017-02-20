@@ -31,7 +31,7 @@ def patient_route():
                                 'lastname': i['lastname'], 
                                 'dob': str(i['dob']) } )
 
-        return jsonify(patients=patients), 200
+        return jsonify(patients), 200
     
     #---------------#
     # POST requests #
