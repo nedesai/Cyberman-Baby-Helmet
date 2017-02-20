@@ -7,7 +7,7 @@ app.directive('patients', ['$http', function($http){
 		controller: function($scope) {
 			$http.get("api/v1/patient?username=" + $scope.username).then(
 				function(response) {
-					$scope.patients = response.patients;
+					$scope.patients = response.data.patients;
 				}
 			);
 		},

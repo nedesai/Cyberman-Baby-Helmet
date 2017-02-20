@@ -8,10 +8,10 @@ app.directive('models', ['$http', function($http){
 		controller: function($scope) {
 			$http.get("api/v1/model?username=" + $scope.username + "&patientid=" + $scope.patientid).then(
 				function(response) {
-					$scope.models = response.models;
+					$scope.models = response.data.models;
 				},
 				function(response) {
-					$scope.error = response.error;
+					$scope.error = response.data.error;
 				}
 			);
 		},
