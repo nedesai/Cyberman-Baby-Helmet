@@ -1,33 +1,26 @@
 
-<div class="col-sm-offset-1"> 
+<div class="col-sm-offset-1 add_patient_btn"> 
   <button type="button" class="btn btn-success btn-lg" data-ng-click="showAdd = ! showAdd">Add A Patient</button>
 </div>
 
-<script>
-    $(document).ready(function(){
-      var date_input=$('input[name="date"]'); //our date input has the name "date"
-      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-      var options={
-        format: 'mm/dd/yyyy',
-        container: container,
-        todayHighlight: true,
-        autoclose: true,
-      };
-      date_input.datepicker(options);
-    })
-</script>
 
-<form class="col-sm-offset-1 add_patient" name="add_patient" data-ng-show="showAdd">
+<form class="col-sm-offset-1 container-fluid add_patient" name="add_patient" data-ng-show="showAdd">
 	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40"></div>
 	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Lastname" data-ng-model="input_lsstname" maxlength="40"></div>
 	<div class="input-group date col-sm-2" data-provide="datepicker">
-	    <input type="text" class="form-control">
+	    <input type="text" id="datepicker" class="form-control">
 	    <div class="input-group-addon">
 	        <span class="glyphicon glyphicon-th"></span>
 	    </div>
 	</div>
 	<div class="col-sm-2"><input type="submit" value="Add" class="btn-sm btn-success active" data-ng-click=""></div>
 </form>
+
+<script>
+	$('#datepicker input').click(function(event){
+	   $('#datepicker').data("DatePicker").show();
+	});
+</script>
 
 <div ng-repeat = "patient in patients" ng-click=clickedpatient(patient.patientid) class="patients panel panel-default">
 <div class="panel-body">
