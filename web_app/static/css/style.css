@@ -8,3 +8,8 @@ p {
 .model-image {
 	display: block;
 }
+
+.patientinfo {
+	margin-left: auto;
+    margin-right: auto;
+}
