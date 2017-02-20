@@ -1,3 +1,20 @@
+
+<div class="col-sm-offset-1"> 
+  <button type="button" class="btn btn-success btn-lg" data-ng-click="showAdd = ! showAdd">Add A Patient</button>
+</div>
+
+<form class="col-sm-offset-1" name="add_patient" data-ng-show="showAdd">
+	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40"></div>
+	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Lastname" data-ng-model="input_lsstname" maxlength="40"></div>
+	<div class="input-group date col-sm-2" data-provide="datepicker">
+	    <input type="text" class="form-control">
+	    <div class="input-group-addon">
+	        <span class="glyphicon glyphicon-th"></span>
+	    </div>
+	</div>
+	<input type="submit" value="Add" class="btn-sm btn-success active" data-ng-click="">
+</form>
+
 <div ng-repeat = "patient in patients" ng-click=clickedpatient(patient.patientid) class="patients panel panel-default">
 <div class="panel-body">
 	<div class="col-sm-3 patientinfo"> <p> {* patient.firstname *} </p> </div> 

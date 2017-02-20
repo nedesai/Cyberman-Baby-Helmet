@@ -16,6 +16,8 @@ p {
 }
 
 .patients {
+	cursor: pointer;
+	cursor: hand;
 	margin-right: 8.333%;
 	margin-left: 8.333%;
 }
