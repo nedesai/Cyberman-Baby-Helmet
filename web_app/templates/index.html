@@ -17,13 +17,14 @@
 
 <body ng-app="Cyberman" ng-controller="CybermanController">
 
+<div class="appbody">
   <div class="col-sm-offset-1"> 
     <button type="button" class="btn btn-primary btn-lg" ng-show="obj.viewmodel" ng-click="obj.viewmodel = false">Return to Patients</button>
   </div>
 
   <patients ng-if="!obj.viewmodel" username=username></patients>
   <models ng-if="obj.viewmodel" username=username patientid=obj.patientid></models>
-
+</div>
 
   <!-- For Anglular files -->
   <script src="../static/js/app.js"></script>
