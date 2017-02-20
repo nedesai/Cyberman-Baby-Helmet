@@ -5,8 +5,9 @@ app.directive('patients', ['$http', function($http){
 			username: "="
 		},
 		controller: function($scope) {
-			var results = $http.get("api/v1/patient?username=" + $scope.username);
-			$scope.patients = results.patients;
+			$http.get("api/v1/patient?username=" + $scope.username).then(function(response) {
+				$scope.patients = response.patients;
+			});
 		},
 		templateUrl: 'static/js/directives/patients.html',
 		link: function(scope, element, attrs) {
