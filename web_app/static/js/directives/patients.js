@@ -21,7 +21,7 @@ app.directive('patients', ['$http', function($http){
 				var input = {username: $scope.username, firstname: firstname, lastname: lastname, dob: dob};
 				http.post("api/v1/patient", input).then(
 					function(response) {
-						$scope.patients.append(input);
+						$scope.patients.push(input);
 					}
 				);
 			}
