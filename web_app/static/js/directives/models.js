@@ -6,8 +6,14 @@ app.directive('models', ['$http', function($http){
 			patientid: "="
 		},
 		controller: function($scope) {
-			var results = $http.get("api/v1/model?username=" + $scope.username + "&patientid=" + $scope.patientid);
-			$scope.models = results.models;
+			$http.get("api/v1/model?username=" + $scope.username + "&patientid=" + $scope.patientid).then(
+				function(response) {
+					$scope.models = response.models;
+				},
+				function(response) {
+					$scope.error = response.error;
+				}
+			);
 		},
 		templateUrl: 'static/js/directives/models.html',
 		link: function(scope, element, attrs) {
