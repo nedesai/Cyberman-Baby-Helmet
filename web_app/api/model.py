@@ -83,7 +83,8 @@ def model_route():
 
         s3_client = boto3.client('s3')
         s3_client.upload_file(model_file, 'babyhead', model_file)
-
+        # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
+        # url = https://s3.amazonaws.com/babyhead/<name-of-the-file>
 
         cur = db.cursor()
         sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
