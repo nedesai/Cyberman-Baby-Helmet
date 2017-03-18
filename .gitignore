@@ -1,0 +1,4 @@
+web_app/config.py
+Vagrantfile
+vagrant.sh
+*.pyc
