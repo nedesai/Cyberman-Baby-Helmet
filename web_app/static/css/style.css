@@ -1,0 +1,36 @@
+p {
+	color: #0c7acf;
+}
+
+.image-container {
+	height:100%;
+}
+
+.model-image {
+	display: block;
+}
+
+.patientinfo {
+	text-align: center;
+	font-size: 25px;
+}
+
+.patients {
+	cursor: pointer;
+	cursor: hand;
+	margin-right: 8.333%;
+	margin-left: 8.333%;
+}
+
+.appbody {
+	margin-top: 8.333%
+}
+
+.add_patient {
+	margin-top: 4%;
+	margin-bottom: 4%;
+}
+
+.add_patient_btn {
+	margin-bottom: 4%;
+}
