@@ -12,16 +12,16 @@ INSERT INTO Patient (username, firstname, lastname, dob) VALUES
 ('babyhelmet44', 'John', 'Johnson', '2016-01-22'),
 ('headmodel22', 'Paul', 'Paulson', '2016-05-13');
 
-INSERT INTO Model (patientid, filetype, url, description) VALUES
-('2', 'fbx', 'test.com', 'test description'),
-('5', 'fbx', 'test.com', 'test description'),
-('6', 'fbx', 'test.com', 'test description'),
-('3', 'fbx', 'test.com', 'test description'),
-('1', 'fbx', 'test.com', 'test description'),
-('1', 'fbx', 'test.com', 'test description'),
-('6', 'fbx', 'test.com', 'test description'),
-('6', 'fbx', 'test.com', 'test description'),
-('1', 'fbx', 'test.com', 'test description'),
-('2', 'fbx', 'test.com', 'test description'),
-('1', 'fbx', 'test.com', 'test description'),
-('6', 'fbx', 'test.com', 'test description');
+INSERT INTO Model (patientid, filetype, url, fbx_url, description) VALUES
+('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('5', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('3', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description');
