@@ -18,7 +18,9 @@
 
 
 <div ng-repeat = "patient in patients" ng-click="clickedpatient(patient.patientid)" class="patients panel panel-default">
-<a href="https://s3.amazonaws.com/babyhead/batman70.fbx" class="panel-body">
+
+
+<a href="http://ec2-52-34-23-220.us-west-2.compute.amazonaws.com:3000/api/v1/?patientid={* patient.patientid *}" class="panel-body">
 	<div class="col-sm-3 patientinfo"> <p> {* patient.firstname *} </p> </div> 
 	<div class="col-sm-3 patientinfo"> <p> {* patient.lastname *} </p> </div> 
 	<div class="col-sm-3 patientinfo"> <p> {* patient.dob *} </p> </div>
