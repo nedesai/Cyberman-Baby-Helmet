@@ -28,7 +28,7 @@ CREATE TABLE Model(
     modelid int NOT NULL AUTO_INCREMENT,
     patientid int NOT NULL,
     filetype char(3) NOT NULL,
-    original_url varchar(1024) NOT NULL,
+    url varchar(1024) NOT NULL,
     fbx_url varchar(1024),
     description varchar(200),
     createddate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
