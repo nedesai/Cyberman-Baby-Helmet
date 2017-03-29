@@ -78,13 +78,17 @@ def model_route():
         model_file = request.files['file']
         current_date_time = datetime.now()
 
-        hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
+        hash_name = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
 
-        s3_client = boto3.client('s3')
-        s3_client.upload_file(model_file, 'babyhead', model_file)
-        # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
-        # url = https://s3.amazonaws.com/babyhead/<name-of-the-file>
+        #s3_client = boto3.client('s3')
+        #s3_client.upload_file(model_file, 'babyhead', model_file)
+        #
+        #s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
+        #url = https://s3.amazonaws.com/babyhead/<name-of-the-file>
+
+        s3_client.upload_file(model_file, 'babyhead', hash_name)
+        hash_url = 'https://s3.amazonaws.com/babyhead/hash_name'
 
         cur = db.cursor()
         sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
