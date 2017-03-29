@@ -18,3 +18,17 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
   $interpolateProvider.endSymbol('*}');
 }]);
 
+
+
+app.factory('SharedService', function() {
+	return {
+		sharedInfo: {
+			username: "headmodel22",
+			viewmodel: false,
+			patientid: -1,
+			models: [] 
+			//modelid, obj/stl filename, fbx link, title, description, date
+		}
+	};
+});
+

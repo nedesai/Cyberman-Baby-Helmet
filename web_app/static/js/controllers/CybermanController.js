@@ -1,9 +1,13 @@
-app.controller('CybermanController', ['$scope', function($scope) {
+app.controller('CybermanController', ['$scope', 'SharedService', function($scope, SharedService) {
 	
-	$scope.username = "headmodel22";
 	
-	$scope.obj = {
-		patientid: -1, 
-		viewmodel: false
-	};
+	// sharedInfo: {
+	// 	username: "headmodel22",
+	// 	viewmodel: false,
+	// 	patientid: -1,
+	// 	models: [] 
+	// }
+	
+	$scope.info = SharedService.sharedInfo;
+	
 }]);

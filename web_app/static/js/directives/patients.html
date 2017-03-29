@@ -1,27 +1,53 @@
 
-<div class="col-sm-offset-1 add_patient_btn"> 
-  <button type="button" class="btn btn-success btn-lg" data-ng-click="showAdd = ! showAdd">Add A Patient</button>
-</div>
+<div class="patient-list panel panel-info">
+	
+	<div class="panel-heading clearfix">
+		<div class="pull-right">
+			<button type="button" class="add-btn btn btn-primary btn-lg" data-ng-click="showAdd = !showAdd">Add A Patient</button>
+		</div>
 
-
-<form class="col-sm-offset-1 container-fluid add_patient" name="add_patient" data-ng-show="showAdd">
-	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40"></div>
-	<div class="col-sm-3"><input name="form-name" class="form-control" type="text" placeholder="Lastname" data-ng-model="input_lastname" maxlength="40"></div>
-	<div class="input-group date col-sm-2" data-provide="datepicker">
-	    <input type="text" id="datepicker" class="form-control" data-ng-model="input_dob">
-	    <div class="input-group-addon">
-	        <span class="glyphicon glyphicon-th"></span>
-	    </div>
+		<h1 id="panel-head">Patients</h1>
 	</div>
-	<div class="col-sm-2"><input type="submit" value="Add" class="btn-sm btn-success active" data-ng-click="showAdd = addnewpatient(input_firstname, input_lastname, input_dob)"></div>
-</form>
+
+	<div data-ng-show="showAdd" id ="add_patient" class="panel-body">
+		<form class="form-inline" name="add_patient">
+			<div class="col-sm-3">
+				<input name="form-name" class="form-control input-lg" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40">
+			</div>
+			<div class="col-sm-3">
+				<input name="form-name" class="form-control input-lg" type="text" placeholder="Lastname" data-ng-model="input_lastname" maxlength="40">
+			</div>
+			<div class="input-group date col-sm-3" data-provide="datepicker">
+					<!-- Input format is YYYY/MM/DD -->
+			    <input type="text" id="datepicker" class="form-control input-lg" data-ng-model="input_dob">
+			    <div class="input-group-addon">
+			        <span class="glyphicon glyphicon-th"></span>
+			    </div>
+			</div>
+			<button type="submit" class="btn-lg btn-success active pull-right" data-ng-click="showAdd = addnewpatient(input_firstname, input_lastname, input_dob)">Add New Patient</button>
+
+		</form>
+	</div>
+
+	<table class="table patient-display">
+		<thead class="table-head-info">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Date of Birth</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="patient in patients" ng-click="clickedpatient(patient.patientid)" class="patients align-middle">
+				<td class="patientinfo align-middle"> {* patient.firstname *} </td>
+				<td class="patientinfo"> {* patient.lastname *} </td>
+				<td class="patientinfo"> {* patient.dob *} </td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
 
 
-<div ng-repeat = "patient in patients" ng-click="clickedpatient(patient.patientid)" class="patients panel panel-default">
 <a href="https://s3.amazonaws.com/babyhead/batman70.fbx" class="panel-body">
-	<div class="col-sm-3 patientinfo"> <p> {* patient.firstname *} </p> </div> 
-	<div class="col-sm-3 patientinfo"> <p> {* patient.lastname *} </p> </div> 
-	<div class="col-sm-3 patientinfo"> <p> {* patient.dob *} </p> </div>
-	<br>
-</div>
-</div>
