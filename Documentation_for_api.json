@@ -110,3 +110,21 @@ Response
 200 ok
 
 403 Forbidden
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+POST /login
+
+Request
+{
+	"username" : "username",
+	"password" : "password"
+}
+
+Response
+200 OK
+{
+	"username" : "username"
+}
+
+403 Forbidden
