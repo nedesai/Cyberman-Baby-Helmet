@@ -1,16 +1,43 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <!-- angularjs -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    
     <!-- CSS -->
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/style.css"/>
+    <link rel="stylesheet" href="../static/include/importer.css"/>
     <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <!-- Bootstrap css-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <!-- angularjs -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <!-- 3d model preview -->
+    <script type="text/javascript" src="../static/jsmodeler/three.min.js"></script>
+    <script type="text/javascript" src="../static/jsmodeler/jsmodeler.js"></script>
+    <script type="text/javascript" src="../static/jsmodeler/jsmodeler.ext.three.js"></script>
+    
+    <script type="text/javascript" src="../static/include/online3dembedder.js"></script>
+    <!--
+    <script type="text/javascript" src="../static/include/importerviewer.js"></script>
+    <script type="text/javascript" src="../static/include/importermenu.js"></script>
+    <script type="text/javascript" src="../static/include/importerapp.js"></script>
+    -->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-55683446-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
 
     <title>Head Models</title>
 </head>
@@ -39,13 +66,12 @@
       </ul>
   </div>
 </nav>
-
 <!-- ================= View of Application ================== -->
 <div class="appbody">
 
-  <patients ng-if="!info.viewmodel" username=user></patients>
+  <patients ng-if="!info.viewmodel"></patients>
 
-  <models ng-if="info.viewmodel" username=username patientid=obj.patientid></models>
+  <models ng-if="info.viewmodel" username=info.username patientid=info.patientid></models>
 
 </div>
 

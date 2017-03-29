@@ -1,15 +1,30 @@
-<div class="col-sm-offset-1"> 
-  <button type="button" class="btn btn-primary btn-lg" ng-show="obj.viewmodel" ng-click="obj.viewmodel = false">Return to Patients</button>
-</div>
 
-<h1 class="col-sm-offset-3"> Patient's Models </h1>
-
-<div class="model-image" ng-repeat="model in models">
-	<img src="model.img">
-	<button type="button" class="btn btn-success" ng-click="printmodel(model.url)">Print This Model</button>
-</div>
+<div class="model-screen">
+	<div class="col-sm-offset-1 pull-right"> 
+	  <button type="button" class="btn btn-primary btn-lg" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1">Return to Patients</button>
+	</div>
+<!--
+	<ul class="list-group pull-right">
+		<li class="nav-header disabled">Models</li>
+		<li data-ng-repeat="model_info in directive_info.models" class="list-group-item"> <a href="{* model_info.url *}">Button</a></li>	
+	</ul>
+-->
+	<div class="list-group pull-left">
+		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </li>
+		<button type="button" class="list-group-item list-group-item-action" data-ng-repeat="model_info in directive_info.models" > Model {* $index +1 *} <p>{* directive_info.models[$index] *}</p></button>
+	</div>
 
 <!--
+	<h1 class="col-sm-offset-3"> Patient's Models </h1>
+
+	<div id="top">
+	</div>
+	<div id="left">
+		<div id="menu"></div>
+	</div>
+
+</div>
+
 <div class="col-xs-8 image-container">
   <img class="pic-image" src="{{ url_for('static', filename='images/' + data.current + '.' + data.current_format) }}" />
 </div>
