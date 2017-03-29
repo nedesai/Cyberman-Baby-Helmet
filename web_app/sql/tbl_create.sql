@@ -31,6 +31,7 @@ CREATE TABLE Model(
     url varchar(1024) NOT NULL,
     fbx_url varchar(1024),
     description varchar(200),
+    filename varchar(1024),
     createddate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     lastmodified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(modelid),
