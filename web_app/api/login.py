@@ -58,7 +58,7 @@ def login_route():
 		if not msgs:
 			return 404
 
-		split_pass = msgs[0][1].split('$', 2)
+		split_pass = msgs[0]['password'].split('$', 2)
 		
 		print (split_pass)
 
