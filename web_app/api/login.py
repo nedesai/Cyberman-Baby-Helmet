@@ -14,6 +14,7 @@ def redirect_url(default='index'):
 
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
+	print ("debug")
 	cur = mysql.connection.cursor()
 	name = False
 	if 'username' in session:
