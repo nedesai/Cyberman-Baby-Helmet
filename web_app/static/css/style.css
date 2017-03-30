@@ -90,6 +90,8 @@ table.patient-display {
 
 .model-list-bar{
 	padding: 0 !important;
+	border-right: 1px solid;
+	border-color: #13161a;
 }
 
 .model-list-header {
@@ -104,14 +106,15 @@ table.patient-display {
 
 
 .model-admin-bar{
-	border-color: red;
+	padding: 0 !important;
 	border-left: 1px solid;
+	border-color: #13161a;
 	height: calc(100vh - 52px);
 }
 
 .add-model-form{
-	background-color: white;
-	width: 100%;
+	padding-left: 4%;
+	padding-right: 4%;
 }
 
 #InputFile{

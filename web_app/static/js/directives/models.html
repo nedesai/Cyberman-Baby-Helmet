@@ -2,12 +2,12 @@
 <div class="model-screen">
 
 	<div class="model-admin-bar col-sm-2 pull-right">
-		<button type="button" class="btn btn-lg btn-primary" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1">Return to Patients</button>
+		<button type="button" class="btn btn-lg btn-primary" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
 
 		<br>
 		<br>
 
-		<form action="{{ url_for('api/vi/model.model_route') }}" method=post enctype=multipart/form-data>
+		<form action="{{ url_for('api/vi/model.model_route') }}" method=post enctype=multipart/form-data class=add-model-form>
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">
 			
