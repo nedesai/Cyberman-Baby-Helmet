@@ -2,6 +2,13 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 	return {
 		restrict: 'E',
 		templateUrl: 'static/js/directives/patients.html',
+		controller: function($scope) {
+			%http.get("api/v1/patient?username=" + scope.directive_info.username).then(
+				function(response) {
+					$scope.patients = response.data.patients;
+				}
+			};
+		},
 		link: function(scope, element, attrs) {
 
 			scope.directive_info = SharedService.sharedInfo;
