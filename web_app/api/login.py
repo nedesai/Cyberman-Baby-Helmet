@@ -37,11 +37,12 @@ def login_route():
 		return jsonify(error=options)
 	if request.method == 'POST':
 		print ("hello")
+		json_data = request.get_json()
 		found_user = True
 		found_pass = True
-		user_input = request.form['username']
+		user_input = json_data['username']
 		user_input = user_input.lower()
-		pass_input = request.form['password']
+		pass_input = json_data['password']
 		
 		print (pass_input + " " + user_input)
 
