@@ -4,12 +4,80 @@ from datetime import datetime
 from .api_utilities import data_missing_keys, check_user_permissions, NO_ERRORS
 import boto3
 import hashlib
+import os
+import fbx
 
 model = Blueprint('model', __name__, template_folder='templates')
 
 #-----------#
 # Model API #
 #-----------#
+def obj2fbx(objpath, fbxpath):
+    '''
+    take input filename and convert to fbx file
+    from http://stackoverflow.com/questions/34132474/convert-obj-to-fbx-with-python-fbx-sdk
+    '''
+    # Create an SDK manager
+
+    manager = fbx.FbxManager.Create()
+
+    # Create a scene
+    scene = fbx.FbxScene.Create(manager, "")
+
+    # Create an importer object
+    importer = fbx.FbxImporter.Create(manager, "")
+
+
+    # Specify the path and name of the file to be imported
+    importstat = importer.Initialize(objpath, -1)
+
+    importstat = importer.Import(scene)
+    # Create an exporter object
+
+    exporter = fbx.FbxExporter.Create(manager, "")
+
+    # Specify the path and name of the file to be imported
+    exportstat = exporter.Initialize(fbxpath, -1)
+    exportstat = exporter.Export(scene)
+
+    return 0
+
+def uploads3(file, filename):
+    '''
+    this function upload file to aws S3 storage and 
+    return the url of that file on S3 that can be accessed
+    '''
+
+    #connect to aws s3 with the key configured in the system file
+    s3_client = boto3.client('s3')
+    #upload the file to s3 storage with filename as its name.
+    #the bucket babyhead is configured to be public for now
+    s3_client.upload_file(file, 'babyhead', filename)
+    url = 'https://s3.amazonaws.com/babyhead/' + filename
+    return url
+
+def processobj(file, filename):
+    '''
+    when the user upload a obj file to the server,
+    this function create temp file for this obj, convert it to fbx,
+    then upload both obj and fbx to S3, return their urls and 
+    delete the temp file.
+    '''
+    objpath = '/home/ubuntu/tempmodel/' + filename + '.obj'
+    fbxpath = '/home/ubuntu/tempmodel/' + filename + '.fbx'
+    # save the file from request.files['file'] locally
+    file.save(objpath)
+    #convert obj to fbx and save it at fbxpath
+    obj2fbx(objpath, fbxpath)
+    #upload both obj and fbx
+    obj_url = uploads3(objpath,filename + '.obj')
+    fbx_url = uploads3(fbxpath,filename + '.fbx')
+    os.remove(objpath)
+    os.remove(fbxpath)
+    return obj_url, fbx_url
+
+
+
 @model.route('/api/v1/model', methods=['GET', 'POST', 'DELETE'])
 def model_route():
     db = connect_to_database()
@@ -74,26 +142,23 @@ def model_route():
         model_description = json_data['description']
         username = json_data['username']
         patientid = json_data['patientid']
-        filetype = json_data['filetype']
         model_file = request.files['file']
         current_date_time = datetime.now()
 
-        hash_name = hashlib.sha512(str.encode(patientid + str(current_date_time)))
+        #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
+        filename, filetype = os.path.splitext(model_file.filename)
 
+        urls = processobj(model_file, filename)
         #s3_client = boto3.client('s3')
         #s3_client.upload_file(model_file, 'babyhead', model_file)
-        #
-        #s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
-        #url = https://s3.amazonaws.com/babyhead/<name-of-the-file>
-
-        s3_client.upload_file(model_file, 'babyhead', hash_name)
-        hash_url = 'https://s3.amazonaws.com/babyhead/hash_name'
-
+        # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
+        #url = 'https://s3.amazonaws.com/babyhead/' + filename
+        
         cur = db.cursor()
-        sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
+        sql_string = 'INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES (\''
         sql_string += patientid + '\', \'' + filetype + '\', \''
-        sql_string += model_description + '\', \'' + str(hash_url) + '\')'
+        sql_string += urls[0] + '\', \'' + urls[1] + '\', \'' + model_description + '\', \'' + filename '\')'
         cur.execute(sql_string)
 
         return jsonify({}), 200
