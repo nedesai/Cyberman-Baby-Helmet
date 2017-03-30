@@ -56,7 +56,7 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return 404
+			return jsonify({}), 404
 
 		split_pass = msgs[0]['password'].split('$', 2)
 		
