@@ -87,7 +87,7 @@ def model_route():
     # Error-checking for DELETE and POST requests #
     #---------------------------------------------#
     if request.method == 'DELETE' or request.method == 'POST':
-        json_data = request.get_json()
+        json_data = request.form['username']
         print ("JSON DATA: " + str(json_data))
 
         # Check for missing keys
