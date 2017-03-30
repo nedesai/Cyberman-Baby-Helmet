@@ -54,7 +54,7 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return "404 not found"
+			return 404
 
 		split_pass = msgs[0][1].split('$', 2)
 		
