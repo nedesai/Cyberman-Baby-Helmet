@@ -88,7 +88,7 @@ def model_route():
     #---------------------------------------------#
     if request.method == 'DELETE' or request.method == 'POST':
         username = request.form.get('username')
-        patientID = request.form.get(patientid')
+        patientID = request.form.get('patientid')
         description = request.form.get('description')
         model_file = request.files['file']
         #rint ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
@@ -144,7 +144,7 @@ def model_route():
     #---------------#
     elif request.method == "POST":
         username = request.form.get('username')
-        patientID = request.form.get(patientid')
+        patientID = request.form.get('patientid')
         description = request.form.get('description')
         model_file = request.files['file']
         print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
