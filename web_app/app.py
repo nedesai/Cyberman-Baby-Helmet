@@ -11,6 +11,7 @@ app = Flask(__name__, template_folder='templates')
 app.register_blueprint(api.patient)
 app.register_blueprint(api.model)
 app.register_blueprint(controllers.main)
+app.register_blueprint(api.login)
 
 # Secret key for sessions & cookies
 app.secret_key = '4fd75asf_a8d4f_sad84f84'
