@@ -23,7 +23,7 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 app.factory('SharedService', function() {
 	return {
 		sharedInfo: {
-			username: "",
+			username: "headmodel22",
 			viewmodel: false,
 			logged_in: false,
 			patientid: -1,
