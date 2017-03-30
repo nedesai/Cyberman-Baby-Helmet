@@ -86,23 +86,27 @@ def model_route():
     #---------------------------------------------#
     # Error-checking for DELETE and POST requests #
     #---------------------------------------------#
-    if request.method == 'DELETE' or request.method == 'POST':
-        json_data = request.get_json()
+    #if request.method == 'DELETE' or request.method == 'POST':
+        #username = request.form.get('username')
+        #patientID = request.form.get('patientid')
+        #description = request.form.get('description')
+        #model_file = request.files['file']
+        #rint ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         # Check for missing keys
-        required_keys = ['username', 'patientid']
-        if request.method == 'DELETE':
-            required_keys.append('modelid')
-        elif request.method == 'POST':
-            required_keys.append('filetype, description')
-        if data_missing_keys(json_data, required_keys):
-            error = 'Error: request missing required keys'
-            return jsonify(error=error), 422
+        #required_keys = ['username', 'patientid']
+        #if request.method == 'DELETE':
+        #    required_keys.append('modelid')
+        #elif request.method == 'POST':
+        #    required_keys.append('filetype, description')
+        #if data_missing_keys(json_data, required_keys):
+        #    error = 'Error: request missing required keys'
+        #    return jsonify(error=error), 422
 
         # Check if the user has permission to access this patient's data
-        error, status_code = check_user_permissions(db, json_data['username'], json_data['patientid'])
-        if error != NO_ERRORS:
-            return jsonify(error=error), status_code
+        #error, status_code = check_user_permissions(db, username, patientID)
+        #if error != NO_ERRORS:
+            #return jsonify(error=error), status_code
 
     #--------------#
     # GET requests #
@@ -139,16 +143,24 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
-        json_data = request.get_json()
-        model_description = json_data['description']
-        username = json_data['username']
-        patientid = json_data['patientid']
-        model_file = request.files['file']
-        current_date_time = datetime.now()
+        print ("WE ARE AT POST")
+        username = request.form.get('username')
+        print (username)
+        patientID = request.form.get('patientid')
+        print (patientID)
+        description = request.form.get('description')
+        print (description)
+        if 'file' not in request.files:
+            print ("NO FILE WOW")
+            return jsonify({}), 404
+        else:
+            model_file = request.files['file']
+        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
+        print ("FILETYPE: " + str(filetype))
 
         urls = processobj(model_file, filename)
         #s3_client = boto3.client('s3')
@@ -158,8 +170,8 @@ def model_route():
         
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
-        sql_string += patientid + "', '" + filetype + "', '"
-        sql_string += urls[0] + "', '" + urls[1] + "', '" + model_description + "', '" + filename + "');"
+        sql_string += patientID + "', '" + filetype + "', '"
+        sql_string += urls[0] + "', '" + urls[1] + "', '" + description + "', '" + filename + "');"
         cur.execute(sql_string)
 
         return jsonify({}), 200
