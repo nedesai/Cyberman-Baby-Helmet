@@ -160,6 +160,7 @@ def model_route():
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
+        print ("FILETYPE: " + str(filetype))
 
         urls = processobj(model_file, filename)
         #s3_client = boto3.client('s3')
