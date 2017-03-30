@@ -4,6 +4,7 @@ from datetime import datetime
 from .api_utilities import data_missing_keys, check_user_permissions, NO_ERRORS
 import boto3
 import hashlib
+import os
 
 model = Blueprint('model', __name__, template_folder='templates')
 
