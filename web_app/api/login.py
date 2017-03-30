@@ -13,7 +13,8 @@ login = Blueprint('login', __name__, template_folder='templates')
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
 	print ("debug")
-	cur = mysql.connection.cursor()
+	db = connect_to_database()
+	cur = db.cursor()
 	name = False
 	if 'username' in session:
 		user = session['username']
@@ -41,7 +42,7 @@ def login_route():
 		
 		print (pass_input + " " + user_input)
 
-		cur = mysql.connection.cursor()
+		cur = db.cursor()
 		name = False
 		if 'username' in session:
 			user = session['username']
