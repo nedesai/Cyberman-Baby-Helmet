@@ -39,6 +39,8 @@ def login_route():
 		user_input = request.form['username']
 		user_input = user_input.lower()
 		pass_input = request.form['password']
+		
+		print (pass_input + " " + user_input)
 
 		cur = mysql.connection.cursor()
 		name = False
@@ -53,6 +55,8 @@ def login_route():
 			return "404 not found"
 
 		split_pass = msgs[0][1].split('$', 2)
+		
+		print (split_pass)
 
 		#algorithm = 'sha512'
 		#salt = split_pass[1]
