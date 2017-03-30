@@ -25,7 +25,7 @@ app.factory('SharedService', function() {
 		sharedInfo: {
 			username: "headmodel22",
 			viewmodel: false,
-			logged_in: false,
+			logged_in: true,
 			patientid: -1,
 			models: [] 
 			//modelid, obj/stl filename, fbx link, title, description, date
