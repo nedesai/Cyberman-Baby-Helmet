@@ -61,9 +61,11 @@ def login_route():
 		#password_hash = m.hexdigest()
 
 		if not msgs:
+			print ("no msgs return bad")
 			found_user = False
 		else:
 			split_pass = msgs[0][1].split('$', 2)
+			print (split_pass[2] + " " + pass_input)
 			if split_pass[2] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
