@@ -27,11 +27,13 @@ def login_route():
 			user = session['username']
 			cur.execute('''Select firstname, lastname from User where username = ''' + "'" + user + "'")
 			name = cur.fetchall()
-		options = [
+		option = [
 			"user_not_found",
 			"pass_not_found",
 			name
 		]
+		
+		options = { "error" : option }
 		return options
 	if request.method == 'POST':
 		found_user = True
@@ -73,11 +75,13 @@ def login_route():
 			if split_pass[2] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
-			options = [
+			option = [
 				"user_not_found " + str(found_user),
 				"pass_not_found " + str(found_pass),
 				name
 			]
+			
+			options = { "error" : option }
 			return options	
 		else:
 			name = False
@@ -88,10 +92,11 @@ def login_route():
 				name = cur.fetchall()
 			#render page that the user came from
 			
-			options = [
+			option = [
 				"user_not_found",
 				"pass_not_found",
 				name
 			]
+			options = { "error" : option }
 			return options
 
