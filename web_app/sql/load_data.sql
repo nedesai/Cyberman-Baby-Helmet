@@ -13,16 +13,16 @@ INSERT INTO Patient (username, firstname, lastname, dob) VALUES
 ('headmodel22', 'Paul', 'Paulson', '2016-05-13');
 
 INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES
-('2', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'head model bob', 'bob_head_model'),
-('5', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'hand model joe', 'joe_hand_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'foot model jack', 'jack_food_model'),
-('3', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'arm model jake', 'jake_arm_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'finger model neeral', 'neeral_finger_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'toe model zach', 'zach_toe_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'eye model robert', 'robert_eye_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'ear model kuong', 'kuong_ear_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'chest model eric', 'eric_chest_model'),
-('2', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'stomach model john', 'john_stomach_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'teeth model bill', 'bill_teeth_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'hair model billy', 'billy_hair_model');
+('2', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'head model bob', 'child_head_model'),
+('5', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'hand model joe', 'batman_model'),
+('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'foot model jack', 'child_head_model'),
+('3', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'arm model jake', 'batman_model'),
+('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'finger model neeral', 'child_head_model'),
+('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'toe model zach', 'batman_model'),
+('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'eye model robert', 'child_head_model'),
+('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'ear model kuong', 'batman_model'),
+('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'chest model eric', 'child_head_model'),
+('2', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'stomach model john', 'batman_model'),
+('1', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/PI_Modified.fbx', 'teeth model bill', 'child_head_model'),
+('6', 'fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'https://s3.amazonaws.com/babyhead/batman70.fbx', 'hair model billy', 'batman_model');
 
