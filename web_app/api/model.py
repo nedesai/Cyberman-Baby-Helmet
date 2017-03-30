@@ -150,7 +150,10 @@ def model_route():
         print (patientID)
         description = request.form.get('description')
         print (description)
-        model_file = request.files['file']
+        if 'file' not in request.files:
+            print ("NO FILE WOW")
+        else:
+            model_file = request.files['file']
         print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
