@@ -88,7 +88,7 @@ def model_route():
     #---------------------------------------------#
     if request.method == 'DELETE' or request.method == 'POST':
         json_data = request.get_json()
-        print (json_data)
+        print ("JSON DATA: " + json_data)
 
         # Check for missing keys
         required_keys = ['username', 'patientid']
