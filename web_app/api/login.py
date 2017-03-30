@@ -59,7 +59,7 @@ def login_route():
 			print ("yes2332131")
 			error_msg = {"error_msg" : "please try again not found"}
 			print (error_msg)
-			return jsonify("error"=error_msg), 404
+			return jsonify(error=error_msg), 404
 
 		split_pass = msgs[0]['password'].split('$', 2)
 		
