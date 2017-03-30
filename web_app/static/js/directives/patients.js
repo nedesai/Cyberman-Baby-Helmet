@@ -7,7 +7,7 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				function(response) {
 					$scope.patients = response.data.patients;
 				}
-			};
+			);
 		},
 		link: function(scope, element, attrs) {
 
