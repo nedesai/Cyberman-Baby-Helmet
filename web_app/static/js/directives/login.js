@@ -23,7 +23,7 @@ app.directive('login', ['$http', 'SharedService', function($http, SharedService)
 					},
 					function(error){
 						scope.errors = [];
-						scope.errors.append(error.data.error.error_msg);
+						scope.errors.push(error.data.error.error_msg);
 					}
 				);
 
