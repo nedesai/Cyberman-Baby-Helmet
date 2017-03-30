@@ -156,9 +156,9 @@ def model_route():
         #url = 'https://s3.amazonaws.com/babyhead/' + filename
         
         cur = db.cursor()
-        sql_string = 'INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES (\''
-        sql_string += patientid + '\', \'' + filetype + '\', \''
-        sql_string += urls[0] + '\', \'' + urls[1] + '\', \'' + model_description + '\', \'' + filename '\')'
+        sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
+        sql_string += patientid + "', '" + filetype + "', '"
+        sql_string += urls[0] + "', '" + urls[1] + "', '" + model_description + "', '" + filename + "');"
         cur.execute(sql_string)
 
         return jsonify({}), 200
