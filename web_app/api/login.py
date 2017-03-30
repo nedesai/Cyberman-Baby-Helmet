@@ -12,7 +12,7 @@ login = Blueprint('login', __name__, template_folder='templates')
 
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
-	print ("debug")
+	print "debug"
 	db = connect_to_database()
 	cur = db.cursor()
 	name = False
