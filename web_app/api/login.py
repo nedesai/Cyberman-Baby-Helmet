@@ -12,7 +12,7 @@ login = Blueprint('login', __name__, template_folder='templates')
 
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
-	print "debug"
+	print ("debug")
 	db = connect_to_database()
 	cur = db.cursor()
 	name = False
@@ -34,13 +34,15 @@ def login_route():
 		]
 		
 		options = { "error" : option }
-		return options
+		return jsonify(error=options)
 	if request.method == 'POST':
+		print ("hello")
+		json_data = request.get_json()
 		found_user = True
 		found_pass = True
-		user_input = request.form['username']
+		user_input = json_data['username']
 		user_input = user_input.lower()
-		pass_input = request.form['password']
+		pass_input = json_data['password']
 		
 		print (pass_input + " " + user_input)
 
@@ -54,9 +56,12 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return "404 not found"
+			print ("yes2332131")
+			error_msg = {"error_msg" : "please try again not found"}
+			print (error_msg)
+			return jsonify(error=error_msg), 404
 
-		split_pass = msgs[0][1].split('$', 2)
+		split_pass = msgs[0]['password'].split('$', 2)
 		
 		print (split_pass)
 
@@ -70,9 +75,9 @@ def login_route():
 			print ("no msgs return bad")
 			found_user = False
 		else:
-			split_pass = msgs[0][1].split('$', 2)
-			print (split_pass[2] + " " + pass_input)
-			if split_pass[2] != pass_input:
+			#split_pass = msgs[0][1].split('$', 2)
+			print (split_pass[0] + " " + pass_input)
+			if split_pass[0] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
 			option = [
@@ -82,7 +87,7 @@ def login_route():
 			]
 			
 			options = { "error" : option }
-			return options	
+			return jsonify(error=options)	
 		else:
 			name = False
 			session['username'] = user_input
@@ -98,5 +103,5 @@ def login_route():
 				name
 			]
 			options = { "error" : option }
-			return options
+			return jsonify(error=options)
 

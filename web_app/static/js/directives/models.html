@@ -5,10 +5,12 @@
 	<div class="col-sm-3 model-list-bar pull-left">
 		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </div>
 		<div class="models-group">
-			<button type="button" class="list-group-item list-group-item-action model-panel" data-ng-repeat="model_info in directive_info.models">
-			 <h4>{* model_info.filename *}</h4>
-			 <small>Date Last Modified: {* model_info.lastmodified *}</small>
-			</button>
+			<a data-ng-repeat="model_info in directive_info.models" href="{* model_info.fbx_url *}">
+				<button type="button" class="list-group-item list-group-item-action model-panel">
+				 <h4>{* model_info.filename *}</h4>
+				 <small>Date Last Modified: {* model_info.lastmodified *}</small>
+				</button>
+			</a>
 		</div>
 	</div>
 
