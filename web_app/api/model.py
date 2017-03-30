@@ -86,11 +86,11 @@ def model_route():
     #---------------------------------------------#
     # Error-checking for DELETE and POST requests #
     #---------------------------------------------#
-    if request.method == 'DELETE' or request.method == 'POST':
-        username = request.form.get('username')
-        patientID = request.form.get('patientid')
-        description = request.form.get('description')
-        model_file = request.files['file']
+    #if request.method == 'DELETE' or request.method == 'POST':
+        #username = request.form.get('username')
+        #patientID = request.form.get('patientid')
+        #description = request.form.get('description')
+        #model_file = request.files['file']
         #rint ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         # Check for missing keys
@@ -104,9 +104,9 @@ def model_route():
         #    return jsonify(error=error), 422
 
         # Check if the user has permission to access this patient's data
-        error, status_code = check_user_permissions(db, username, patientID)
-        if error != NO_ERRORS:
-            return jsonify(error=error), status_code
+        #error, status_code = check_user_permissions(db, username, patientID)
+        #if error != NO_ERRORS:
+            #return jsonify(error=error), status_code
 
     #--------------#
     # GET requests #
