@@ -18,8 +18,9 @@ app.directive('login', ['$http', 'SharedService', function($http, SharedService)
 				};
 				$http.post('api/v1/login', dataobj).then(
 					function(success){
-						scope.directive_info.username = response.data.username;
 						scope.directive_info.logged_in = true;
+						scope.directive_info.username = success.data.username;
+						
 					},
 					function(error){
 						scope.errors = [];
