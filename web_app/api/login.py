@@ -7,11 +7,6 @@ import re
 
 login = Blueprint('login', __name__, template_folder='templates')
 
-def redirect_url(default='index'):
-    return request.args.get('next') or \
-           request.referrer or \
-            url_for(default)
-
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
 	print ("debug")
