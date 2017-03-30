@@ -32,6 +32,10 @@ def register_route():
         if len(cur.fetchall()) != 0:
             print('Error: user already exists')
 
+        # Check if passwords are the same
+        elif password1 != password2:
+        	print('Error: passwords don\'t match')
+
         else:
 	        # Insert user into database
 			cur = db.cursor()
