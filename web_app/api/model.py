@@ -87,21 +87,24 @@ def model_route():
     # Error-checking for DELETE and POST requests #
     #---------------------------------------------#
     if request.method == 'DELETE' or request.method == 'POST':
-        json_data = request.form['username']
-        print ("JSON DATA: " + str(json_data))
+        username = request.form['username']
+        patientID = request.form['patientid']
+        description = request.form['description']
+        model_file = request.files['file']
+        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         # Check for missing keys
-        required_keys = ['username', 'patientid']
-        if request.method == 'DELETE':
-            required_keys.append('modelid')
-        elif request.method == 'POST':
-            required_keys.append('filetype, description')
-        if data_missing_keys(json_data, required_keys):
-            error = 'Error: request missing required keys'
-            return jsonify(error=error), 422
+        #required_keys = ['username', 'patientid']
+        #if request.method == 'DELETE':
+        #    required_keys.append('modelid')
+        #elif request.method == 'POST':
+        #    required_keys.append('filetype, description')
+        #if data_missing_keys(json_data, required_keys):
+        #    error = 'Error: request missing required keys'
+        #    return jsonify(error=error), 422
 
         # Check if the user has permission to access this patient's data
-        error, status_code = check_user_permissions(db, json_data['username'], json_data['patientid'])
+        error, status_code = check_user_permissions(db, username, patientID)
         if error != NO_ERRORS:
             return jsonify(error=error), status_code
 
