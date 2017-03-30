@@ -72,7 +72,7 @@ def login_route():
 			print ("no msgs return bad")
 			found_user = False
 		else:
-			split_pass = msgs[0][1].split('$', 2)
+			#split_pass = msgs[0][1].split('$', 2)
 			print (split_pass[2] + " " + pass_input)
 			if split_pass[2] != pass_input:
 				found_pass = False
