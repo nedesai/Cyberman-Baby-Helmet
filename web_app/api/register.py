@@ -1,7 +1,12 @@
+from flask import *
+from extensions import connect_to_database
+
+register = Blueprint('register', __name__, template_folder='templates')
+
 #----------------#
 # Register route #
 #----------------#
-@login.route('api/v1/register', methods=['GET', 'POST'])
+@register.route('api/v1/register', methods=['GET', 'POST'])
 def register_route():
 	db = connect_to_database()
 
