@@ -36,6 +36,7 @@ def login_route():
 		options = { "error" : option }
 		return jsonify(error=options)
 	if request.method == 'POST':
+		print ("hello")
 		found_user = True
 		found_pass = True
 		user_input = request.form['username']
