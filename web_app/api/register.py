@@ -23,21 +23,21 @@ def register_route():
 		email = user_info['email']
 
 		#---------------------------------------#
-        # Check if a valid username was entered #
-        #---------------------------------------#
-        
-        # Check if username already exists
-        cur = db.cursor()
-        cur.execute('SELECT * FROM User WHERE username=\'{}\''.format(username))
-        if len(cur.fetchall()) != 0:
-            print('Error: user already exists')
+		# Check if a valid username was entered #
+		#---------------------------------------#
+		
+		# Check if username already exists
+		cur = db.cursor()
+		cur.execute('SELECT * FROM User WHERE username=\'{}\''.format(username))
+		if len(cur.fetchall()) != 0:
+			print('Error: user already exists')
 
-        # Check if passwords are the same
-        elif password1 != password2:
-        	print('Error: passwords don\'t match')
+		# Check if passwords are the same
+		elif password1 != password2:
+			print('Error: passwords don\'t match')
 
-        else:
-	        # Insert user into database
+		else:
+			# Insert user into database
 			cur = db.cursor()
 			cur.execute('INSERT INTO User (username, password, firstname, lastname, email)' 
 						'VALUES ({}, {}, {}, {}, {});'.format(username, password1, firstame, lastname, email))
