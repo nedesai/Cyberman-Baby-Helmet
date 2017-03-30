@@ -152,6 +152,7 @@ def model_route():
         print (description)
         if 'file' not in request.files:
             print ("NO FILE WOW")
+            return jsonify({}), 404
         else:
             model_file = request.files['file']
         print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
