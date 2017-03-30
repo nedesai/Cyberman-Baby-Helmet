@@ -56,7 +56,10 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return jsonify({"error" : "please try again not found"}), 404
+			print ("yes2332131")
+			error_msg = {"error_msg" : "please try again not found"}
+			print (error_msg)
+			return jsonify("error"=error_msg), 404
 
 		split_pass = msgs[0]['password'].split('$', 2)
 		
