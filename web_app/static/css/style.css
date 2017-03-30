@@ -7,6 +7,16 @@ body {
 	height:100%;
 }
 
+#login_submit {
+	color: white;
+	font-weight: bold;
+	background-color: #1875e2;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
 
 .navbar {
     margin-bottom: 0 !important;
@@ -70,9 +80,6 @@ table.patient-display {
 .model-image {
 	display: block;
 }
-
-
-
 
 .model-list-header {
 	text-align: center;

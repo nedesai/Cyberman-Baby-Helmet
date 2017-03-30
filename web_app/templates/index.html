@@ -58,11 +58,11 @@
       </ul>
 
       <!-- Login and logout portion -->
-      <ul data-ng-if="user == ''" class="nav navbar-nav navbar-right">
+      <ul data-ng-if="!info.logged_in" class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
-      <ul data-ng-if="user != ''" class="nav navbar-nav navbar-right">
+      <ul data-ng-if="info.logged_in" class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
   </div>
@@ -75,6 +75,14 @@
 <!-- ================= View of Application ================== -->
 <div class="appbody">
 
+<!-- Replace to this later
+  <login ng-if="!info.logged_in"></login>
+
+  <patients ng-if="!info.viewmodel && info.logged_in"></patients>
+
+  <models ng-if="info.viewmodel && info.logged_in" username=info.username patientid=info.patientid></models>
+-->
+
   <patients ng-if="!info.viewmodel"></patients>
 
   <models ng-if="info.viewmodel" username=info.username patientid=info.patientid></models>
@@ -86,6 +94,7 @@
   <script src="../static/js/controllers/CybermanController.js"></script>  
   <script src="../static/js/directives/patients.js"></script>
   <script src="../static/js/directives/models.js"></script>
+  <script src="../static/js/directives/login.js"></script>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
