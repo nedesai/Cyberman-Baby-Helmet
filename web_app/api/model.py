@@ -145,8 +145,11 @@ def model_route():
     elif request.method == "POST":
         print ("WE ARE AT POST")
         username = request.form.get('username')
+        print ("username")
         patientID = request.form.get('patientid')
+        print ("patientid")
         description = request.form.get('description')
+        print ("description")
         model_file = request.files['file']
         print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
