@@ -98,6 +98,7 @@ table.patient-display {
 	text-align: center;
 	background-color: #6ca8e4;
 	color: white;
+	height: 100%;
 }
 
 .model-list-header h1 {
@@ -117,6 +118,20 @@ table.patient-display {
 	padding-right: 4%;
 }
 
+#return-button{
+	height: 10%;
+	color: white;
+	font-weight: bold;
+	font-size: 1.5em;
+	background-color: #d43e52;
+}
+
 #InputFile{
 	width: 100%;
+}
+
+#file_submit{
+	color: white;
+	font-weight: bold;
+	background-color: #1875e2;
 }

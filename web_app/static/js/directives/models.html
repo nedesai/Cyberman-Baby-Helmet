@@ -3,7 +3,7 @@
 
 
 	<div class="col-sm-3 model-list-bar pull-left">
-		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </li>
+		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </div>
 		<div class="models-group">
 			<button type="button" class="list-group-item list-group-item-action model-panel" data-ng-repeat="model_info in directive_info.models">
 			 <h4>{* model_info.filename *}</h4>
@@ -14,13 +14,14 @@
 
 
 	<div class="model-admin-bar col-sm-2 pull-right">
-	
-		<button type="button" class="btn btn-lg btn-primary" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
+		<button type="button" class="form-control" id="return-button" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
+
+		<button type="button" class="form-control" id="upload-button" data-ng-click="add_model = !add_model"><span class=""></span> Return to Patients</button>
 
 		<br>
 		<br>
 
-		<form action="{{ url_for('api/vi/model.model_route') }}" method=post enctype=multipart/form-data class=add-model-form>
+		<form action="{{ url_for('api/vi/model.model_route') }}" method=post enctype=multipart/form-data class=add-model-form ng-show="!add_model">
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">
 			
@@ -33,10 +34,12 @@
 		    <input type="file" class="form-control-file" id="InputFile" aria-describedby="fileHelp">
 		    <small id="fileHelp" class="form-text text-muted">Upload your .obj or .stl file for this patient.</small>
 		  </div>
-			<input id="file_submit" type="submit">
+			<input type="button" class="form-control" id="file_submit" type="submit" value="Upload">
 		</form>
 		
 	</div>
+
+</div>
 
 <!--
 	<h1 class="col-sm-offset-3"> Patient's Models </h1>
