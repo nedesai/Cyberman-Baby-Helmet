@@ -27,7 +27,7 @@ CREATE TABLE Patient(
 CREATE TABLE Model(
     modelid int NOT NULL AUTO_INCREMENT,
     patientid int NOT NULL,
-    filetype char(3) NOT NULL,
+    filetype char(10) NOT NULL,
     url varchar(1024) NOT NULL,
     fbx_url varchar(1024),
     description varchar(200),
