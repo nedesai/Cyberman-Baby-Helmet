@@ -23,7 +23,8 @@
 		<br>
 		<br>
 
-		<form action="{* $location.path() + 'api/vi/model.model_route' *}" method=post enctype=multipart/form-data class=add-model-form ng-show="add_model">
+
+		<form action="{* $location + 'api/v1/model' *}" method=post enctype=multipart/form-data class=add-model-form ng-show="!add_model">
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">
 			
