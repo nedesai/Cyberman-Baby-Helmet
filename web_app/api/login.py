@@ -32,7 +32,7 @@ def login_route():
 			"pass_not_found",
 			name
 		]
-		return render_template("index.html", **options)
+		return options
 	if request.method == 'POST':
 		found_user = True
 		found_pass = True
@@ -50,7 +50,7 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return render_template("index.html", user_not_found = False, pass_not_found = True)
+			return "404 not found"
 
 		split_pass = msgs[0][1].split('$', 2)
 
@@ -74,7 +74,7 @@ def login_route():
 				"pass_not_found " + str(found_pass),
 				name
 			]
-			return render_template("index.html", **options)	
+			return options	
 		else:
 			name = False
 			session['username'] = user_input
@@ -89,5 +89,5 @@ def login_route():
 				"pass_not_found",
 				name
 			]
-			return redirect(url_for('patients.patient_route'))
+			return options
 
