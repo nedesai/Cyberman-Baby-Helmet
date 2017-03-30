@@ -170,7 +170,7 @@ def model_route():
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
         sql_string += patientID + "', '" + filetype + "', '"
-        sql_string += urls[0] + "', '" + urls[1] + "', '" + model_description + "', '" + filename + "');"
+        sql_string += urls[0] + "', '" + urls[1] + "', '" + description + "', '" + filename + "');"
         cur.execute(sql_string)
 
         return jsonify({}), 200
