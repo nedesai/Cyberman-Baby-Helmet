@@ -54,17 +54,19 @@ def login_route():
 
 		split_pass = msgs[0][1].split('$', 2)
 
-		algorithm = 'sha512'
-		salt = split_pass[1]
-		m = hashlib.new(algorithm)
-		m.update(salt + pass_input)
-		password_hash = m.hexdigest()
+		#algorithm = 'sha512'
+		#salt = split_pass[1]
+		#m = hashlib.new(algorithm)
+		#m.update(salt + pass_input)
+		#password_hash = m.hexdigest()
 
 		if not msgs:
+			print ("no msgs return bad")
 			found_user = False
 		else:
 			split_pass = msgs[0][1].split('$', 2)
-			if split_pass[2] != password_hash:
+			print (split_pass[2] + " " + pass_input)
+			if split_pass[2] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
 			options = [
