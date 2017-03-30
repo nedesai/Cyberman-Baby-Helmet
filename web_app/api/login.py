@@ -1,6 +1,5 @@
 from flask import *
 from flask import session
-from extensions import mysql
 import os
 import hashlib
 import uuid
