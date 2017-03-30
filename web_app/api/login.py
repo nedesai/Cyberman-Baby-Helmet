@@ -73,8 +73,8 @@ def login_route():
 			found_user = False
 		else:
 			#split_pass = msgs[0][1].split('$', 2)
-			print (split_pass + " " + pass_input)
-			if split_pass != pass_input:
+			print (split_pass[0] + " " + pass_input)
+			if split_pass[0] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
 			option = [
