@@ -13,16 +13,16 @@ INSERT INTO Patient (username, firstname, lastname, dob) VALUES
 ('headmodel22', 'Paul', 'Paulson', '2016-05-13');
 
 INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES
-('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test1'),
-('5', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test2'),
-('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test3'),
-('3', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test4'),
-('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test5'),
-('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test6'),
-('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test7'),
-('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test8'),
-('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test9'),
-('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test10'),
-('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test11'),
-('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'test description', 'test12');
+('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'head model bob', 'bob_head_model'),
+('5', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'hand model joe', 'joe_hand_model'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'foot model jack', 'jack_food_model'),
+('3', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'arm model jake', 'jake_arm_model'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'finger model neeral', 'neeral_finger_model'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'toe model zach', 'zach_toe_model'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'eye model robert', 'robert_eye_model'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'ear model kuong', 'kuong_ear_model'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'chest model eric', 'eric_chest_model'),
+('2', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'stomach model john', 'john_stomach_model'),
+('1', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'teeth model bill', 'bill_teeth_model'),
+('6', 'fbx', 'test.com/my_model.stl', 'test.com/my_model.fbx', 'hair model billy', 'billy_hair_model');
 
