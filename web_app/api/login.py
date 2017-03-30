@@ -1,5 +1,8 @@
 from flask import *
 from flask import session
+from extensions import connect_to_database
+from datetime import datetime
+from .api_utilities import data_missing_keys, check_user_permissions, NO_ERRORS
 import os
 import hashlib
 import uuid
@@ -7,14 +10,11 @@ import re
 
 login = Blueprint('login', __name__, template_folder='templates')
 
-def redirect_url(default='index'):
-    return request.args.get('next') or \
-           request.referrer or \
-            url_for(default)
-
 @login.route('/api/v1/login', methods=['GET', 'POST'])
 def login_route():
-	cur = mysql.connection.cursor()
+	print "debug"
+	db = connect_to_database()
+	cur = db.cursor()
 	name = False
 	if 'username' in session:
 		user = session['username']
@@ -27,20 +27,24 @@ def login_route():
 			user = session['username']
 			cur.execute('''Select firstname, lastname from User where username = ''' + "'" + user + "'")
 			name = cur.fetchall()
-		options = [
+		option = [
 			"user_not_found",
 			"pass_not_found",
 			name
 		]
-		return render_template("index.html", **options)
+		
+		options = { "error" : option }
+		return options
 	if request.method == 'POST':
 		found_user = True
 		found_pass = True
 		user_input = request.form['username']
 		user_input = user_input.lower()
 		pass_input = request.form['password']
+		
+		print (pass_input + " " + user_input)
 
-		cur = mysql.connection.cursor()
+		cur = db.cursor()
 		name = False
 		if 'username' in session:
 			user = session['username']
@@ -50,9 +54,11 @@ def login_route():
 		msgs = cur.fetchall()
 
 		if not msgs:
-			return render_template("index.html", user_not_found = False, pass_not_found = True)
+			return "404 not found"
 
 		split_pass = msgs[0][1].split('$', 2)
+		
+		print (split_pass)
 
 		#algorithm = 'sha512'
 		#salt = split_pass[1]
@@ -69,12 +75,14 @@ def login_route():
 			if split_pass[2] != pass_input:
 				found_pass = False
 		if found_user == False or found_pass == False:
-			options = [
+			option = [
 				"user_not_found " + str(found_user),
 				"pass_not_found " + str(found_pass),
 				name
 			]
-			return render_template("index.html", **options)	
+			
+			options = { "error" : option }
+			return options	
 		else:
 			name = False
 			session['username'] = user_input
@@ -84,10 +92,11 @@ def login_route():
 				name = cur.fetchall()
 			#render page that the user came from
 			
-			options = [
+			option = [
 				"user_not_found",
 				"pass_not_found",
 				name
 			]
-			return redirect(url_for('patients.patient_route'))
+			options = { "error" : option }
+			return options
 
