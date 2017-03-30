@@ -87,11 +87,11 @@ def model_route():
     # Error-checking for DELETE and POST requests #
     #---------------------------------------------#
     if request.method == 'DELETE' or request.method == 'POST':
-        username = request.form['username']
-        patientID = request.form['patientid']
-        description = request.form['description']
+        username = request.form.get('username')
+        patientID = request.form.get(patientid')
+        description = request.form.get('description')
         model_file = request.files['file']
-        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
+        #rint ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         # Check for missing keys
         #required_keys = ['username', 'patientid']
@@ -143,12 +143,11 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
-        json_data = request.get_json()
-        model_description = json_data['description']
-        username = json_data['username']
-        patientid = json_data['patientid']
+        username = request.form.get('username')
+        patientID = request.form.get(patientid')
+        description = request.form.get('description')
         model_file = request.files['file']
-        current_date_time = datetime.now()
+        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
