@@ -59,7 +59,7 @@ def model_route():
         # Get model information #
         #-----------------------#
         cur = db.cursor()
-        cur.execute('SELECT url, description FROM Model WHERE patientid=' + patientid)
+        cur.execute('SELECT url, fbx_url, filename, description, lastmodified FROM Model WHERE patientid=' + patientid)
         models = []
         for m in cur.fetchall():
             models.append( { 'url': m['url'], 'fbx_url': m['fbx_url'], 'filename': m['filename'], 'description': m['description'], 'lastmodified': m['lastmodified'] } )
