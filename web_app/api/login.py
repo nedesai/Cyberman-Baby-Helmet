@@ -34,7 +34,7 @@ def login_route():
 		]
 		
 		options = { "error" : option }
-		return options
+		return jsonify(error=options)
 	if request.method == 'POST':
 		found_user = True
 		found_pass = True
@@ -82,7 +82,7 @@ def login_route():
 			]
 			
 			options = { "error" : option }
-			return options	
+			return jsonify(error=options)	
 		else:
 			name = False
 			session['username'] = user_input
@@ -98,5 +98,5 @@ def login_route():
 				name
 			]
 			options = { "error" : option }
-			return options
+			return jsonify(error=options)
 
