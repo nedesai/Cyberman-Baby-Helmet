@@ -10,6 +10,72 @@ model = Blueprint('model', __name__, template_folder='templates')
 #-----------#
 # Model API #
 #-----------#
+def obj2fbx(objpath, fbxpath):
+    '''
+    take input filename and convert to fbx file
+    from http://stackoverflow.com/questions/34132474/convert-obj-to-fbx-with-python-fbx-sdk
+    '''
+    # Create an SDK manager
+
+    manager = fbx.FbxManager.Create()
+
+    # Create a scene
+    scene = fbx.FbxScene.Create(manager, "")
+
+    # Create an importer object
+    importer = fbx.FbxImporter.Create(manager, "")
+
+
+    # Specify the path and name of the file to be imported
+    importstat = importer.Initialize(objpath, -1)
+
+    importstat = importer.Import(scene)
+    # Create an exporter object
+
+    exporter = fbx.FbxExporter.Create(manager, "")
+
+    # Specify the path and name of the file to be imported
+    exportstat = exporter.Initialize(fbxpath, -1)
+    exportstat = exporter.Export(scene)
+
+    return 0
+
+def uploads3(file, filename):
+    '''
+    this function upload file to aws S3 storage and 
+    return the url of that file on S3 that can be accessed
+    '''
+
+    #connect to aws s3 with the key configured in the system file
+    s3_client = boto3.client('s3')
+    #upload the file to s3 storage with filename as its name.
+    #the bucket babyhead is configured to be public for now
+    s3_client.upload_file(file, 'babyhead', filename)
+    url = 'https://s3.amazonaws.com/babyhead/' + filename
+    return url
+
+def processobj(file, filename):
+    '''
+    when the user upload a obj file to the server,
+    this function create temp file for this obj, convert it to fbx,
+    then upload both obj and fbx to S3, return their urls and 
+    delete the temp file.
+    '''
+    objpath = '/home/ubuntu/tempmodel/' + filename + '.obj'
+    fbxpath = '/home/ubuntu/tempmodel/' + filename + '.fbx'
+    # save the file from request.files['file'] locally
+    file.save(objpath)
+    #convert obj to fbx and save it at fbxpath
+    obj2fbx(objpath, fbxpath)
+    #upload both obj and fbx
+    obj_url = uploads3(open(objpath,'r'),filename + '.obj')
+    fbx_url = uploads3(open(fbxpath,'r'),filename + '.fbx')
+    os.remove(objpath)
+    os.remove(fbxpath)
+    return obj_url, fbx_url
+
+
+
 @model.route('/api/v1/model', methods=['GET', 'POST', 'DELETE'])
 def model_route():
     db = connect_to_database()
@@ -81,17 +147,16 @@ def model_route():
 
         filename, filetype = os.path.splitext(model_file.filename)
 
-        s3_client = boto3.client('s3')
-        s3_client.upload_file(model_file, 'babyhead', model_file)
+        urls = processobj(model_file, filename)
+        #s3_client = boto3.client('s3')
+        #s3_client.upload_file(model_file, 'babyhead', model_file)
         # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
-        url = 'https://s3.amazonaws.com/babyhead/' + filename
-
-
-
+        #url = 'https://s3.amazonaws.com/babyhead/' + filename
+        
         cur = db.cursor()
         sql_string = 'INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES (\''
         sql_string += patientid + '\', \'' + filetype + '\', \''
-        sql_string += url + '\', \'' + url + '\', \'' + model_description + '\', \'' + filename '\')'
+        sql_string += urls[0] + '\', \'' + urls[1] + '\', \'' + model_description + '\', \'' + filename '\')'
         cur.execute(sql_string)
 
         return jsonify({}), 200
