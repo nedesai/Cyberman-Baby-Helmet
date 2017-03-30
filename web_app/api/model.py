@@ -74,26 +74,24 @@ def model_route():
         model_description = json_data['description']
         username = json_data['username']
         patientid = json_data['patientid']
-        filetype = json_data['filetype']
         model_file = request.files['file']
         current_date_time = datetime.now()
 
-        hash_name = hashlib.sha512(str.encode(patientid + str(current_date_time)))
+        #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
+
+        filename, filetype = os.path.splitext(model_file.filename)
+
+        s3_client = boto3.client('s3')
+        s3_client.upload_file(model_file, 'babyhead', model_file)
+        # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
+        url = 'https://s3.amazonaws.com/babyhead/' + filename
 
 
-        #s3_client = boto3.client('s3')
-        #s3_client.upload_file(model_file, 'babyhead', model_file)
-        #
-        #s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
-        #url = https://s3.amazonaws.com/babyhead/<name-of-the-file>
-
-        s3_client.upload_file(model_file, 'babyhead', hash_name)
-        hash_url = 'https://s3.amazonaws.com/babyhead/hash_name'
 
         cur = db.cursor()
-        sql_string = 'INSERT INTO Model (patientid, filetype, description, url) VALUES (\''
+        sql_string = 'INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES (\''
         sql_string += patientid + '\', \'' + filetype + '\', \''
-        sql_string += model_description + '\', \'' + str(hash_url) + '\')'
+        sql_string += url + '\', \'' + url + '\', \'' + model_description + '\', \'' + filename '\')'
         cur.execute(sql_string)
 
         return jsonify({}), 200
