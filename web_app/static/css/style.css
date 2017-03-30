@@ -81,11 +81,35 @@ table.patient-display {
 	display: block;
 }
 
+.models-group{
+	background-color: #667481;
+	display: block;
+	height: calc(100vh - 102px);
+	overflow-y: auto;
+}
+
+.model-list-bar{
+	padding: 0 !important;
+}
+
 .model-list-header {
 	text-align: center;
-	background-color: grey;
+	background-color: #6ca8e4;
+	color: white;
 }
 
 .model-list-header h1 {
 	margin-top: 0 !important;
+}
+
+
+.model-admin-bar{
+	border-color: red;
+	border-left: 1px solid;
+	height: calc(100vh - 52px);
+}
+
+.add-model-form{
+	background-color: white;
+	width: 100%;
 }
