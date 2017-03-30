@@ -22,7 +22,7 @@ app.directive('login', ['$http', 'SharedService', function($http, SharedService)
 						scope.directive_info.username = response.data.username;
 					},
 					function(error){
-						scope.errors = error.data;
+						scope.errors = error.data.error;
 					}
 				);
 

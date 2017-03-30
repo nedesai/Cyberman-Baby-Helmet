@@ -63,7 +63,7 @@
         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
       <ul data-ng-if="info.logged_in" class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-out" data-ng-click="info.logged_in=false; info.username=''"></span> Logout</a></li>
       </ul>
   </div>
 </nav>
@@ -81,8 +81,8 @@
   <patients ng-if="!info.viewmodel && info.logged_in"></patients>
 
   <models ng-if="info.viewmodel && info.logged_in" username=info.username patientid=info.patientid></models>
-<!--
 
+<!--
   <patients ng-if="!info.viewmodel"></patients>
 
   <models ng-if="info.viewmodel" username=info.username patientid=info.patientid></models>
