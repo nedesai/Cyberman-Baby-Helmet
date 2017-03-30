@@ -143,6 +143,7 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
+        print ("WE ARE AT POST")
         username = request.form.get('username')
         patientID = request.form.get('patientid')
         description = request.form.get('description')
