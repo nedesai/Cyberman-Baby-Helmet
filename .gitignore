@@ -1,4 +1,5 @@
 web_app/config.py
+web_app/static/photos/*
 Vagrantfile
 vagrant.sh
 *.pyc
