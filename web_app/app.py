@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import extensions
 import photo_email_service
-import threading
 import config
 import api
 import controllers
@@ -22,8 +21,7 @@ app.secret_key = '4fd75asf_a8d4f_sad84f84'
 if __name__ == '__main__':
     # Starts the photo email service as a separate thread
     pes = photo_email_service.PhotoEmailService()
-    pes_thread = threading.Thread(target=pes.listen_for_emails)
-    pes_thread.start()
+    pes.start_listening()
 
     # Listens on external IPs
     app.run(host=config.env['host'], port=config.env['port'], debug=True)

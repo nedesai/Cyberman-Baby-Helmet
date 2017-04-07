@@ -1,5 +1,6 @@
 from email.mime.text import MIMEText
 from extensions import connect_to_database
+import threading
 import smtplib
 import poplib
 import email
@@ -9,6 +10,13 @@ import os
 WEB_APP_EMAIL_USERNAME = 'headmodels481@gmail.com'
 WEB_APP_EMAIL_PASSWORD = 'eecs481rules!'
 
+EMAIL_SUBJECT_NO_PHOTOS = 'Email did not contain any photos'
+EMAIL_BODY_NO_PHOTOS = '''
+It looks like your email didn't contain any photos.
+
+Please try to email us your photos again :)
+'''
+
 EMAIL_SUBJECT_INVALID = 'Photos not uploaded to website'
 EMAIL_BODY_INVALID = '''
 Thank you for sending us your photos that you'd like to convert to a 3D model.
@@ -17,7 +25,7 @@ Unfortunately, it looks like your email address is not associated with a registe
 
 If this is the case, please create an account on our website.
 
-If you have an account with us, please try to email your photos from the email address associated with your account.
+If you already have an account with us, please try to email your photos from the email address associated with your account.
 
 Happy modeling!
 '''
@@ -33,27 +41,32 @@ Happy modeling!
 
 class PhotoEmailService:
 	def __init__(self):
-		pass
-		#self.db = connect_to_database()
+		self.db = connect_to_database()
 
 	# Sends an email
 	def send_email(self, to_address, subject, body):
-		# Create a text/plain message
+		# Build the email message
 		msg = MIMEText(body)
-
-		# me == the sender's email address
-		# you == the recipient's email address
 		msg['Subject'] = subject
 		msg['From'] = WEB_APP_EMAIL_USERNAME
 		msg['To'] = to_address
 
-		s = smtplib.SMTP('smtp.gmail.com', 587) # Port 587
-		s.ehlo()
-		s.starttls()
-		s.ehlo()
-		s.login(WEB_APP_EMAIL_USERNAME, WEB_APP_EMAIL_PASSWORD)
-		s.send_message(msg)
-		s.close()
+		# Connect to web app's Gmail account and send a response from it.
+		# Attempt to send the email 5 times before giving up.
+		for x in range(0, 5):
+			try:
+				s = smtplib.SMTP('smtp.gmail.com', 587) # Port 587
+				s.ehlo()
+				s.starttls()
+				s.ehlo()
+				s.login(WEB_APP_EMAIL_USERNAME, WEB_APP_EMAIL_PASSWORD)
+				s.send_message(msg)
+				s.close()
+				break
+
+			except:
+				print('Error sending email response! Trying again...')
+				time.sleep(2)
 
 	# Returns the email address within the string from_data
 	def parse_from_address(self, from_data):
@@ -80,9 +93,10 @@ class PhotoEmailService:
 		try:
 			connection = poplib.POP3_SSL('pop.gmail.com', 995)
 		except:
-			print('Error connecting to email. Trying again...')
+			print('Error connecting to Gmail. Trying again...')
 			return
-		connection.set_debuglevel(1)
+
+		# connection.set_debuglevel(1) # Uncomment for verbose debug logs
 		connection.user(WEB_APP_EMAIL_USERNAME)
 		connection.pass_(WEB_APP_EMAIL_PASSWORD)
 
@@ -107,17 +121,24 @@ class PhotoEmailService:
 			# Check if from address is valid #
 			#--------------------------------#
 			sender_address = self.parse_from_address(str_message['From'])
-			'''
-			cur = db.cursor()
+
+			# The photos will be assigned to the user in the database who registered
+			# with the email address <sender_address>. If <sender_address> is not in
+			# our database, then the user needs to send the email from the address 
+			# tied to their account, or register an account with <sender_address>
+			# as their email address.
+			cur = self.db.cursor()
 			cur.execute('SELECT * FROM User WHERE email=\'{0}\''.format(sender_address))
 			if len(cur.fetchall()) == 0:
-				# Send invalid email address email
+				self.send_email(sender_address,
+								EMAIL_SUBJECT_INVALID,
+								EMAIL_BODY_INVALID)
 				break
-			'''
 
 			#------------------------------------#
 			# Save attachments if email is valid #
 			#------------------------------------#
+			email_contains_photos = False
 			for part in str_message.walk():
 				# Skip parts of email that don't contain file attachments
 				if (part.get_content_maintype() == 'multipart'
@@ -125,22 +146,26 @@ class PhotoEmailService:
 					continue
 
 				filename = part.get_filename()
-				'''
 				if not filename: 
 					filename = "test.txt"
-				'''
 				print('Attempting to save the following attachment: {0}'.format(filename))
 
-				try:
-					self.send_email(sender_address, EMAIL_SUBJECT_SUCCESS, EMAIL_BODY_SUCCESS)
-				except:
-					print('Error sending email response!')
+				self.send_email(sender_address,
+								EMAIL_SUBJECT_SUCCESS,
+								EMAIL_BODY_SUCCESS)
 
 				# savedir directory needs to exist or else an error will be thrown
+				email_contains_photos = True
 				savedir="./static/photos/"
 				fp = open(os.path.join(savedir, filename), 'wb')
 				fp.write(part.get_payload(decode=1))
 				fp.close
+
+			# Return an error message via email if the email lacked photos
+			if not email_contains_photos:
+				self.send_email(sender_address, 
+								EMAIL_SUBJECT_NO_PHOTOS, 
+								EMAIL_BODY_NO_PHOTOS)
 
 			# Delete email from consideration for processing.
 			# Does not actually delete email from Gmail account.
@@ -153,7 +178,14 @@ class PhotoEmailService:
 	# to the appropriate locations
 	def listen_for_emails(self):
 		while True:
+			time.sleep(2)
 			self.save_unread_email_photos()
 
-pes = PhotoEmailService()
-pes.listen_for_emails()
+	def start_listening(self):
+		pes_thread = threading.Thread(target=self.listen_for_emails)
+		pes_thread.start()
+
+# For testing outside of the web app
+if __name__ == '__main__':
+	pes = PhotoEmailService()
+	pes.start_listening()
