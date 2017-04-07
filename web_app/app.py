@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 import extensions
+import photo_email_service
+import threading
 import config
 import api
 import controllers
@@ -17,7 +19,11 @@ app.register_blueprint(controllers.main)
 app.secret_key = '4fd75asf_a8d4f_sad84f84'
 
 # Listen on external IPs
-# For us, listen to port 3000 so you can just run 'python app.py' to start the server
 if __name__ == '__main__':
-    # listen on external IPs
+    # Starts the photo email service as a separate thread
+    pes = photo_email_service.PhotoEmailService()
+    pes_thread = threading.Thread(target=pes.listen_for_emails)
+    pes_thread.start()
+
+    # Listens on external IPs
     app.run(host=config.env['host'], port=config.env['port'], debug=True)
