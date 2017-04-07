@@ -136,6 +136,7 @@ class PhotoEmailService:
 				except:
 					print('Error sending email response!')
 
+				# savedir directory needs to exist or else an error will be thrown
 				savedir="./static/photos/"
 				fp = open(os.path.join(savedir, filename), 'wb')
 				fp.write(part.get_payload(decode=1))
