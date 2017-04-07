@@ -1,16 +1,3 @@
-/*
-var app = angular.module("Cyberman", ['ngRoute']);
-
-app.config(['$interpolateProvider', function($interpolateProvider, $routeProvider) {
-  $interpolateProvider.startSymbol('{*');
-  $interpolateProvider.endSymbol('*}');
-  $routeProvider
-	.otherwise({
-		redirectTo: '/'
-	});
-}]);
-*/
-
 var app = angular.module("Cyberman", []);
 
 app.config(['$interpolateProvider', function($interpolateProvider) {
@@ -23,10 +10,11 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 app.factory('SharedService', function() {
 	return {
 		sharedInfo: {
-			username: "headmodel22",
+			username: "",
+			log_in: true,
 			viewmodel: false,
-			logged_in: true,
 			patientid: -1,
+			patients: [],
 			models: [] 
 			//modelid, obj/stl filename, fbx link, title, description, date
 		}
