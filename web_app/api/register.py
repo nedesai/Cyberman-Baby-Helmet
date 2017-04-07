@@ -17,12 +17,12 @@ def register_route():
 	#---------------#
 	if request.method == 'POST':
 		user_info = request.get_json()
-		username = user_info['username']
-		password1 = user_info['password1']
-		password2 = user_info['password2']
-		firstname = user_info['firstname']
-		lastname = user_info['lastname']
-		email = user_info['email']
+		username = str(user_info['username'])
+		password1 = str(user_info['password1'])
+		password2 = str(user_info['password2'])
+		firstname = str(user_info['firstname'])
+		lastname = str(user_info['lastname'])
+		email = str(user_info['email'])
 
 		#---------------------------------------#
 		# Check if a valid username was entered #
@@ -47,6 +47,7 @@ def register_route():
 			m = hashlib.new(algorithm)
 			m.update(salt + password1)
 			password_hash = m.hexdigest()
-			password = "$".join([algorithm, salt, password_hash])
+			password = str("$".join([algorithm, salt, password_hash]))
 
-			cur.execute("INSERT INTO User (username, password, firstname, lastname, email)" + "VALUES ({}, {}, {}, {}, {});".format(username, password, firstame, lastname, email))
+			cur.execute("INSERT INTO User (username, password, firstname, lastname, email) VALUES ('" + username + "', '" + password + "', '" + firstname + "', '" + lastname + "', '" + email + "');")
+			return jsonify(status="OK"), 202
