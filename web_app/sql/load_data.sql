@@ -1,8 +1,8 @@
 USE model_db;
 
 INSERT INTO User (username, firstname, lastname, email, password) VALUES
-('headmodel22', 'Dr. Head', 'Modelberg', 'head@model.com', 'testpass123'),
-('babyhelmet44', 'Dr. Bobby', 'McHelmet', 'baby@helmet.com', 'password44');
+('headmodel22', 'Dr. Head', 'Modelberg', 'head@model.com', 'sha512$6159012d003f421ab7820f733a2e071c$43b6493220dd1a787a9ca1694fa58f2bcca789df333728dcdb62c68a45bbeab43c3923519886a41278d664f18ed624701e9bf1d12ec0b3ff50bfc201cef5bb37'),
+('babyhelmet44', 'Dr. Bobby', 'McHelmet', 'baby@helmet.com', 'sha512$6151faf457f6433d95eb2acce9df8557$2239bcc574b5d1579a6cbd8c9fb93a86c828ab6b09cfe3cfc1f58bad12da7d7455b6bb266b993e8ebe7da0fcebc7b4f7809e3e3f844fbcc2b4927023a11f2887');
 
 INSERT INTO Patient (username, firstname, lastname, dob) VALUES
 ('headmodel22', 'Alice', 'Alicestein', '2016-03-27'),
