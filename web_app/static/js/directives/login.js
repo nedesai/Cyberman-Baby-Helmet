@@ -1,4 +1,4 @@
-app.directive('login', ['$http', 'SharedService', function($http, SharedService){
+app.directive('login', ['$http', 'SharedService', '$location', function($http, SharedService, location){
 	return {
 		restrict: 'E',
 		scope: {
@@ -11,22 +11,20 @@ app.directive('login', ['$http', 'SharedService', function($http, SharedService)
 			scope.errors = [];
 
 			scope.login = function(){
-				
+				console.log('hi');
 				var dataobj = {
-					username: String(scope.username),
-					password: String(scope.password)
+					username: String(scope.login_username),
+					password: String(scope.login_password)
 				};
 				$http.post('api/v1/login', dataobj).then(
 					function(success){
-						scope.directive_info.username = success.data.username;
-						scope.directive_info.logged_in = true;
+						window.location = '/';
 					},
 					function(error){
 						scope.errors = [];
-						scope.errors.push(error.data.error.error_msg);
+						scope.errors.push(error.data.error);
 					}
 				);
-
 			}
 		}
 	}

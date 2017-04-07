@@ -1,15 +1,14 @@
-
 <div class="col-sm-4 col-sm-offset-4 login-form" >
 <h1 class="form-head top-buffer bottom-buffer">Log Into Your Account</h1>
 <div id="content">
 	<form data-ng-submit="login()">
 	    <div class="form-group">
 	      <label for="username">Username:</label>
-	      <input type="text" class="form-control" name="username" id="login_username_input" data-ng-model="username">
+	      <input type="text" class="form-control" name="username" id="login_username_input" data-ng-model="login_username">
 	    </div>
 	    <div class="form-group">
 	      <label for="password">Password:</label>
-	      <input type="password" class="form-control" name="password" id="login_password_input" data-ng-model="password">
+	      <input type="password" class="form-control" name="password" id="login_password_input" data-ng-model="login_password">
 	    </div>
 	    <p data-ng-show="errors.length" data-ng-repeat="error in errors" class="error"> {* error *} </p>
 	    <input type="submit" class="form-control" value="Login" id="login_submit">
@@ -18,6 +17,5 @@
 </div>
 <div class="col-sm-4 col-sm-offset-4 top-buffer">
 <br>
-<p id="sign_up_message">If you don't have an account, create one <a href="{{ url_for('main.user_route') }}">here</a>.</p>
+<p id="sign_up_message">If you don't have an account, create one <a href="#" data-ng-click="directive_info.log_in = false">here</a>.</p>
 </div>
-

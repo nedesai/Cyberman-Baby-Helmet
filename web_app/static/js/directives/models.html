@@ -8,7 +8,7 @@
 			<a data-ng-repeat="model_info in directive_info.models" href="{* model_info.fbx_url *}">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
 				 <h4>{* model_info.filename *}</h4>
-				 <small>Date Last Modified: {* model_info.lastmodified *}</small>
+				 <small>Last Modified: {* model_info.lastmodified | date:'yyyy-MM-dd' *}</small>
 				</button>
 			</a>
 		</div>
@@ -42,20 +42,11 @@
 		
 	</div>
 
-</div>
 
-<!--
-	<h1 class="col-sm-offset-3"> Patient's Models </h1>
-
-	<div id="top">
-	</div>
-	<div id="left">
-		<div id="menu"></div>
+	<!-- For model info and picture cycling? -->
+	<div class="col-sm-7" syle="background-color: red">
+		<div>
+		</div>
 	</div>
 
 </div>
-
-<div class="col-xs-8 image-container">
-  <img class="pic-image" src="{{ url_for('static', filename='images/' + data.current + '.' + data.current_format) }}" />
-</div>
--->
