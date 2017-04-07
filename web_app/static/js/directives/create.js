@@ -10,7 +10,7 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 
 			scope.errors = [];
 
-			function create(){
+			scope.create = function(){
 				
 				var dataobj = {
 					username: String(scope.create_username),
@@ -28,10 +28,9 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 					},
 					function(error){
 						scope.errors = [];
-						scope.errors.push(error.data.error);
+						scope.errors.push(error.data.errors);
 					}
-				);
-				*/
+				);*/
 			}
 		}
 	}

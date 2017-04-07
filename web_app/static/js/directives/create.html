@@ -4,15 +4,15 @@
   <form id="new_user" data-ng-submit="create()">
     <div class="form-group">
       <label for="username">Username:</label>
-      <input type="text" class="form-control" name="username" id="new_username_input" maxlength="20" data-ng-model="create_username" required>
+      <input type="text" class="form-control" name="username" id="new_username_input" pattern=".{6,40}"   required title="Username must be between 6 and 40 characters" maxlength="40" data-ng-model="create_username" required>
     </div>
     <div class="form-group">
       <label for="first_name">First Name:</label>
-      <input type="text" class="form-control" name="firstname" id="new_firstname_input" maxlength="20" data-ng-model="create_firstname" required>
+      <input type="text" class="form-control" name="firstname" id="new_firstname_input" pattern=".{1,}" required title="Need at least 1 letter" maxlength="40" data-ng-model="create_firstname" required>
     </div>
     <div class="form-group">
       <label for="last_name">Last Name:</label>
-      <input type="text" class="form-control" name="lastname" id="new_lastname_input" maxlength="20" data-ng-model="create_lastname" required>
+      <input type="text" class="form-control" name="lastname" id="new_lastname_input" pattern=".{1,}" required title="Need at least 1 letter" maxlength="40" data-ng-model="create_lastname" required>
     </div>
     <div class="form-group">
       <label for="email">Email:</label>
@@ -20,11 +20,11 @@
     </div>
     <div class="form-group">
       <label for="password1">Password:</label>
-      <input type="password" class="form-control" name="password1" id="new_password1_input" data-ng-model="create_password1" required>
+      <input type="password" class="form-control" name="password1" id="new_password1_input" pattern=".{8,}" required title="Password must be at least 8 letters" data-ng-model="create_password1" required>
     </div>
     <div class="form-group">
       <label for="password2">Confirm Password:</label>
-      <input type="password" class="form-control" name="password2" id="new_password2_input" data-ng-model="create_password2" required>
+      <input type="password" class="form-control" name="password2" id="new_password2_input" pattern=".{8,}" required title="Password must be at least 8 letters" data-ng-model="create_password2" required>
     </div>
 
     <p class="error" data-ng-show="has_error" data-ng-repeat="error in errors"> {* error *} </p>
