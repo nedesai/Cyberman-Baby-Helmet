@@ -17,7 +17,6 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 			if(scope.directive_info.username == ""){
 				$http.get('api/v1/login').then(
 					function(success){
-						console.log("oops");
 						scope.directive_info.username = success.data.username;
 						get_patients();
 					}

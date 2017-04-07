@@ -11,7 +11,6 @@ app.directive('login', ['$http', 'SharedService', '$location', function($http, S
 			scope.errors = [];
 
 			scope.login = function(){
-				console.log('hi');
 				var dataobj = {
 					username: String(scope.login_username),
 					password: String(scope.login_password)

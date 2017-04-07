@@ -10,7 +10,7 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 
 			scope.errors = [];
 
-			scope.create = function(){
+			function create(){
 				
 				var dataobj = {
 					username: String(scope.create_username),
@@ -20,6 +20,8 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 					password1: String(scope.create_password1),
 					password2: String(scope.create_password2)
 				};
+				scope.directive_info.log_in = true;
+				/*
 				$http.post('api/v1/register', dataobj).then(
 					function(success){
 						scope.directive_info.log_in = true;
@@ -29,6 +31,7 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 						scope.errors.push(error.data.error);
 					}
 				);
+				*/
 			}
 		}
 	}
