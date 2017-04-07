@@ -8,7 +8,7 @@ register = Blueprint('register', __name__, template_folder='templates')
 #----------------#
 # Register route #
 #----------------#
-@register.route('api/v1/register', methods=['GET', 'POST'])
+@register.route('/api/v1/register', methods=['GET', 'POST'])
 def register_route():
 	db = connect_to_database()
 
@@ -36,7 +36,7 @@ def register_route():
 
 		# Check if passwords are the same
 		elif password1 != password2:
-			return jsonify(errors="Passwords don't match")
+			return jsonify(errors="Passwords don't match"), 400
 
 		else:
 			# Insert user into database
@@ -49,5 +49,4 @@ def register_route():
 			password_hash = m.hexdigest()
 			password = "$".join([algorithm, salt, password_hash])
 
-			cur.execute('INSERT INTO User (username, password, firstname, lastname, email)' 
-						'VALUES ({}, {}, {}, {}, {});'.format(username, password, firstame, lastname, email))
+			cur.execute("INSERT INTO User (username, password, firstname, lastname, email)" + "VALUES ({}, {}, {}, {}, {});".format(username, password, firstame, lastname, email))

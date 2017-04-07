@@ -13,6 +13,7 @@ app.register_blueprint(api.patient)
 app.register_blueprint(api.model)
 app.register_blueprint(api.login)
 app.register_blueprint(api.logout)
+app.register_blueprint(api.register)
 app.register_blueprint(controllers.main)
 
 # Secret key for sessions & cookies
