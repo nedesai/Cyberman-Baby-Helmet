@@ -27,7 +27,7 @@
       <input type="password" class="form-control" name="password2" id="new_password2_input" pattern=".{8,}" required title="Password must be at least 8 letters" data-ng-model="create_password2" required>
     </div>
 
-    <p class="error" data-ng-show="has_error" data-ng-repeat="error in errors"> {* error *} </p>
+    <p class="error" data-ng-show="errors.length" data-ng-repeat="error in errors"> {* error *} </p>
 
     <input type="submit" class="form-control" value="Submit" id="create_submit">
   </form>
