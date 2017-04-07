@@ -7,10 +7,19 @@ body {
 	height:100%;
 }
 
-#login_submit {
+.login-form, .create-account-form{
+	margin-top: 8.33%;
+}
+
+#login_submit, #create_submit {
 	color: white;
 	font-weight: bold;
 	background-color: #1875e2;
+}
+
+#cancel_create{
+	color: white;
+	font-weight: bold;
 }
 
 .error {
