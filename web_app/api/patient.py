@@ -16,7 +16,6 @@ def patient_route():
     #--------------#
     if request.method == "GET":
         username = request.args.get('username')
-        print(username)
         #error checking to make sure username exists
         if username == None:
             error = "Error: request missing necessary query parameters"
