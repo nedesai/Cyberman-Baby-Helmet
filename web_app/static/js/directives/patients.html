@@ -17,12 +17,8 @@
 			<div class="col-sm-3">
 				<input name="form-name" class="form-control input-lg" type="text" placeholder="Lastname" data-ng-model="input_lastname" maxlength="40">
 			</div>
-			<div class="input-group date col-sm-3" data-provide="datepicker">
-					<!-- Input format is YYYY/MM/DD -->
-			    <input type="text" id="datepicker" class="form-control input-lg" data-ng-model="input_dob">
-			    <div class="input-group-addon">
-			        <span class="glyphicon glyphicon-th"></span>
-			    </div>
+			<div class="col-sm-3">
+				<input type="date" id="datepicker" class="form-control input-lg" placeholder="Date of Birth YYYY/MM/DD" data-ng-model="input_dob">
 			</div>
 			<button type="submit" class="btn-lg btn-success active pull-right" data-ng-click="showAdd = addnewpatient(input_firstname, input_lastname, input_dob)">Add New Patient</button>
 
