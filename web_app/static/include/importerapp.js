@@ -28,19 +28,6 @@ ImporterApp.prototype.Init = function ()
 	
 	var myThis = this;
 	var top = document.getElementById ('top');
-	var importerButtons = new ImporterButtons (top);
-	importerButtons.AddLogo ('Online 3D Viewer <span class="version">v 0.5</span>', function () { myThis.WelcomeDialog (); });
-	importerButtons.AddButton ('images/openfile.png', 'Open File', function () { myThis.OpenFile (); });
-	importerButtons.AddButton ('images/fitinwindow.png', 'Fit In Window', function () { myThis.FitInWindow (); });
-	importerButtons.AddButton ('images/fixup.png', 'Enable/Disable Fixed Up Vector', function () { myThis.SetFixUp (); });
-	importerButtons.AddButton ('images/top.png', 'Set Up Vector (Z)', function () { myThis.SetNamedView ('z'); });
-	importerButtons.AddButton ('images/bottom.png', 'Set Up Vector (-Z)', function () { myThis.SetNamedView ('-z'); });
-	importerButtons.AddButton ('images/front.png', 'Set Up Vector (Y)', function () { myThis.SetNamedView ('y'); });
-	importerButtons.AddButton ('images/back.png', 'Set Up Vector (-Y)', function () { myThis.SetNamedView ('-y'); });
-	importerButtons.AddButton ('images/left.png', 'Set Up Vector (X)', function () { myThis.SetNamedView ('x'); });
-	importerButtons.AddButton ('images/right.png', 'Set Up Vector (-X)', function () { myThis.SetNamedView ('-x'); });
-	
-	this.dialog = new FloatingDialog ();
 
 	window.addEventListener ('resize', this.Resize.bind (this), false);
 	this.Resize ();
@@ -125,7 +112,6 @@ ImporterApp.prototype.Resize = function ()
 	SetHeight (canvas, height);
 	SetWidth (canvas, document.body.clientWidth - left.offsetWidth);
 	
-	this.dialog.Resize ();
 };
 
 ImporterApp.prototype.JsonLoaded = function (progressBar)
@@ -289,28 +275,6 @@ ImporterApp.prototype.GenerateMenu = function ()
 	}
 };
 
-ImporterApp.prototype.GenerateError = function (errorMessage)
-{
-	this.viewer.RemoveMeshes ();
-	var menu = document.getElementById ('menu');
-	while (menu.lastChild) {
-		menu.removeChild (menu.lastChild);
-	}
-	
-	this.dialog.Open ({
-		title : 'Error',
-		text : '<div class="importerdialog">' + errorMessage + '</div>',
-		buttons : [
-			{
-				text : 'ok',
-				callback : function (dialog) {
-					dialog.Close ();
-				}
-			}
-		]
-	});	
-};
-
 ImporterApp.prototype.Generate = function (progressBar)
 {
 	function ShowMeshes (importerApp, progressBar, merge)
@@ -338,7 +302,6 @@ ImporterApp.prototype.Generate = function (progressBar)
 
 	var jsonData = this.viewer.GetJsonData ();
 	if (jsonData.materials.length === 0 || jsonData.meshes.length === 0) {
-		this.GenerateError ('Failed to open file. Maybe something is wrong with your file.');
 		return;
 	}
 	
@@ -411,12 +374,7 @@ ImporterApp.prototype.ProcessFiles = function (fileList, isUrl)
 	if (userFiles.length === 0) {
 		return;
 	}
-	// insert
 	
-	console.log("userfiles:" + userFiles);
-	console.log(fileList);
-	
-
 	this.fileNames = null;
 	
 	var myThis = this;
@@ -493,12 +451,6 @@ ImporterApp.prototype.LoadFilesFromHash = function ()
 	if (window.location.hash.length < 2) {
 		return false;
 	}
-	// insert
-	/*
-	console.log("in LoadFilesFromHash");
-	console.log("window.location.hash = ");
-	console.log(window.location.hash);
-	*/
 	
 	var hash = window.location.hash;
 	var hash = hash.substr (1, hash.length - 1);
