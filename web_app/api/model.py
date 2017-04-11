@@ -160,7 +160,11 @@ def model_route():
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
+        filetype = filetype.toLower()
         print ("FILETYPE: " + str(filetype))
+
+        if not (filetype == 'stl' or filetype == 'stl' or filetype == 'fbx'):
+            return jsonify(error="Error: invalid filetype"), 400
 
         urls = processobj(model_file, filename)
         #s3_client = boto3.client('s3')
