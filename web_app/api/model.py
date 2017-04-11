@@ -77,6 +77,14 @@ def processobj(file, filename):
     os.remove(fbxpath)
     return obj_url, fbx_url
 
+def deleteModel(filename):
+    '''
+    given an uploaded filename for any model, this will delete that file from our s3 server
+    '''
+    
+    client = boto3.client('s3')
+    client.delete_object(Bucket='babyhead', Key=filename)
+
 
 
 @model.route('/api/v1/model', methods=['GET', 'POST', 'DELETE'])
@@ -167,10 +175,6 @@ def model_route():
             return jsonify(error="Error: invalid filetype"), 400
 
         urls = processobj(model_file, filename)
-        #s3_client = boto3.client('s3')
-        #s3_client.upload_file(model_file, 'babyhead', model_file)
-        # s3_client.upload_file(model_file, 'babyhead', '<name-of-the-file>')
-        #url = 'https://s3.amazonaws.com/babyhead/' + filename
         
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
@@ -187,5 +191,7 @@ def model_route():
         json_data = request.get_json()
         cur = db.cursor()
         cur.execute('DELETE FROM Model WHERE modelid=' + json_data['modelid'])
+        filename = json_data['filename']
+        deleteModel(filename)
         return jsonify({}), 200
 
