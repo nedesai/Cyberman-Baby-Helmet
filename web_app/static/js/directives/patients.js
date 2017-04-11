@@ -32,7 +32,8 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				var input = {username: scope.directive_info.username, firstname: firstname, lastname: lastname, dob: dob};
 				$http.post("api/v1/patient", input).then(
 					function(response) {
-						scope.patients.push(input);
+						scope.directive_info.patients.push(input);
+						console.log(scope.patients);
 					}
 				);
 				scope.input_firstname = '';
