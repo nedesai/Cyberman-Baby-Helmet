@@ -55,8 +55,8 @@
       </div>
 
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Edit Account</a></li>
+        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="info.edit = false; setActive(0)">Home</a></li>
+        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="info.edit = true; setActive(1)">Edit Account</a></li>
       </ul>
 
       <!-- Logout portion -->
@@ -66,6 +66,7 @@
   </div>
 </nav>
 
+<!--
   <div id="top">
   </div>
   <div id="left">
@@ -73,14 +74,16 @@
   </div>
 
 <canvas id="example" class="3dviewer" sourcefiles="../static/models/PI_Modified.stl" width="200" height="200"></canvas>
-
+-->
 
 <!-- ================= View of Application ================== -->
 <div class="appbody">
 
-  <patients ng-if="!info.viewmodel"></patients>
+  <account ng-if="info.edit"></account>
 
-  <models ng-if="info.viewmodel" username=info.username patientid=info.patientid></models>
+  <patients ng-if="!info.viewmodel && !info.edit"></patients>
+
+  <models ng-if="info.viewmodel && !info.edit" username=info.username patientid=info.patientid></models>
 
 </div>
 
@@ -89,6 +92,7 @@
   <script src="../static/js/controllers/CybermanController.js"></script>  
   <script src="../static/js/directives/patients.js"></script>
   <script src="../static/js/directives/models.js"></script>
+  <script src="../static/js/directives/account.js"></script>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>

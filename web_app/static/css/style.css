@@ -27,8 +27,19 @@ body {
 	font-weight: bold;
 }
 
+.success {
+	color: green;
+	font-weight: bold;
+}
+
 .navbar {
-    margin-bottom: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.active{
+	color: #fff;
+  background-color: black;
+  background: black;
 }
 
 .appbody {

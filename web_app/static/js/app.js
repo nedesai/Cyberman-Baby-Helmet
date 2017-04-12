@@ -13,9 +13,12 @@ app.factory('SharedService', function() {
 			username: "",
 			log_in: true,
 			viewmodel: false,
+			edit: false,
 			patientid: -1,
 			patients: [],
-			models: [] 
+			models: [],
+			menuItems:  ['Home', 'Edit'],
+			menuIndex: 0
 			//modelid, obj/stl filename, fbx link, title, description, date
 		}
 	};
