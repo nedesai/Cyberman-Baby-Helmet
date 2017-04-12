@@ -5,7 +5,7 @@ import uuid
 
 register = Blueprint('register', __name__, template_folder='templates')
 
-def sesion_exists():
+def session_exists():
 	if username in session:
 		return True
 	else:
