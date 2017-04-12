@@ -63,6 +63,7 @@ def register_route():
 	#----------------#
 	elif request.method == 'PUT':
 		json_data = request.get_json()
+		error_messages = []
 		#----------------#
 		# Error checking #
 		#----------------#
