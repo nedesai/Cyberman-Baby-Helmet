@@ -67,7 +67,7 @@ def register_route():
 		# Error checking #
 		#----------------#
 		# Return with an error message and 401 if user is not logged in
-		if not session_exists():
+		if not session_exists(json_data['username']):
 			append_credentials_error(error_messages)
 			return jsonified_errors(error_messages), 401
 
