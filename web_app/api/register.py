@@ -70,7 +70,7 @@ def register_route():
 		# Return with an error message and 401 if user is not logged in
 		if not session:
 			append_credentials_error(error_messages)
-			return jsonified_errors(error_messages), 401
+			return jsonified_errors(error_messages, 401)
 
 		# Check for missing keys; return with error and a 422 immediately if key is missing
 		if missing_key(json_data):
