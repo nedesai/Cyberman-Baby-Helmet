@@ -8,7 +8,7 @@ register = Blueprint('register', __name__, template_folder='templates')
 #----------------#
 # Register route #
 #----------------#
-@register.route('/api/v1/register', methods=['GET', 'POST'])
+@register.route('/api/v1/register', methods=['GET', 'POST', 'PUT'])
 def register_route():
 	db = connect_to_database()
 
