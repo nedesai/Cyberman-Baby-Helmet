@@ -1,8 +1,10 @@
-from email.mime.text import MIMEText
 from extensions import connect_to_database
+from email.mime.text import MIMEText
+from api.model import uploads3
 import threading
 import smtplib
 import poplib
+import boto3
 import email
 import time
 import os
@@ -26,6 +28,10 @@ Unfortunately, it looks like your email address is not associated with a registe
 If this is the case, please create an account on our website.
 
 If you already have an account with us, please try to email your photos from the email address associated with your account.
+
+Please note that you may only upload one set of photos at a time. If you upload another set, the photos you just uploaded will be overwritten.
+
+In other words, please make sure to convert the set of 2D photos you just uploaded to a 3D model before uploading another set of photos.
 
 Happy modeling!
 '''
@@ -129,43 +135,83 @@ class PhotoEmailService:
 			# as their email address.
 			cur = self.db.cursor()
 			cur.execute('SELECT * FROM User WHERE email=\'{0}\''.format(sender_address))
+
+			# Skip this email and process next email if we can't find a user with 
+			# the same email address as the sender
 			if len(cur.fetchall()) == 0:
 				self.send_email(sender_address,
 								EMAIL_SUBJECT_INVALID,
 								EMAIL_BODY_INVALID)
 				break
 
+			# Otherwise, keep track of the username for the person who sent this email
+			username = cur.fetchall()[0]['username']
+
 			#------------------------------------#
 			# Save attachments if email is valid #
 			#------------------------------------#
 			email_contains_photos = False
+			photo_number = 0
 			for part in str_message.walk():
 				# Skip parts of email that don't contain file attachments
 				if (part.get_content_maintype() == 'multipart'
 				or part.get('Content-Disposition') is None):
 					continue
 
-				filename = part.get_filename()
-				if not filename: 
-					filename = "test.txt"
-				print('Attempting to save the following attachment: {0}'.format(filename))
+				print('Attempting to save the following attachment: {0}'.format(part.get_filename()))
 
-				self.send_email(sender_address,
-								EMAIL_SUBJECT_SUCCESS,
-								EMAIL_BODY_SUCCESS)
-
-				# savedir directory needs to exist or else an error will be thrown
 				email_contains_photos = True
-				savedir="./static/photos/"
-				fp = open(os.path.join(savedir, filename), 'wb')
+
+				# Save the attached image locally
+				image_path = '/home/ubuntu/photos/'
+				if not os.path.exists(image_path):
+					os.makedirs(image_path)
+				filename = 'photo_{0}.jpg'.format(photo_number)
+				filename_and_path = os.path.join(image_path, filename)
+				fp = open(filename_and_path, 'wb')
 				fp.write(part.get_payload(decode=1))
 				fp.close
+
+				# If user already has a photo bucket, delete its photos
+				user_photo_bucket = '{1}-photos'.format(username)
+				buckets = []
+				for bucket in s3.buckets.all():
+					buckets.append(bucket.name)
+				if user_photo_bucket in buckets:
+					for key in bucket.objects.all():
+						key.delete()
+				
+				# Create a new bucket on S3 to hold this user's photos if they
+				# do not already have a photo bucket created for them
+				else:
+					client.create_bucket(Bucket=user_photo_bucket)
+
+				# Upload image to S3, remove it from local storage,
+				# and construct its S3 URL
+				s3_client = boto3.client('s3')
+				s3_client.upload_file(filename_and_path, username, filename)
+				url = 'https://s3.amazonaws.com/{0}/{1}'.format(username, filename)
+				os.remove(filename_and_path)
+
+				# Insert this photo's data into the database
+				cur = db.cursor()
+				cur.execute('INSERT INTO Photo (filename, username, url) VALUES ' + 
+							'({0}, {1}, {2})'.format(filename, username, url))
+
+				photo_number += 1
 
 			# Return an error message via email if the email lacked photos
 			if not email_contains_photos:
 				self.send_email(sender_address, 
 								EMAIL_SUBJECT_NO_PHOTOS, 
 								EMAIL_BODY_NO_PHOTOS)
+
+			# Let the sender know if their photos were successfully uploaded
+			else:
+				self.send_email(sender_address,
+								EMAIL_SUBJECT_SUCCESS,
+								EMAIL_BODY_SUCCESS)
+
 
 			# Delete email from consideration for processing.
 			# Does not actually delete email from Gmail account.
