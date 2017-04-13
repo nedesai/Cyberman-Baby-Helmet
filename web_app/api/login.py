@@ -12,11 +12,27 @@ login = Blueprint('login', __name__, template_folder='templates')
 
 def login_route():
   if request.method == 'GET':
+    info_obj = {
+      "username": session['username'],
+      "firstname":  "",
+      "lastname": ""
+    }
     if 'username' in session:
-      return jsonify(username=session['username'])
+      db = connect_to_database()
+      cur = db.cursor()
+      cur.execute("Select firstname, lastname From User Where username = '" + session['username'] + "';")
+
+      if(cur.rowcount != 0):
+        result = cur.fetchall()[0]
+        info_obj['firstname'] = str(result['firstname'])
+        info_obj['lastname']  = str(result['lastname'])
+        return jsonify(success=info_obj)
+      else:
+        return jsonify(success=info_obj)
     else:
-      return jsonify(username='')
-  if request.method == 'POST':
+      return jsonify(success=info_obj)
+  
+  elif request.method == 'POST':
     session.clear()
     if 'username' in session:
       redirect(url_for('main.main_route'))

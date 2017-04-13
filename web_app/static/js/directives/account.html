@@ -1,40 +1,47 @@
 <div class="col-sm-6 col-sm-offset-3 edit-account-form bottom-buffer">
 
-  <h1 class="form-head bottom-buffer">Edit Your Account</h1>
+  <h1 class="form-head">Edit Your Account</h1>
+  <h4 class="form-head bottom-buffer">Leave line blank to keep the existing value</h4>
   <form id="new_user" data-ng-submit="update()">
   <!--
     <div class="form-group">
       <label for="username">Confirm Username:</label>
       <input type="text" class="form-control" name="username" id="username_confirm" pattern=".{6,40}"   required title="Username must be between 6 and 40 characters" maxlength="40" data-ng-model="username_confirm" required>
     </div>
-    <div class="form-group">
-      <label for="password1">Confirm Password:</label>
-      <input type="password" class="form-control" name="password" id="password_confirm" pattern=".{8,}" required title="Password must be at least 8 letters" data-ng-model="password_confirm" required>
-    </div>
 -->    
     <div class="form-group">
-      <label for="first_name">Update First Name:</label>
-      <input type="text" class="form-control" name="firstname" id="new_firstname_input" maxlength="40" data-ng-model="update_firstname" required>
+      <label for="password1">Confirm Your Password:</label>
+      <input type="password" class="form-control" name="password" id="password_confirm" pattern=".{8,}" required title="Password must be at least 8 letters" data-ng-model="password_confirm" required>
+    </div> 
+    <div class="form-group">
+      <label for="first_name">New First Name:</label>
+      <input type="text" class="form-control" name="firstname" id="new_firstname_input" maxlength="40" data-ng-model="update_firstname">
     </div>
     <div class="form-group">
-      <label for="last_name">Update Last Name:</label>
-      <input type="text" class="form-control" name="lastname" id="new_lastname_input" maxlength="40" data-ng-model="update_lastname" required>
+      <label for="last_name">New Last Name:</label>
+      <input type="text" class="form-control" name="lastname" id="new_lastname_input" maxlength="40" data-ng-model="update_lastname">
     </div>
     <div class="form-group">
-      <label for="email">Update Email:</label>
-      <input type="email" class="form-control" name="email" id="new_email_input"  maxlength="40" data-ng-model="update_email" required>
+      <label for="email">New Email:</label>
+      <input type="email" class="form-control" name="email" id="new_email_input"  maxlength="40" data-ng-model="update_email">
     </div>
     <div class="form-group">
-      <label for="password1">Update Password:</label>
-      <input type="password" class="form-control" name="password1" id="new_password1_input" data-ng-model="update_password1" required>
+      <label for="password1">New Password:</label>
+      <input type="password" class="form-control" name="password1" id="new_password1_input" data-ng-model="update_password1">
     </div>
     <div class="form-group">
-      <label for="password2">Confirm Updated Password:</label>
-      <input type="password" class="form-control" name="password2" id="new_password2_input" data-ng-model="update_password2" required>
+      <label for="password2">Confirm New Password:</label>
+      <input type="password" class="form-control" name="password2" id="new_password2_input" data-ng-model="update_password2">
     </div>
 
-    <p class="error" data-ng-show="errors.length" data-ng-repeat="error in errors"> {* error *} </p>
-    <p class="success" data-ng-show="success.length" data-ng-repeat="msg in success"> {* msg *} </p>
+    <div class="panel panel-success" data-ng-show="success.length" data-ng-repeat="msg in success">
+      <div class="panel-heading">{* msg *}</div>
+    </div>
+
+    <div class="panel panel-danger" data-ng-show="errors.length" data-ng-repeat="error in errors">
+      <div class="panel-heading">{* error *}</div>
+    </div>
+
     <input type="submit" class="form-control" value="Submit" id="create_submit">
   </form>
   <br>

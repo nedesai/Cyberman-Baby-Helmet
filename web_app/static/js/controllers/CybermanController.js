@@ -2,7 +2,8 @@ app.controller('CybermanController', ['$scope', 'SharedService', '$http', functi
 	
 	$scope.info = SharedService.sharedInfo;
 
-  $scope.setActive = function(ind) {
+  $scope.setView = function(ind) {
+  	$scope.info.edit = ind == 1;
   	$scope.info.menuIndex = ind;
  	}
 	

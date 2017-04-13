@@ -63,134 +63,121 @@ def register_route():
 	#----------------#
 	elif request.method == 'PUT':
 		json_data = request.get_json()
+		success = {
+			"updated": [],
+			"messages": []
+		}
 		error_messages = []
+		login_errors = False
 		#----------------#
 		# Error checking #
 		#----------------#
 		# Return with an error message and 401 if user is not logged in
 		if not session:
-			append_credentials_error(error_messages)
-			return jsonified_errors(error_messages, 401)
+			error_messages.append("You are not logged in")
+			return jsonify(errors=error_messages), 401
 
-		# Check for missing keys; return with error and a 422 immediately if key is missing
-		if missing_key(json_data):
-			append_fields_error(error_messages)
-			return jsonified_errors(error_messages, 422)
+		# Check if username is in session or password length long enough
+		if (json_data['username'] != session['username']) or (len(str(json_data['password'])) < 8):
+			login_errors = True
 
-		# Return with an error message and 403 if logged in user is trying to edit another user
-		if json_data['username'] != session['username']:
-			append_permissions_error(error_messages)
-			return jsonified_errors(error_messages, 403)
+		# Check if password entered for user is correct before updating
+		cur = db.cursor()
+		cur.execute("Select * from User where username = '" + str(json_data['username']) + "';")
 
+		if cur.rowcount == 0:
+			login_errors = True
+
+		password = json_data['password']
+
+		output = cur.fetchall()[0]
+		password_table = output['password']
+
+		sep      = password_table.find("$")
+		sep2     = password_table.rfind("$")
+		hash_alg = password_table[0:sep]
+		salt     = password_table[sep+1:sep2]
+
+		m = hashlib.new(hash_alg)
+		m.update(salt + password)
+		password_hash = m.hexdigest()
+		password_check = "$".join([hash_alg, salt, password_hash])
+
+		if password_check != password_table:
+			login_errors = True
+
+		if login_errors:
+			error_messages.append("User credentials incorrect")
+			return jsonify(errors=error_messages), 401
+
+		# Handle request
 		username	= json_data['username']
+		password  = json_data['password']
 		firstname	= json_data['firstname']
 		lastname	= json_data['lastname']
 		password1	= json_data['password1']
 		password2	= json_data['password2']
-		email		= json_data['email']
+		email     = json_data['email']
 
-		# Do not perform validation on passwords if both are not empty.
-		# Never perform username testing
-		check_username_flag = False
-		check_passwords_flag = True
-		if both_passwords_blank(password1, password2):
-			check_passwords_flag = False
+		# Check input errors
 
-		check_errors(error_messages, db, check_passwords_flag, check_username_flag, username, firstname, lastname, password1, password2, email)
+
+		updated_password = ""
+
+		if len(password1) != 0 or len(password2) != 0:
+			if (len(password1) < 8) or (len(password2) < 8) or (password1 != password2):
+				error_messages.append("Could not update. Passwords need to match and be at least 8 characters.")
+				return jsonify(errors=error_messages), 403
+			else:
+				m2 = hashlib.new(hash_alg)
+				m2.update(salt + password1)
+				updated_password_hash = m2.hexdigest()
+				updated_password = "$".join([hash_alg, salt, updated_password_hash])
+				if(updated_password == password_table):
+					success['messages'].append("New password same as the previous one")
+
+		#check_errors(error_messages, db, check_passwords_flag, check_username_flag, username, firstname, lastname, password1, password2, email)
 
 		#------------------#
 		# Update user info #
 		#------------------#
-		if no_errors(error_messages):
-			# If the user provided empty values for non-password fields, we just set these
-			# variables to the current values for the user.
-			# This simplifies the following database insertion.
-			cur = db.cursor()
-			cur.execute('SELECT * FROM User WHERE username=\'{}\''.format(username))
-			current_user_data = cur.fetchall()[0]
-			if firstname == '':
-				firstname = current_user_data['firstname']
-			elif lastname == '':
-				lastname = current_user_data['lastname']
-			elif email == '':
-				email = current_user_data['email']
 
-			# Prepare to update User record; username should never be updated
-			update_str = 'firstname=\'' + firstname + '\', '
-			update_str += 'lastname=\'' + lastname + '\', '
-			update_str += 'email=\'' + email + '\''
+		# If the user provided empty values for non-password fields, we just set these
+		# variables to the current values for the user.
+		# This simplifies the following database insertion.
+		if firstname == "":
+			firstname = output['firstname']
+		else:
+			success['updated'].append("Firstname")
 
-			# Password isn't updated if it was left blank
-			if not both_passwords_blank(password1, password2):
-				# Encrypt password
-				salt = uuid.uuid4().hex
-				encrypted_password = encrypt(password1, salt)
+		if lastname == "":
+			lastname = output['lastname']
+		else:
+			success['updated'].append("Lastname")
 
-				# Add encrypted password to update command
-				update_str += ', ' + 'password=\'' + encrypted_password + '\''
+		if email == "":
+			email = output['email']
+		else:
+			success['updated'].append("Email")
 
-			print(update_str) # For debugging the insertion string
+		if updated_password == "" and (not len(success['messages'])):
+			updated_password = password_table
+		else:
+			success['updated'].append("Password")
 
-			# Update User record.
-			cur = db.cursor()
-			cur.execute('UPDATE User SET ' + update_str + ' WHERE username=\'' + username + '\'')
+		# Prepare to update User record; username should never be updated
+		update_str = "firstname = '" + firstname + "', "
+		update_str += "lastname = '" + lastname + "', "
+		update_str += "email = '" + email + "', "
+		update_str += "password = '" + updated_password + "'"
 
-			# Update session info
-			session['firstname']    =   firstname
-			session['lastname']     =   lastname
+		# Update User record.
+		cur = db.cursor()
+		cur.execute("UPDATE User SET " + update_str + " WHERE username = '" + username + "';")
 
-			# Return same JSON response that was sent here, along with an HTTP 201
-			return jsonify( username    =   username,
-							firstname   =   firstname,
-							lastname    =   lastname,
-							password1   =   password1,
-							password2   =   password2,
-							email       =   email ), 201
+		# Return same JSON response that was sent here, along with an HTTP 201
+		return jsonify(success), 201
 
-		#-------------------------------------------#
-		# Send error messages if we have 422 errors #
-		#-------------------------------------------#
-		return jsonified_errors(error_messages, 422)
-
-#----------------#
-# Error messages #
-#----------------#
-
-def append_credentials_error(error_messages):
-    error_messages.append('You do not have the necessary credentials for the resource')
-
-def append_fields_error(error_messages):
-    error_messages.append('You did not provide the necessary fields')
-
-def append_permissions_error(error_messages):
-    error_messages.append('You do not have the necessary permissions for the resource')
-
-def missing_key(json_data):
-    if (missing('username', json_data) or missing('firstname', json_data) or
-       missing('lastname', json_data) or missing('password1', json_data) or
-       missing('password2', json_data) or missing('email', json_data)):
-       return True
-    else:
-        return False
-
-def missing(keyname, json_data):
-    if keyname not in json_data:
-        return True
-    else:
-        return False
-
-def both_passwords_blank(password1, password2):
-    if blank(password1) and blank(password2):
-        return True
-    else:
-        return False
-
-def jsonified_errors(error_messages, error_code):
-    error_list_for_json = []
-    for e in error_messages:
-        error_list_for_json.append({ 'message': e })
-    print(error_list_for_json)
-    return jsonify(errors=error_list_for_json), error_code
 
 def check_errors(error_messages, db, check_passwords_flag, check_username_flag, username, firstname, lastname, password1, password2, email):
     # Print '<field> must be no longer than <max_length> characters'

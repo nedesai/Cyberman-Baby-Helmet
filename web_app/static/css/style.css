@@ -7,8 +7,12 @@ body {
 	height:100%;
 }
 
-.login-form, .create-account-form{
-	margin-top: 8.33%;
+.bottom-buffer{
+	margin-bottom: 4%;
+}
+
+.login-form, .create-account-form, .edit-account-form{
+	margin-top: 4.166%;
 }
 
 #login_submit, #create_submit {
@@ -87,7 +91,7 @@ table.patient-display {
 }
 
 .patient-list {
-	margin-top: 8.333%;
+	margin-top: 4.166%;
 	margin-right: 8.333%;
 	margin-left: 8.333%;
 }

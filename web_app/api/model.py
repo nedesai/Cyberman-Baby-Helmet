@@ -80,7 +80,6 @@ def processobj(file, filename):
 def deleteModel(filename):
     '''
     given an uploaded filename for any model, this will delete that file from our s3 server
-    (e.g. myModel.extention)
     '''
     
     client = boto3.client('s3')

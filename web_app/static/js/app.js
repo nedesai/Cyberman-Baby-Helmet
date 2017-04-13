@@ -11,6 +11,8 @@ app.factory('SharedService', function() {
 	return {
 		sharedInfo: {
 			username: "",
+			firstname: "",
+			lastname: "",
 			log_in: true,
 			viewmodel: false,
 			edit: false,

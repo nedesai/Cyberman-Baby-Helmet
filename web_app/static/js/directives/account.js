@@ -11,12 +11,18 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 			scope.errors = [];
 			scope.success = [];
 
+			scope.update_firstname = "";
+			scope.update_lastname = "";
+			scope.update_email = "";
+			scope.update_password1 = "";
+			scope.update_password2 = "";
+
+
 			scope.update = function(){
 				
 				var dataobj = {
-					//username: String(scope.username_confirm),
-					//password: String(scope.password_confirm),
 					username: String(scope.directive_info.username),
+					password: String(scope.password_confirm),
 					firstname: String(scope.update_firstname),
 					lastname: String(scope.update_lastname),
 					email: String(scope.update_email),
@@ -24,15 +30,59 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 					password2: String(scope.update_password2)
 				};
 
-				$http.put('api/v1/register', dataobj).then(
-					function(success){
-						scope.success.push("Updated Account!");
-					},
-					function(error){
-						scope.errors = [];
-						scope.errors.push(error.data.errors);
-					}
-				);
+				// Resent response messages
+				scope.errors = [];
+				scope.success = [];
+
+				if (dataobj.firstname == "undefined" && dataobj.lastname == "undefined" && dataobj.email == "undefined" && 
+					  dataobj.password1 == "undefined" && dataobj.password2 == "undefined"){
+					
+					scope.success.push("Nothing to update");
+				}
+				else{
+					$http.put('api/v1/register', dataobj).then(
+						function(success){
+
+							var updated = "Successfully updated ";
+							var fields = success.data.updated;
+							
+							for(var x = 0; x < fields.length; ++x){
+								if(fields[x] == "Firstname"){
+									scope.directive_info.firstname = scope.update_firstname;
+								}
+								if(fields[x] == "Lastname"){
+									scope.directive_info.lastname = scope.update_lastname;
+								}
+							}
+
+							// Clear form entries
+							scope.password_confirm = "";
+							scope.update_firstname = "";
+							scope.update_lastname  = "";
+							scope.update_email     = "";
+							scope.update_password1 = "";
+							scope.update_password2 = "";
+
+							if(fields.length == 1) updated += fields[0];
+							else if(fields.length == 2) updated += (fields[0] + " and "+ fields[1]);
+							else{
+								for(var i = 0; i < fields.length; ++i) {
+									if(i != fields.length-1) updated += (fields[i] + ", ");
+									else updated += ("and " + fields[i]);
+								}
+							}
+							scope.success.push(updated);
+							if(success.data.messages.length) {
+								for(var m = 0; m < success.data.messages.length; ++m){
+									scope.success.push(success.data.messages[m]);
+								}
+							}
+						},
+						function(error){
+							scope.errors = error.data.errors;
+						}
+					);
+				}
 			}
 		}
 	}

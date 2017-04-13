@@ -15,31 +15,6 @@
     
     <!-- angularjs -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-    
-    <!-- 3d model preview 
-    <script type="text/javascript" src="../static/jsmodeler/three.min.js"></script>
-    <script type="text/javascript" src="../static/jsmodeler/jsmodeler.js"></script>
-    <script type="text/javascript" src="../static/jsmodeler/jsmodeler.ext.three.js"></script>
-    
-    <script type="text/javascript" src="../static/include/importerviewer.js"></script>
-    <script type="text/javascript" src="../static/include/importerapp.js"></script>
-    -->
-    
-    <!--
-    <script type="text/javascript" src="../static/include/importerviewer.js"></script>
-    <script type="text/javascript" src="../static/include/importermenu.js"></script>
-    <script type="text/javascript" src="../static/include/importerapp.js"></script>
-    -->
-
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-55683446-1', 'auto');
-      ga('send', 'pageview');
-    </script>
 
 
     <title>Head Models</title>
@@ -51,18 +26,19 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
       <div class="nav-header">
-        <a class="navbar-brand" href="#">Head Models</a>
+        <a class="navbar-brand" href="#" data-ng-click="setView(0)">Head Models</a>
       </div>
 
       <ul class="nav navbar-nav">
-        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="info.edit = false; setActive(0)">Home</a></li>
-        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="info.edit = true; setActive(1)">Edit Account</a></li>
+        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="setView(0)">Home</a></li>
+        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="setView(1)">Edit Account</a></li>
       </ul>
 
       <!-- Logout portion -->
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
+      <h4 class="navbar-text navbar-right">Dr. {*info.firstname*} {*info.lastname*}</h4>
   </div>
 </nav>
 
