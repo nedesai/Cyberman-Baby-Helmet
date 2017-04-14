@@ -38,10 +38,9 @@ CREATE TABLE Model(
     FOREIGN KEY(patientid) REFERENCES Patient(patientid)
 );
 
-CREATE TABLE Photo(
+CREATE TABLE PhotoZip(
     photoid int NOT NULL AUTO_INCREMENT,
     username varchar(40) NOT NULL,
-    filename varchar(40) NOT NULL,
     url varchar(1024) NOT NULL,
     createddate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(photoid),
