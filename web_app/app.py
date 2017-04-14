@@ -10,6 +10,7 @@ app = Flask(__name__, template_folder='templates')
 
 # Register the APIs
 app.register_blueprint(api.patient)
+app.register_blueprint(api.photos)
 app.register_blueprint(api.model)
 app.register_blueprint(api.login)
 app.register_blueprint(api.logout)

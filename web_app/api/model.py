@@ -73,7 +73,6 @@ def processobj(file, filename):
     #upload both obj and fbx
     obj_url = uploads3(objpath,filename + '.obj')
     fbx_url = uploads3(fbxpath,filename + '.fbx')
-    os.remove(objpath)
     os.remove(fbxpath)
     return obj_url, fbx_url
 
