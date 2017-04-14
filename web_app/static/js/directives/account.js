@@ -11,6 +11,7 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 			scope.errors = [];
 			scope.success = [];
 
+			// inputs to form
 			scope.update_firstname = "";
 			scope.update_lastname = "";
 			scope.update_email = "";
@@ -18,6 +19,7 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 			scope.update_password2 = "";
 
 
+			// Send put request to update user information
 			scope.update = function(){
 				
 				var dataobj = {
@@ -33,9 +35,9 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 				// Resent response messages
 				scope.errors = [];
 				scope.success = [];
-
+				// Return message saying up to date if fields empty
 				if (dataobj.firstname == "undefined" && dataobj.lastname == "undefined" && dataobj.email == "undefined" && 
-					  dataobj.password1 == "undefined" && dataobj.password2 == "undefined"){
+						dataobj.password1 == "undefined" && dataobj.password2 == "undefined"){
 					
 					scope.success.push("Nothing to update");
 				}
@@ -63,6 +65,7 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 							scope.update_password1 = "";
 							scope.update_password2 = "";
 
+							// Notify use which fields were updated
 							if(fields.length == 1) updated += fields[0];
 							else if(fields.length == 2) updated += (fields[0] + " and "+ fields[1]);
 							else{

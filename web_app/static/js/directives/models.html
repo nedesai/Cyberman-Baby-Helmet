@@ -1,7 +1,6 @@
 
 <div class="model-screen">
 
-
 	<div class="col-sm-3 model-list-bar pull-left">
 		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </div>
 		<div class="models-group">
@@ -22,20 +21,34 @@
 
 		<br>
 		<br>
-
-		<form action="{* $location + 'api/v1/model' *}" method=post enctype=multipart/form-data class=add-model-form ng-show="add_model">
+<!--
+		<form action="{* $location + 'api/v1/model' *}" method=post enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
+-->		
+		<form enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">
-			
+
 			<div class="form-group">
-			  <label for="Description">Description:</label>
-			  <textarea class="form-control" rows="4" name="description" placeholder="Description of Model"></textarea>
+				<label for="Name">Name</label>
+				<input type="text" class="form-control" name="name" placeholder="Name of Model" data-ng-model="upload_name" required></input>
 			</div>
+
 			<div class="form-group">
-		    <label for="InputFile">File input</label>
-		    <input type="file" class="form-control-file" id="InputFile" name="file" aria-describedby="fileHelp">
-		    <small id="fileHelp" class="form-text text-muted">Upload your .obj or .stl file for this patient.</small>
-		  </div>
+				<label for="Description">Description</label>
+				<textarea class="form-control" rows="4" name="description" placeholder="Description of Model" data-ng-model="upload_description" required></textarea>
+			</div>
+
+			<div class="form-group">
+				<label for="InputFile">File input</label>
+				<input type="file" class="form-control-file" id="InputFile" name="file" aria-describedby="fileHelp" file="file" required />
+				<input type="file" class="form-control-file" id="InputFile" name="file" aria-describedby="fileHelp" required>
+				<small id="fileHelp" class="form-text text-muted">Upload your .obj or .stl file for this patient.</small>
+			</div>
+
+			<div class="panel panel-danger" data-ng-show="errors.length" data-ng-repeat="error in errors">
+				<div class="panel-heading">{* error *}</div>
+			</div>
+
 			<input type="submit" class="form-control" id="file_submit" type="submit" value="Upload">
 		</form>
 		

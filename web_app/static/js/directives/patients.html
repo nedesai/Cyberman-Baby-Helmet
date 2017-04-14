@@ -1,9 +1,31 @@
+<!-- Modal to Confirm Delete Patient-->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Delete Patient: {*directive_info.patients[delete_index].firstname*} {*directive_info.patients[delete_index].lastname*}</h4>
+			</div>
+			<div class="modal-body">
+				<p>You will not be able to recover patient information once it is deleted. You will also lose all access to their models.</p>
+				<p>Are you sure you want to delete?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-ng-click="deletepatient(delete_index, delete_id)" data-dismiss="modal">Delete</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+
+	</div>
+</div>
 
 <div class="patient-list panel panel-info">
 	
 	<div class="panel-heading clearfix">
 		<div class="pull-right">
-			<button type="button" class="add-btn btn btn-primary btn-lg" data-ng-click="showAdd = !showAdd"><span class="glyphicon glyphicon-plus"></span> Add A Patient</button>
+			<button type="button" class="add-btn btn btn-primary btn-lg" data-ng-click="showAdd = !showAdd"><span class="glyphicon glyphicon-plus"></span> Add A Patient </button>
 		</div>
 
 		<h1 id="panel-head">Patients</h1>
@@ -34,14 +56,19 @@
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Date of Birth</th>
+				<th><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></th>
 			</tr>
 		</thead>
 
 		<tbody>
-			<tr ng-repeat="patient in directive_info.patients" ng-click="clickedpatient(patient.patientid)" class="patients align-middle">
-				<td class="patientinfo align-middle"> {* patient.firstname *} </td>
-				<td class="patientinfo"> {* patient.lastname *} </td>
-				<td class="patientinfo"> {* patient.dob *} </td>
+			<tr class="patients align-middle" data-ng-repeat="patient in directive_info.patients" data-ng-mouseenter="hover=true" data-ng-mouseleave="hover=false">
+				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.firstname *} </td>
+				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.lastname *} </td>
+				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.dob *} </td>
+
+				<td data-toggle="modal" data-target="#myModal" data-ng-click="setDelete($index, patient.patientid)" data-ng-class="{remove_patient_active : in_close == true}" data-ng-mouseenter="in_close=true" data-ng-mouseleave="in_close=false"> 
+					<span class="glyphicon glyphicon-remove remove_patient" data-ng-show="hover" "></span>
+				</td>
 			</tr>
 		</tbody>
 	</table>

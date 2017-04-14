@@ -151,18 +151,21 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
-        print ("WE ARE AT POST")
         username = request.form.get('username')
         print (username)
         patientID = request.form.get('patientid')
         print (patientID)
+        name = request.form.get('name')
+        print (name)
         description = request.form.get('description')
         print (description)
+
         if 'file' not in request.files:
             print ("NO FILE WOW")
-            return jsonify({}), 404
+            return jsonify(errors="No file included"), 404
         else:
             model_file = request.files['file']
+
         print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
 
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))

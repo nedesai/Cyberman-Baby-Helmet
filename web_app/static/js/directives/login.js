@@ -8,8 +8,10 @@ app.directive('login', ['$http', 'SharedService', '$location', function($http, S
 
 			scope.directive_info = SharedService.sharedInfo;
 
+			// Login errors
 			scope.errors = [];
 
+			// Call to api to get credentials
 			scope.login = function(){
 				var dataobj = {
 					username: String(scope.login_username),

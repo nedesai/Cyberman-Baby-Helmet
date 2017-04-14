@@ -1,80 +1,73 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
+	"http://www.w3.org/TR/html4/strict.dtd">
 
 <html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../static/css/style.css"/>
-    <!-- Font Awesome -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
-    <!-- angularjs -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="../static/css/style.css"/>
+	<!-- Font Awesome -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+	<!-- Bootstrap css-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	
+	<!-- angularjs -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
 
 
-    <title>Head Models</title>
+	<title>Head Models</title>
 </head>
 
 <body ng-app="Cyberman" ng-controller="CybermanController">
 
-<!-- ============= Navbar ===================== -->
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-      <div class="nav-header">
-        <a class="navbar-brand" href="#" data-ng-click="setView(0)">Head Models</a>
-      </div>
+	<!-- ============= Navbar ===================== -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="nav-header">
+				<a class="navbar-brand" href="#" data-ng-click="setView(0)">Head Models</a>
+			</div>
 
-      <ul class="nav navbar-nav">
-        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="setView(0)">Home</a></li>
-        <li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="setView(1)">Edit Account</a></li>
-      </ul>
+			<ul class="nav navbar-nav">
+				<li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="setView(0)">Home</a></li>
+				<li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="setView(1)">Edit Account</a></li>
+			</ul>
 
-      <!-- Logout portion -->
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-      </ul>
-      <h4 class="navbar-text navbar-right">Dr. {*info.firstname*} {*info.lastname*}</h4>
-  </div>
-</nav>
+			<!-- Logout portion -->
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+			</ul>
+
+			<h4 class="navbar-text navbar-right">Dr. {*info.firstname*} {*info.lastname*}</h4>
+		</div>
+	</nav>
+
+	<!-- ================= View of Application ================== -->
+	<div class="appbody">
+
+		<account ng-if="info.edit"></account>
+
+		<patients ng-if="!info.viewmodel && !info.edit"></patients>
+
+		<models ng-if="info.viewmodel && !info.edit" username=info.username patientid=info.patientid></models>
+
+	</div>
 
 
-<!-- For model preview testing
-  <div id="top">
-  </div>
-  <div id="left">
-    <div id="menu"></div>
-  </div>
+	<!-- For Anglular files -->
+	<script src="../static/js/app.js"></script>
+	<script src="../static/js/controllers/CybermanController.js"></script>
+	<script src="../static/js/directives/patients.js"></script>
+	<script src="../static/js/directives/models.js"></script>
+	<script src="../static/js/directives/account.js"></script>
+	<script src="../static/js/directives/file.js"></script>
 
-<canvas id="example" class="3dviewer" sourcefiles="../static/models/PI_Modified.stl" width="200" height="200"></canvas>
--->
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+	<!-- Bootstrap js -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<!-- ================= View of Application ================== -->
-<div class="appbody">
-
-  <account ng-if="info.edit"></account>
-
-  <patients ng-if="!info.viewmodel && !info.edit"></patients>
-
-  <models ng-if="info.viewmodel && !info.edit" username=info.username patientid=info.patientid></models>
-
-</div>
-
-  <!-- For Anglular files -->
-  <script src="../static/js/app.js"></script>
-  <script src="../static/js/controllers/CybermanController.js"></script>  
-  <script src="../static/js/directives/patients.js"></script>
-  <script src="../static/js/directives/models.js"></script>
-  <script src="../static/js/directives/account.js"></script>
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
-  <!-- Bootstrap js -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

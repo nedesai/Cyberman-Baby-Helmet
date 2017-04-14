@@ -2,10 +2,11 @@ app.controller('CybermanController', ['$scope', 'SharedService', '$http', functi
 	
 	$scope.info = SharedService.sharedInfo;
 
-  $scope.setView = function(ind) {
-  	$scope.info.edit = ind == 1;
-  	$scope.info.menuIndex = ind;
- 	}
+	// Update nav when clicked
+	$scope.setView = function(ind) {
+		$scope.info.edit = ind == 1;
+		$scope.info.menuIndex = ind;
+		}
 	
 	$scope.logout = function(){
 		console.log("logout clicked");

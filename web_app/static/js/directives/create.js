@@ -10,8 +10,10 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 
 			scope.errors = [];
 
+			// Function to call to api to create an acount
 			scope.create = function(){
 				
+				// Data object to be sent to api
 				var dataobj = {
 					username: String(scope.create_username),
 					firstname: String(scope.create_firstname),
@@ -21,6 +23,7 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 					password2: String(scope.create_password2)
 				};
 
+				// Call to api, on success, change back to login screen
 				$http.post('api/v1/register', dataobj).then(
 					function(success){
 						scope.directive_info.log_in = true;

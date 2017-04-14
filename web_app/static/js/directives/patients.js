@@ -5,7 +5,10 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 		link: function(scope, element, attrs) {
 
 			scope.directive_info = SharedService.sharedInfo;
+			scope.delete_index = -1;
+			scope.delete_id = -1;
 
+			// Load patients array of patients
 			function get_patients() {
 				$http.get("api/v1/patient?username=" + scope.directive_info.username).then(
 					function(response) {
@@ -14,6 +17,7 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				);
 			}
 
+			// If no username specified, make call to api to get information
 			if(scope.directive_info.username == ""){
 				$http.get('api/v1/login').then(
 					function(success){
@@ -25,11 +29,13 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				);
 			}
 
+			// Update view to show information for that patient
 			scope.clickedpatient = function(id) {
 				scope.directive_info.patientid = id;
 				scope.directive_info.viewmodel = true;
 			}
 
+			// Upload patient array and send call to api
 			scope.addnewpatient = function(firstname, lastname, dob) {
 				var input = {username: scope.directive_info.username, firstname: firstname, lastname: lastname, dob: dob};
 				$http.post("api/v1/patient", input).then(
@@ -41,6 +47,28 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				scope.input_firstname = '';
 				scope.input_lastname = '';
 				scope.input_dob = '';
+			}
+
+			scope.setDelete = function(index, id) {
+				scope.delete_id = Number(id);
+				scope.delete_index = Number(index);
+			}
+
+			scope.deletepatient = function(index, id) {
+
+				var delete_route = 'api/v1/patient/' + String(scope.directive_info.username) + '/' + String(id);
+
+				$http.delete(delete_route).then(
+					function(success){
+						scope.directive_info.patients.splice(index, 1);
+						scope.delete_index = -1;
+						scope.delete_id = -1;
+					},
+					function(error){
+						scope.delete_index = -1;
+						scope.delete_id = -1;
+					}
+				);
 			}
 		}
 	}

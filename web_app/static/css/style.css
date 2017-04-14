@@ -81,6 +81,11 @@ input[type="date"]:focus:before,
 table.patient-display {
 }
 
+.patients {
+	cursor: pointer;
+	cursor: hand;
+}
+
 .patient-display th{
 	text-align: center;
 }
@@ -102,9 +107,28 @@ table.patient-display {
 	font-size: 30px;
 }
 
-.patients {
-	cursor: pointer;
-	cursor: hand;
+.remove_patient{
+	font-size: 35px; 
+}
+
+.remove_patient_active{
+	/*background-color: #f1f0ec;
+	background-color: #ececec;*/
+	color: #b1060b;
+}
+
+.modal {
+   position: absolute;
+   margin-top: 15%;
+   z-index: 10040;
+   overflow: auto;
+   overflow-y: auto;
+}
+
+.modal-header{
+	background-color: #6ca8e4;
+	color: white;
+	font-weight: bold;
 }
 
 .image-container {

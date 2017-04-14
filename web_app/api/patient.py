@@ -52,27 +52,45 @@ def patient_route():
 
         return jsonify({}), 200
 
-    #-----------------#
-    # DELETE requests #
-    #-----------------#
-    elif request.method == 'DELETE':
-        json_data = request.get_json()
+#-----------------#
+# DELETE requests #
+#-----------------#
+@patient.route('/api/v1/patient/<username>/<patientid>', methods=['DELETE'])
+def patient_delete_route(username, patientid):
+    
+    db = connect_to_database()
 
-        # Check for missing keys
-        if data_missing_keys(json_data, ['patientid']):
-            error = 'Error: request missing required keys'
-            return jsonify(error=error), 422
+    if 'username' not in session:
+        return jsonify(errors=["User not logged in"]), 400
 
-        # Check if the user has permission to delete this patient
-        error, status_code = check_user_permissions(db, json_data['username'], json_data['patientid'])
-        if error != NO_ERRORS:
-            return jsonify(error=error), status_code
+    username = session['username']
+    patientid = patientid
+    print(patientid)
 
-        # Delete this patient's models
-        cur = db.cursor()
-        cur.execute('DELETE FROM Model WHERE patientid=' + json_data['patientid'])
+    # Error check invalid information
+    if username != session['username']:
+        return jsonify(errors=["Username invalid for session"]), 400
+    if patientid == None:
+        return jsonify(errors=["No patientid specified"]), 400
+    try: 
+        int(patientid)
+    except ValueError:
+        return jsonify(errors=["Patientid needs to be a number"]), 400
 
-        # Delete this patient
-        cur = db.cursor()
-        cur.execute('DELETE FROM Patient WHERE patientid=' + json_data['patientid'])
-        return jsonify({}), 200
+    # Check if the user has permission to delete this patient
+    cur = db.cursor()
+    cur.execute("SELECT * FROM Patient WHERE username = '" + str(username) + "' and patientid = '" + str(patientid) + "';")
+    if cur.rowcount == 0:
+        return jsonify(errors=["User can't access this patient"]), 403
+
+
+    # Delete this patient's models
+    cur = db.cursor()
+    cur.execute("DELETE FROM Model WHERE patientid = '" + str(patientid) + "';")
+
+    # Delete this patient
+    cur = db.cursor()
+    cur.execute("DELETE FROM Patient WHERE patientid = '" + str(patientid) + "';")
+    return jsonify({}), 200
+
+    # Delete Models from S3?

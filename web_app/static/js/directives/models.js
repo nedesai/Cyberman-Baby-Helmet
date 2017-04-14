@@ -19,10 +19,41 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 				}
 			);
 
-			scope.printmodel = function(url) {
-				//$http.get(to octoprint api /url);
+			scope.fileUpload = function() {
+				$http({
+					method: 'POST',
+					url: 'api/v1/model',
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					},
+					data: {
+						name:				 String(scope.upload_name),
+						description: String(scope.upload_description),
+						upload:							scope.file
+					},
+					transformRequest: function (data, headersGetter) {
+						var formData = new FormData();
+						angular.forEach(data, function (value, key) {
+							formData.append(key, value);
+						});
+
+						var headers = headersGetter();
+						delete headers['Content-Type'];
+
+						return formData;
+					}
+				})
+				.success(function (data) {
+
+				})
+				.error(function (data, status) {
+
+				});
 			}
 
+			// scope.printmodel = function(url) {
+			// 	$http.get(to octoprint api /url);
+			// }
 		}
 	}
 }]);
