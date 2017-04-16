@@ -10,19 +10,32 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 		link: function(scope, element, attrs) {
 			
 			scope.directive_info = SharedService.sharedInfo;
+			scope.success = "";
 			scope.errors = [];
 			scope.uploading = false;
 
+			// Toggle the display of the form and turn off success message
+			scope.uploadToggle = function() {
+				scope.add_model = !scope.add_model;
+				scope.success = "";
+			}
+
+			// Load the Models
 			$http.get("api/v1/model?username=" + String(scope.directive_info.username) + "&patientid=" + String(scope.directive_info.patientid)).then(
 				function(response) {
 					scope.directive_info.models = response.data.models;
+					for(var x = 0; x < scope.directive_info.models.length; ++x){
+						scope.directive_info.models[x]['lastmodified'] = new Date(scope.directive_info.models[x]['lastmodified']);
+					}
 				},
-				function(response) {
-					scope.errors = response.data.error;
+				function(error) {
+					scope.errors = error.data.errors;
 				}
 			);
 
 			scope.fileUpload = function() {
+				scope.errors = [];
+				scope.success = "";
 				scope.uploading = true;
 				$http({
 					method: 'POST',
@@ -40,7 +53,6 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 					transformRequest: function (data, headersGetter) {
 						var formData = new FormData();
 						angular.forEach(data, function (value, key) {
-							console.log(key + " " + value);
 							formData.append(key, value);
 						});
 
@@ -50,10 +62,13 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 						return formData;
 					}
 				}).then(
-					function(data) {
-						scope.upload_name = "";
-						scope.upload_description = "";
+					function(success) {
+						document.getElementById("add-model").reset();
+						var new_model = success.data;
+						new_model['lastmodified'] = new Date(new_model['lastmodified']);
+						scope.directive_info.models.unshift(new_model);
 						scope.uploading = false;
+						scope.success = "Added Model " + new_model['filename']+new_model['filetype'];
 					},
 					function(error) {
 						scope.uploading = false;

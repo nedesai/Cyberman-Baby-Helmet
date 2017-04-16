@@ -5,6 +5,14 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 	$interpolateProvider.endSymbol('*}');
 }]);
 
+app.filter('description', function(){
+	return function(text){
+		if(text.length <= 43) return text;
+		if(text[44] == '.') return text.slice(0, 45);
+		return text.slice(0, 40) + "...";
+	}
+});
+
 
 // Information share acroess directives
 app.factory('SharedService', function() {

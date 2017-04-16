@@ -6,8 +6,9 @@
 		<div class="models-list-group">
 			<a data-ng-repeat="model_info in directive_info.models" href="{* model_info.fbx_url *}">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
-				 <h4>{* model_info.filename *}</h4>
-				 <small>Last Modified: {* model_info.lastmodified | date:'yyyy-MM-dd' *}</small>
+				 <h4>{* model_info.name *}</h4>
+				 <small>Last Modified: {* model_info.lastmodified | date:'EEE hh:mm a MMM d, y' *}</small>
+				 <p class="description">Description: {* model_info.description | description*}</p>
 				</button>
 			</a>
 		</div>
@@ -17,11 +18,11 @@
 	<div class="model-admin-bar col-sm-2 pull-right">
 		<button type="button" class="btn form-control" id="return-button" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
 
-		<button type="button" class="form-control" id="upload-button" data-ng-click="add_model = !add_model"><span class="glyphicon glyphicon-upload"></span> Upload New Model </button>
+		<button type="button" class="form-control" id="upload-button" data-ng-click="uploadToggle()"><span class="glyphicon glyphicon-upload"></span> Upload New Model </button>
 
 		<br>
 
-		<form enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
+		<form enctype="multipart/form-data" class="add-model-form" id="add-model" data-ng-show="add_model" data-ng-submit="fileUpload()">
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">
 
@@ -45,6 +46,10 @@
 				<div class="panel-heading"><div class="loader"> </div> Uploading Model</div>
 			</div>
 
+			<div class="panel panel-success" data-ng-show="success.length">
+				<div class="panel-heading"><span class="glyphicon glyphicon-ok"></span> {*success*}</div>
+			</div>
+
 			<div class="panel panel-danger" data-ng-show="errors.length" data-ng-repeat="error in errors">
 				<div class="panel-heading">{* error *}</div>
 			</div>
@@ -56,7 +61,8 @@
 
 
 	<!-- For model info and picture cycling? -->
-	<div class="col-sm-7" syle="background-color: red">
+	<p>Where is this?</p>
+	<div class="col-sm-6" syle="background-color: red; height: 100px">
 		<div>
 		</div>
 	</div>
