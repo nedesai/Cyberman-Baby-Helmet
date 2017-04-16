@@ -38,6 +38,7 @@ body {
 
 .navbar {
 	margin-bottom: 0 !important;
+	border-radius: 0 !important;
 }
 
 .active{
@@ -78,12 +79,8 @@ input[type="date"]:focus:before,
 	font-weight: 4px;
 }
 
-table.patient-display {
-}
-
 .patients {
 	cursor: pointer;
-	cursor: hand;
 }
 
 .patient-display th{
@@ -93,6 +90,11 @@ table.patient-display {
 .patient-display tbody tr {
 	text-align: center;
 	height: 80px;
+}
+
+.patient-display tbody td{
+	padding: 0 !important;
+	vertical-align: middle !important;
 }
 
 .patient-list {
@@ -107,14 +109,17 @@ table.patient-display {
 	font-size: 30px;
 }
 
+.no-side-padding{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
 .remove_patient{
 	font-size: 35px; 
 }
 
 .remove_patient_active{
-	/*background-color: #f1f0ec;
-	background-color: #ececec;*/
-	color: #b1060b;
+	color: #ff0301;
 }
 
 .modal {
@@ -139,13 +144,6 @@ table.patient-display {
 	display: block;
 }
 
-.models-group{
-	background-color: #667481;
-	display: block;
-	height: calc(100vh - 102px);
-	overflow-y: auto;
-}
-
 .model-list-bar{
 	padding: 0 !important;
 	border-right: 1px solid;
@@ -153,15 +151,51 @@ table.patient-display {
 }
 
 .model-list-header {
-	text-align: center;
 	background-color: #6ca8e4;
 	color: white;
-	height: 100%;
+
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	/* align horizontal */
+	justify-content: center;
+	/* align vertical*/
+	-webkit-flex-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	height: 70px;
 }
 
-.model-list-header h1 {
-	margin-top: 0 !important;
+.models-list-group{
+	height: calc(100vh - 122px);
+	background-color: #667481;
+	display: block;
+	overflow-y: auto;
 }
+
+.models-list-group::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.models-list-group::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.models-list-group::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+
 
 
 .model-admin-bar{
@@ -169,26 +203,29 @@ table.patient-display {
 	border-left: 1px solid;
 	border-color: #13161a;
 	height: calc(100vh - 52px);
+	overflow-y: auto;
 }
 
 .add-model-form{
 	padding-left: 4%;
 	padding-right: 4%;
+	margin-bottom: 8.33%;
 }
 
 #return-button{
-	height: 8.33%;
+	/*height: 8.33%;*/
+	height: 60px;
 	color: white;
 	font-weight: bold;
-	font-size: 2.5vh;
+	font-size: 1.33vw;
 	background-color: #d43e52;
 }
 
 #upload-button{
-	height: 8.33%;
+	height: 60px;
 	color: white;
 	font-weight: bold;
-	font-size: 2.5vh;
+	font-size: 1.33vw;
 	background-color: #1875e2;
 }
 
@@ -200,4 +237,21 @@ table.patient-display {
 	color: white;
 	font-weight: bold;
 	background-color: #1875e2;
+}
+
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 1.2s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
