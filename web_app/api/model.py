@@ -94,30 +94,30 @@ def model_route():
     # GET requests #
     #--------------#
     if request.method == 'GET':
-        username = request.args.get('username')
-        patientid = request.args.get('patientid')
+        username = str(request.args.get('username'))
+        patientid = str(request.args.get('patientid'))
 
         #----------------#
         # Error-checking #
         #----------------#
         # Check for missing query parameters
-        if username == None or patientid == None:
-            error = 'Error: request missing required query parameters'
-            return jsonify(error=error), 422
+        if username == None or patientid == None or username == "" or patientid == "":
+            return jsonify(errors=['Request missing required query parameters']), 422
 
         # Check if the user has permission to access this patient's data
-        error, status_code = check_user_permissions(db, username, patientid)
-        if error != NO_ERRORS:
-            return jsonify(error=error), status_code
+        cur = db.cursor()
+        cur.execute("SELECT * FROM Patient WHERE username = '" + str(username) + "' and patientid = '" + str(patientid) + "';")
+        if cur.rowcount == 0:
+            return jsonify(errors=["User can't access this patient"]), 403
 
         #-----------------------#
         # Get model information #
         #-----------------------#
         cur = db.cursor()
-        cur.execute('SELECT url, fbx_url, filename, description, lastmodified FROM Model WHERE patientid=' + patientid)
+        cur.execute("SELECT name, description, model_url, fbx_url, filename, filetype, lastmodified FROM Model WHERE patientid = '" + str(patientid) + "' order by lastmodified DESC;")
         models = []
         for m in cur.fetchall():
-            models.append( { 'url': m['url'], 'fbx_url': m['fbx_url'], 'filename': m['filename'], 'description': m['description'], 'lastmodified': m['lastmodified'] } )
+            models.append( { 'name': m['name'], 'description': m['description'], 'model_url': m['model_url'], 'fbx_url': m['fbx_url'], 'filename': m['filename'], 'filetype': m['filetype'], 'lastmodified': m['lastmodified'] } )
 
         return jsonify(models=models), 200
 
@@ -135,25 +135,36 @@ def model_route():
         else:
             model_file = request.files['file']
 
-        print(model_file)
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
         filename, filetype = str(filename), str(filetype)
         filetype = filetype.lower()
 
+        cur = db.cursor()
+        cur.execute("Select * from Model where patientid = '" + str(patientID) + "' and filename = '" + str(filename) + "' and filetype = '" + str(filetype) + "' and name = '" + str(name) + "';")
+        if(cur.rowcount > 0):
+            return jsonify(errors=["This file already exists"]), 400
+
         if not (filetype == '.obj' or filetype == '.stl' or filetype == '.fbx'):
             err_msg = str(filetype[1:].upper() + " filetype not supported")
             return jsonify(errors=[err_msg]), 400
 
         urls = processobj(model_file, filename)
-        
+        #urls = ["www.google.com", "www.google.com"]
+
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, name, description, filename, filetype, model_url, fbx_url) VALUES ('"
         sql_string += patientID + "', '" + name + "', '" + description + "', '" + filename + "', '" + filetype + "', '" + str(urls[0])  + "', '" + str(urls[1]) + "');"
         cur.execute(sql_string)
 
-        return jsonify(success="ok"), 200
+        cur = db.cursor()
+        find_modified = "Select lastmodified from Model where patientid = '" + str(patientID) + "' and filename = '" + str(filename) + "' and filetype = '" + str(filetype) + "';"
+        cur.execute(find_modified)
+
+        last_mod = cur.fetchone()['lastmodified']
+
+        return jsonify({'name': name, 'description': description, 'filename': filename, 'filetype': filetype, 'model_url': urls[0], 'fbx_url': urls[1], 'lastmodified': str(last_mod)}), 200
 
     #-----------------#
     # DELETE requests #
