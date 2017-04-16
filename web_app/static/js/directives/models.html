@@ -2,8 +2,8 @@
 <div class="model-screen">
 
 	<div class="col-sm-3 model-list-bar pull-left">
-		<div class="model-list-header nav-header disabled"> <h1>Models</h1> </div>
-		<div class="models-group">
+		<div class="model-list-header"> <h1>Models</h1> </div>
+		<div class="models-list-group">
 			<a data-ng-repeat="model_info in directive_info.models" href="{* model_info.fbx_url *}">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
 				 <h4>{* model_info.filename *}</h4>
@@ -15,11 +15,10 @@
 
 
 	<div class="model-admin-bar col-sm-2 pull-right">
-		<button type="button" class="form-control" id="return-button" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
+		<button type="button" class="btn form-control" id="return-button" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
 
 		<button type="button" class="form-control" id="upload-button" data-ng-click="add_model = !add_model"><span class="glyphicon glyphicon-upload"></span> Upload New Model </button>
 
-		<br>
 		<br>
 <!--
 		<form action="{* $location + 'api/v1/model' *}" method=post enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
@@ -30,19 +29,22 @@
 
 			<div class="form-group">
 				<label for="Name">Name</label>
-				<input type="text" class="form-control" name="name" placeholder="Name of Model" data-ng-model="upload_name" required></input>
+				<input type="text" class="form-control" name="name" placeholder="Name of Model" maxlength="100" data-ng-model="upload_name" required></input>
 			</div>
 
 			<div class="form-group">
 				<label for="Description">Description</label>
-				<textarea class="form-control" rows="4" name="description" placeholder="Description of Model" data-ng-model="upload_description" required></textarea>
+				<textarea class="form-control" rows="4" name="description" placeholder="Description of Model" maxlength="1024" data-ng-model="upload_description" required></textarea>
 			</div>
 
 			<div class="form-group">
 				<label for="InputFile">File input</label>
 				<input type="file" class="form-control-file" id="InputFile" name="file" aria-describedby="fileHelp" file="file" required />
-				<input type="file" class="form-control-file" id="InputFile" name="file" aria-describedby="fileHelp" required>
 				<small id="fileHelp" class="form-text text-muted">Upload your .obj or .stl file for this patient.</small>
+			</div>
+
+			<div class="panel panel-info" data-ng-show="uploading">
+				<div class="panel-heading"><div class="loader"> </div> Uploading Model</div>
 			</div>
 
 			<div class="panel panel-danger" data-ng-show="errors.length" data-ng-repeat="error in errors">

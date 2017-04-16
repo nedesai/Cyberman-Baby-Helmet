@@ -9,12 +9,12 @@
 				<h4 class="modal-title">Delete Patient: {*directive_info.patients[delete_index].firstname*} {*directive_info.patients[delete_index].lastname*}</h4>
 			</div>
 			<div class="modal-body">
-				<p>You will not be able to recover patient information once it is deleted. You will also lose all access to their models.</p>
+				<p>You will not be able to recover patient information once it is deleted. You will also lose access to the copies of their models.</p>
 				<p>Are you sure you want to delete?</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-ng-click="deletepatient(delete_index, delete_id)" data-dismiss="modal">Delete</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-default" data-ng-click="clearDelete()" data-dismiss="modal">Cancel</button>
 			</div>
 		</div>
 
@@ -25,27 +25,26 @@
 	
 	<div class="panel-heading clearfix">
 		<div class="pull-right">
-			<button type="button" class="add-btn btn btn-primary btn-lg" data-ng-click="showAdd = !showAdd"><span class="glyphicon glyphicon-plus"></span> Add A Patient </button>
+			<button type="button" class="add-btn btn btn-primary btn-lg" data-ng-click="showAdd = !showAdd; clearAddInput()"><span class="glyphicon glyphicon-plus"></span> Add A Patient </button>
 		</div>
-
 		<h1 id="panel-head">Patients</h1>
 	</div>
 
 	<div data-ng-show="showAdd" id ="add_patient" class="panel-body">
-		<form class="form-inline" name="add_patient">
+		<form class="form-inline" name="add_patient" data-ng-submit="addnewpatient(input_firstname, input_lastname, input_dob); showAdd = false;">
 
 			<div class="col-sm-3">
-				<input name="form-name" class="form-control input-lg" type="text" placeholder="Firstname" data-ng-model="input_firstname" maxlength="40">
+				<input name="form-name" class="form-control input-lg" type="text" placeholder="Firstname" pattern=".{1,}" title="Need at least 1 letter" maxlength="40" data-ng-model="input_firstname" required>
 			</div>
 
 			<div class="col-sm-3">
-				<input name="form-name" class="form-control input-lg" type="text" placeholder="Lastname" data-ng-model="input_lastname" maxlength="40">
+				<input name="form-name" class="form-control input-lg" type="text" placeholder="Lastname" pattern=".{1,}" title="Need at least 1 letter maxlength="40" data-ng-model="input_lastname" required>
 			</div>
 			
 			<div class="col-sm-3">
-				<input type="date" id="datepicker" class="form-control input-lg" placeholder="Birth Date" data-ng-model="input_dob">
+				<input type="date" id="datepicker" class="form-control input-lg" placeholder="Birth Date" data-ng-model="input_dob" required>
 			</div>
-			<button type="submit" class="btn-lg btn-success active pull-right" data-ng-click="showAdd = addnewpatient(input_firstname, input_lastname, input_dob)">Add New Patient</button>
+			<button type="submit" class="btn-lg btn-success active pull-right">Add New Patient</button>
 
 		</form>
 	</div>
@@ -61,13 +60,13 @@
 		</thead>
 
 		<tbody>
-			<tr class="patients align-middle" data-ng-repeat="patient in directive_info.patients" data-ng-mouseenter="hover=true" data-ng-mouseleave="hover=false">
+			<tr class="patients" data-ng-repeat="patient in directive_info.patients" data-ng-mouseenter="hover=true" data-ng-mouseleave="hover=false">
 				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.firstname *} </td>
 				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.lastname *} </td>
 				<td class="patientinfo" data-ng-click="clickedpatient(patient.patientid)"> {* patient.dob *} </td>
 
-				<td data-toggle="modal" data-target="#myModal" data-ng-click="setDelete($index, patient.patientid)" data-ng-class="{remove_patient_active : in_close == true}" data-ng-mouseenter="in_close=true" data-ng-mouseleave="in_close=false"> 
-					<span class="glyphicon glyphicon-remove remove_patient" data-ng-show="hover" "></span>
+				<td class="no-side-padding" data-toggle="modal" data-target="#myModal" data-ng-click="setDelete($index, patient.patientid)" data-ng-class="{remove_patient_active : in_close == true}" data-ng-mouseenter="in_close=true" data-ng-mouseleave="in_close=false"> 
+					<span class="glyphicon glyphicon-remove remove_patient" data-ng-show="hover"></span>
 				</td>
 			</tr>
 		</tbody>

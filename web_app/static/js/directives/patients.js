@@ -35,6 +35,12 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				scope.directive_info.viewmodel = true;
 			}
 
+			scope.clearAddInput = function(){
+				scope.input_firstname = '';
+				scope.input_lastname = '';
+				scope.input_dob = '';
+			}
+
 			// Upload patient array and send call to api
 			scope.addnewpatient = function(firstname, lastname, dob) {
 				var input = {username: scope.directive_info.username, firstname: firstname, lastname: lastname, dob: dob};
@@ -44,14 +50,17 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 						console.log(scope.patients);
 					}
 				);
-				scope.input_firstname = '';
-				scope.input_lastname = '';
-				scope.input_dob = '';
+				scope.clearAddInput();
 			}
 
 			scope.setDelete = function(index, id) {
 				scope.delete_id = Number(id);
 				scope.delete_index = Number(index);
+			}
+
+			scope.clearDelete = function() {
+				scope.delete_id = -1;
+				scope.delete_index = -1;
 			}
 
 			scope.deletepatient = function(index, id) {
@@ -61,12 +70,10 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				$http.delete(delete_route).then(
 					function(success){
 						scope.directive_info.patients.splice(index, 1);
-						scope.delete_index = -1;
-						scope.delete_id = -1;
+						scope.clearDelete();
 					},
 					function(error){
-						scope.delete_index = -1;
-						scope.delete_id = -1;
+						scope.clearDelete();
 					}
 				);
 			}

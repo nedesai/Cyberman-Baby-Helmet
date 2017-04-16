@@ -30,7 +30,7 @@ app.directive('create', ['$http', 'SharedService', function($http, SharedService
 					},
 					function(error){
 						scope.errors = [];
-						scope.errors.push(error.data.errors);
+						scope.errors = error.data.errors;
 					}
 				);
 			}
