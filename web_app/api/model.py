@@ -125,18 +125,17 @@ def model_route():
     # POST requests #
     #---------------#
     elif request.method == "POST":
-        username = request.form.get('username')
-        patientID = request.form.get('patientid')
-        name = request.form.get('name')
-        description = request.form.get('description')
+        username = str(request.form.get('username'))
+        patientID = str(request.form.get('patientid'))
+        name = str(request.form.get('name'))
+        description = str(request.form.get('description'))
 
         if 'file' not in request.files:
             return jsonify(errors=["No file included"]), 404
         else:
             model_file = request.files['file']
 
-        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(name) + " " + str(description))
-
+        print(model_file)
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
@@ -147,13 +146,12 @@ def model_route():
             err_msg = str(filetype[1:].upper() + " filetype not supported")
             return jsonify(errors=[err_msg]), 400
 
-        # urls = processobj(model_file, filename)
+        urls = processobj(model_file, filename)
         
-        # cur = db.cursor()
-        # sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
-        # sql_string += patientID + "', '" + filetype + "', '"
-        # sql_string += urls[0] + "', '" + urls[1] + "', '" + description + "', '" + filename + "');"
-        # cur.execute(sql_string)
+        cur = db.cursor()
+        sql_string = "INSERT INTO Model (patientid, name, description, filename, filetype, model_url, fbx_url) VALUES ('"
+        sql_string += patientID + "', '" + name + "', '" + description + "', '" + filename + "', '" + filetype + "', '" + str(urls[0])  + "', '" + str(urls[1]) + "');"
+        cur.execute(sql_string)
 
         return jsonify(success="ok"), 200
 
