@@ -47,7 +47,6 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 				$http.post("api/v1/patient", input).then(
 					function(response) {
 						scope.directive_info.patients.push(input);
-						console.log(scope.patients);
 					}
 				);
 				scope.clearAddInput();
