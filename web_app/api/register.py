@@ -38,11 +38,11 @@ def register_route():
 		cur = db.cursor()
 		cur.execute('SELECT * FROM User WHERE username=\'{}\''.format(username))
 		if len(cur.fetchall()) != 0:
-			return jsonify(errors="User already exists"), 400
+			return jsonify(errors=["User already exists"]), 400
 
 		# Check if passwords are the same
 		elif password1 != password2:
-			return jsonify(errors="Passwords don't match"), 400
+			return jsonify(errors=["Passwords don't match"]), 400
 
 		else:
 			# Insert user into database
