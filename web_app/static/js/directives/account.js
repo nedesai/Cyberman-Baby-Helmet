@@ -36,8 +36,8 @@ app.directive('account', ['$http', 'SharedService', function($http, SharedServic
 				scope.errors = [];
 				scope.success = [];
 				// Return message saying up to date if fields empty
-				if (dataobj.firstname == "undefined" && dataobj.lastname == "undefined" && dataobj.email == "undefined" && 
-						dataobj.password1 == "undefined" && dataobj.password2 == "undefined"){
+				if (dataobj.firstname == "" && dataobj.lastname == "" && dataobj.email == "" && 
+						dataobj.password1 == "" && dataobj.password2 == ""){
 					
 					scope.success.push("Nothing to update");
 				}
