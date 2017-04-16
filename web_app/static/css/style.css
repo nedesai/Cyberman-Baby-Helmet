@@ -166,14 +166,29 @@ input[type="date"]:focus:before,
 	-ms-flex-align: center;
 	-webkit-align-items: center;
 	align-items: center;
-	height: 70px;
+	height: 60px;
 }
 
 .models-list-group{
-	height: calc(100vh - 122px);
+	height: calc(100vh - 112px);
 	background-color: #667481;
 	display: block;
 	overflow-y: auto;
+}
+
+.models-list-group a:hover{
+	text-decoration: none;
+}
+
+.models-list-group a button h4{
+	overflow-wrap: break-word;
+	margin-bottom: 0 !important;
+}
+
+.models-list-group a button .description{
+	width: 100vw - 24.99vw;
+	overflow-wrap: break-word;
+	margin-top: 2%;
 }
 
 .models-list-group::-webkit-scrollbar-track
