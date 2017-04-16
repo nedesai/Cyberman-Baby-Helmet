@@ -20,9 +20,7 @@
 		<button type="button" class="form-control" id="upload-button" data-ng-click="add_model = !add_model"><span class="glyphicon glyphicon-upload"></span> Upload New Model </button>
 
 		<br>
-<!--
-		<form action="{* $location + 'api/v1/model' *}" method=post enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
--->		
+
 		<form enctype=multipart/form-data class=add-model-form data-ng-show="add_model" data-ng-submit="fileUpload()">
 			<input type="hidden" name="username" value="{* directive_info.username *}">
 			<input type="hidden" name="patientid" value="{* directive_info.patientid *}">

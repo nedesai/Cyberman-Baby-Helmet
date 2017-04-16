@@ -6,7 +6,7 @@ import boto3
 import hashlib
 import os
 #only comment out for local testing
-import fbx
+#import fbx
 
 model = Blueprint('model', __name__, template_folder='templates')
 
@@ -90,31 +90,6 @@ def deleteModel(filename):
 def model_route():
     db = connect_to_database()
 
-    #---------------------------------------------#
-    # Error-checking for DELETE and POST requests #
-    #---------------------------------------------#
-    #if request.method == 'DELETE' or request.method == 'POST':
-        #username = request.form.get('username')
-        #patientID = request.form.get('patientid')
-        #description = request.form.get('description')
-        #model_file = request.files['file']
-        #rint ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
-
-        # Check for missing keys
-        #required_keys = ['username', 'patientid']
-        #if request.method == 'DELETE':
-        #    required_keys.append('modelid')
-        #elif request.method == 'POST':
-        #    required_keys.append('filetype, description')
-        #if data_missing_keys(json_data, required_keys):
-        #    error = 'Error: request missing required keys'
-        #    return jsonify(error=error), 422
-
-        # Check if the user has permission to access this patient's data
-        #error, status_code = check_user_permissions(db, username, patientID)
-        #if error != NO_ERRORS:
-            #return jsonify(error=error), status_code
-
     #--------------#
     # GET requests #
     #--------------#
@@ -151,40 +126,36 @@ def model_route():
     #---------------#
     elif request.method == "POST":
         username = request.form.get('username')
-        print (username)
         patientID = request.form.get('patientid')
-        print (patientID)
         name = request.form.get('name')
-        print (name)
         description = request.form.get('description')
-        print (description)
 
         if 'file' not in request.files:
-            print ("NO FILE WOW")
-            return jsonify(errors="No file included"), 404
+            return jsonify(errors=["No file included"]), 404
         else:
             model_file = request.files['file']
 
-        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(description))
+        print ("JSON DATA: " + str(username) + " " + str(patientID) + " " + str(name) + " " + str(description))
 
         #hash_url = hashlib.sha512(str.encode(patientid + str(current_date_time)))
 
         filename, filetype = os.path.splitext(model_file.filename)
-        filetype = filetype.toLower()
-        print ("FILETYPE: " + str(filetype))
+        filename, filetype = str(filename), str(filetype)
+        filetype = filetype.lower()
 
-        if not (filetype == 'stl' or filetype == 'stl' or filetype == 'fbx'):
-            return jsonify(error="Error: invalid filetype"), 400
+        if not (filetype == '.obj' or filetype == '.stl' or filetype == '.fbx'):
+            err_msg = str(filetype[1:].upper() + " filetype not supported")
+            return jsonify(errors=[err_msg]), 400
 
-        urls = processobj(model_file, filename)
+        # urls = processobj(model_file, filename)
         
-        cur = db.cursor()
-        sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
-        sql_string += patientID + "', '" + filetype + "', '"
-        sql_string += urls[0] + "', '" + urls[1] + "', '" + description + "', '" + filename + "');"
-        cur.execute(sql_string)
+        # cur = db.cursor()
+        # sql_string = "INSERT INTO Model (patientid, filetype, url, fbx_url, description, filename) VALUES ('"
+        # sql_string += patientID + "', '" + filetype + "', '"
+        # sql_string += urls[0] + "', '" + urls[1] + "', '" + description + "', '" + filename + "');"
+        # cur.execute(sql_string)
 
-        return jsonify({}), 200
+        return jsonify(success="ok"), 200
 
     #-----------------#
     # DELETE requests #
