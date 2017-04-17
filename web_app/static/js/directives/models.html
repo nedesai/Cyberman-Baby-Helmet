@@ -63,7 +63,6 @@
 	<!-- For model info and picture cycling? -->
 	<p>Where is this?</p>
 	<div class="col-sm-6" syle="background-color: red; height: 100px">
-		<div>
 			<iframe id="viewer" name="viewer" allowfullscreen="" allowvr="" onmousewheel="">
 				<!DOCTYPE html>
 				<html lang="en">
@@ -114,14 +113,14 @@
 							camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 2000 );
 							camera.position.z = 5;
 							camera.zoom = 3
-							
+
 							scene = new THREE.Scene();
 							var ambient = new THREE.AmbientLight( 0x101030 );
 							scene.add( ambient );
 							var directionalLight = new THREE.DirectionalLight( 0xffeedd );
 							directionalLight.position.set( 0, 0, 1 );
 							scene.add( directionalLight );
-							
+
 							var manager = new THREE.LoadingManager();
 							manager.onProgress = function ( item, loaded, total ) {
 								console.log( item, loaded, total );
@@ -140,7 +139,7 @@
 								texture.image = image;
 								texture.needsUpdate = true;
 							} );
-							
+
 							var loader = new THREE.OBJLoader( manager );
 							loader.load( 'batman70.obj', function ( object ) {
 								object.traverse( function ( child ) {
@@ -151,13 +150,13 @@
 								object.position.y = 0;
 								scene.add( object );
 							}, onProgress, onError );
-							
+
 							renderer = new THREE.WebGLRenderer();
 							renderer.setPixelRatio( window.devicePixelRatio );
 							renderer.setSize( window.innerWidth, window.innerHeight );
 							container.appendChild( renderer.domElement );
 							document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-							
+
 							window.addEventListener( 'resize', onWindowResize, false );
 						}
 						function onWindowResize() {
@@ -171,7 +170,7 @@
 							mouseX = ( event.clientX - windowHalfX ) / 2;
 							mouseY = ( event.clientY - windowHalfY ) / 2;
 						}
-						
+
 						function animate() {
 							requestAnimationFrame( animate );
 							render();
@@ -183,11 +182,15 @@
 							renderer.render( scene, camera );
 						}
 					</script>
+					<div>
+						<canvas width="599" height="781" style="width: 599px; height: 781px;">
+						</canvas>
+					</div>
 
 				</body>
 				</html>
 			</iframe>
-		</div>
+		
 	</div>
 
 </div>
