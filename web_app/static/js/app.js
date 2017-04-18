@@ -39,7 +39,6 @@ app.directive('script', ['$http', 'SharedService', function($http, SharedService
 			}
 
 			function loadModel(){
-
 				var model_file = "'../static/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
 				//var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
 
