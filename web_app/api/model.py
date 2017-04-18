@@ -74,8 +74,8 @@ def processfbx(file, patientID, filename):
     then upload both obj and fbx to S3, return their urls and 
     delete the temp file.
     '''
-    objpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.obj'
-    fbxpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.fbx'
+    objpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.obj'
+    fbxpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.fbx'
     file.save(fbxpath)
     fbx2obj(fbxpath, objpath)
     obj_url = uploads3(objpath, patientID+'_'+filename + '.obj')
@@ -91,8 +91,8 @@ def processobj(file, patientID, filename):
     then upload both obj and fbx to S3, return their urls and 
     delete the temp file.
     '''
-    objpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.obj'
-    fbxpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.fbx'
+    objpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.obj'
+    fbxpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.fbx'
     # save the file from request.files['file'] locally
     file.save(objpath)
     #convert obj to fbx and save it at fbxpath
@@ -106,8 +106,8 @@ def processobj(file, patientID, filename):
 
 def processstl(file, patientID, filename):
 
-    stlpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.stl'
-    fbxpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.fbx'
+    stlpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.stl'
+    fbxpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID +'_'+ filename + '.fbx'
     file.save(stlpath)
     stl2fbx(stlpath,fbxpath)
     stl_url = uploads3(objpath,patientID+'_'+filename + '.stl')
