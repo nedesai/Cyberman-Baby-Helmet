@@ -10,6 +10,10 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 		link: function(scope, element, attrs) {
 			
 			scope.directive_info = SharedService.sharedInfo;
+
+			scope.modelname = "Avent.obj";
+			scope.model_index = -1;
+
 			scope.success = "";
 			scope.errors = [];
 			scope.uploading = false;
@@ -18,6 +22,11 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 			scope.uploadToggle = function() {
 				scope.add_model = !scope.add_model;
 				scope.success = "";
+			}
+
+			scope.clearMessages = function() {
+				scope.success = "";
+				scope.errors = [];
 			}
 
 			// Load the Models
@@ -34,8 +43,7 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 			);
 
 			scope.fileUpload = function() {
-				scope.errors = [];
-				scope.success = "";
+				scope.clearMessages();
 				scope.uploading = true;
 				$http({
 					method: 'POST',
@@ -65,7 +73,7 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 					function(success) {
 						document.getElementById("add-model").reset();
 						var new_model = success.data;
-						new_model['lastmodified'] = new Date(new_model['lastmodified']);
+						new_model['lastmodified'] = new Date(new_model['lastmodified'] + " GMT");
 						scope.directive_info.models.unshift(new_model);
 						scope.uploading = false;
 						scope.success = "Added Model " + new_model['filename']+new_model['filetype'];

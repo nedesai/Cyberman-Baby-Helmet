@@ -122,6 +122,12 @@ input[type="date"]:focus:before,
 	color: #ff0301;
 }
 
+.model-screen{
+	height: calc(100vh - 52px);
+	max-height: 600px;
+	overflow-y: auto;
+}
+
 .modal {
    position: absolute;
    margin-top: 15%;
@@ -269,4 +275,11 @@ input[type="date"]:focus:before,
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
+}
+
+#model-preview{
+	height: 400px;
+	width: 58.33vw;
+	display: inline-block;
+	position: absolute;
 }

@@ -13,6 +13,22 @@ app.filter('description', function(){
 	}
 });
 
+app.directive('script', function() {
+	return {
+		restrict: 'E',
+		scope: {
+			model: "="
+		},
+		link: function(scope, elem, attr) {
+			if (attr.type === 'text/javascript-lazy') {
+				console.log(scope.model);
+				var code = elem.text();
+				var f = new Function(code);
+				f();
+			}
+		}
+	};
+});
 
 // Information share acroess directives
 app.factory('SharedService', function() {
@@ -21,6 +37,8 @@ app.factory('SharedService', function() {
 			username: "",
 			firstname: "",
 			lastname: "",
+			zip_file: "NO_ZIPFILE_FOUND",
+			zip_url: "#",
 			log_in: true,
 			viewmodel: false,
 			edit: false,
