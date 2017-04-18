@@ -6,7 +6,7 @@ import boto3
 import hashlib
 import os
 #only comment out for local testing
-#import fbx
+import fbx
 
 model = Blueprint('model', __name__, template_folder='templates')
 
@@ -43,6 +43,15 @@ def obj2fbx(objpath, fbxpath):
 
     return 0
 
+
+def fbx2obj(fbxpath, objpath):
+    obj2fbx(fbxpath, objpath)
+    return 0
+
+def stl2fbx(stlpath, fbxpath):
+    return 0
+
+
 def uploads3(file, filename):
     '''
     this function upload file to aws S3 storage and 
@@ -57,24 +66,56 @@ def uploads3(file, filename):
     url = 'https://s3.amazonaws.com/babyhead/' + filename
     return url
 
-def processobj(file, filename):
+
+def processfbx(file, patientID, filename):
+    '''
+    when the user upload a fbx file to the server,
+    this function create temp file for this fbx, convert it to obj,
+    then upload both obj and fbx to S3, return their urls and 
+    delete the temp file.
+    '''
+    objpath = '/home/ubuntu/tempmodel/' + patientID+'_'+filename + '.obj'
+    fbxpath = '/home/ubuntu/tempmodel/' + patientID+'_'+filename + '.fbx'
+    file.save(fbxpath)
+    fbx2obj(fbxpath, objpath)
+    obj_url = uploads3(objpath, patientID+'_'+filename + '.obj')
+    fbx_url = uploads3(fbxpath, patientID+'_'+filename + '.fbx')
+    os.remove(fbxpath)
+    return obj_url, fbx_url
+
+
+def processobj(file, patientID, filename):
     '''
     when the user upload a obj file to the server,
     this function create temp file for this obj, convert it to fbx,
     then upload both obj and fbx to S3, return their urls and 
     delete the temp file.
     '''
-    objpath = '/home/ubuntu/tempmodel/' + filename + '.obj'
-    fbxpath = '/home/ubuntu/tempmodel/' + filename + '.fbx'
+    objpath = '/home/ubuntu/tempmodel/' + patientID +'_'+ filename + '.obj'
+    fbxpath = '/home/ubuntu/tempmodel/' + patientID +'_'+ filename + '.fbx'
     # save the file from request.files['file'] locally
     file.save(objpath)
     #convert obj to fbx and save it at fbxpath
     obj2fbx(objpath, fbxpath)
     #upload both obj and fbx
-    obj_url = uploads3(objpath,filename + '.obj')
-    fbx_url = uploads3(fbxpath,filename + '.fbx')
+    obj_url = uploads3(objpath,patientID+'_'+filename + '.obj')
+    fbx_url = uploads3(fbxpath,patientID+'_'+filename + '.fbx')
     os.remove(fbxpath)
     return obj_url, fbx_url
+
+
+def processstl(file, patientID, filename):
+
+    stlpath = '/home/ubuntu/tempmodel/' + patientID +'_'+ filename + '.stl'
+    fbxpath = '/home/ubuntu/tempmodel/' + patientID +'_'+ filename + '.fbx'
+    file.save(stlpath)
+    stl2fbx(stlpath,fbxpath)
+    stl_url = uploads3(objpath,patientID+'_'+filename + '.stl')
+    #fbx_url = uploads3(fbxpath,patientID+'_'+filename + '.fbx')
+    fbx_url = '#' # kinda difficult to complete the conversion from stl to fbx
+    os.remove(fbxpath)
+    return stl_url, fbx_url
+
 
 def deleteModel(filename):
     '''
@@ -146,12 +187,15 @@ def model_route():
         if(cur.rowcount > 0):
             return jsonify(errors=["This file already exists"]), 400
 
-        if not (filetype == '.obj' or filetype == '.stl' or filetype == '.fbx'):
+        if filetype == '.fbx':
+            urls = processfbx(model_file, patientID, filename)
+        elif filetype == '.obj':
+            urls = processobj(model_file, patientID, filename)
+        elif filetype == '.stl':
+            urls = processstl(model_file, patientID, filename)
+        else:
             err_msg = str(filetype[1:].upper() + " filetype not supported")
             return jsonify(errors=[err_msg]), 400
-
-        #urls = processobj(model_file, filename)
-        urls = ["www.google.com", "www.google.com"]
 
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, name, description, filename, filetype, model_url, fbx_url) VALUES ('"
