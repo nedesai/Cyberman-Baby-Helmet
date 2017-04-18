@@ -74,8 +74,8 @@ def processfbx(file, patientID, filename):
     then upload both obj and fbx to S3, return their urls and 
     delete the temp file.
     '''
-    objpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.obj'
-    fbxpath = '/home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.fbx'
+    objpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.obj'
+    fbxpath = 'home/ubuntu/srv/Cyberman-Baby-Helmet/web_app/static/' + patientID+'_'+filename + '.fbx'
     file.save(fbxpath)
     fbx2obj(fbxpath, objpath)
     obj_url = uploads3(objpath, patientID+'_'+filename + '.obj')
