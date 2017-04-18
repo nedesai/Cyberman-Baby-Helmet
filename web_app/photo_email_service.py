@@ -49,7 +49,7 @@ Happy modeling!
 
 # Use ./photos when testing locally 
 # (note the '.'; this prevents a permission issue from being raised on local machines)
-IMAGE_PATH = '/home/ubuntu/photos/'
+IMAGE_PATH = './home/ubuntu/photos/'
 
 class PhotoEmailService:
 	def __init__(self):
@@ -165,7 +165,8 @@ class PhotoEmailService:
 		#----------------------------#
 		messages = connection.list()
 		emails, total_bytes = connection.stat()
-		print("{0} new emails received.".format(emails))
+		if emails > 0:
+			print("{0} new emails received.".format(emails))
 
 		#-----------------------------------#
 		# Process emails & save attachments #

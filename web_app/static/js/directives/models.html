@@ -4,16 +4,15 @@
 	<div class="col-sm-3 model-list-bar pull-left">
 		<div class="model-list-header"> <h1>Models</h1> </div>
 		<div class="models-list-group">
-			<a data-ng-repeat="model_info in directive_info.models" href="{* model_info.fbx_url *}">
+			<a data-ng-repeat="model_info in directive_info.models" href="#" data-ng-click="clickModel($index)">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
-				 <h4>{* model_info.name *}</h4>
-				 <small>Last Modified: {* model_info.lastmodified | date:'EEE hh:mm a MMM d, y' *}</small>
-				 <p class="description">Description: {* model_info.description | description*}</p>
+					<h4>{* model_info.name *}</h4>
+					<small>Last Modified: {* model_info.lastmodified | date:'EEE hh:mm a MMM d, y' *}</small>
+					<p class="description">Description: {* model_info.description | description*}</p>
 				</button>
 			</a>
 		</div>
 	</div>
-
 
 	<div class="model-admin-bar col-sm-2 pull-right">
 		<button type="button" class="btn form-control" id="return-button" data-ng-click="directive_info.viewmodel = false; directive_info.patientid = -1"><span class="glyphicon glyphicon-arrow-left"></span> Return to Patients</button>
@@ -54,16 +53,143 @@
 				<div class="panel-heading">{* error *}</div>
 			</div>
 
-			<input type="submit" class="form-control" id="file_submit" type="submit" value="Upload">
+			<input type="submit" class="form-control" id="file_submit" type="submit" value="Upload" data-ng-click="clearMessages()">
 		</form>
 		
 	</div>
 
 
 	<!-- For model info and picture cycling? -->
-	<p>Where is this?</p>
-	<div class="col-sm-6" syle="background-color: red; height: 100px">
+	<div class="model-info">
+		<div id="model-preview-pane">
+		</div>
+		<div id="model-detail-pane">	
 
+			<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+				<a type="button" role="button" class="btn btn-primary" href="{*directive_info.models[directive_info.model_index].fbx_url*}" data-ng-class="{disabled : directive_info.models[directive_info.model_index].filetype == '.stl' }">View FBX</a>
+				<a type="button" role="button" class="btn btn-default" href="{*directive_info.models[directive_info.model_index].model_url*}">Download Original</a>
+				<a type="button" role="button" class="btn btn-danger disabled">Delete</a>
+			</div>
+		
+			<div class="col-sm-2"><p>Model Name:</p></div> <p>{*directive_info.models[directive_info.model_index].name*}</p> 
+			<div class="col-sm-2"><p>Original File:</p></div> <p>{*directive_info.models[directive_info.model_index].filename*}{*directive_info.models[directive_info.model_index].filetype*}</p> 
+			<div class="col-sm-2"><p>Description:</p></div> <p>{*directive_info.models[directive_info.model_index].description*}</p> 
+
+		</div>
 	</div>
+
+	<script type="text/javascript-lazy" id="script" model="modelname">
+		var div_preview = document.getElementById('model-preview-pane').getBoundingClientRect();
+
+		var container;
+		var model = null;
+		var camera, scene, renderer;
+		var mouseX = 0, mouseY = 0;
+		var windowHalfX = (div_preview.left + div_preview.right) / 2;
+		var windowHalfY = (div_preview.top + div_preview.bottom) / 2;
+		init();
+		animate();
+		function init() {
+			container = document.getElementById('model-preview-pane');
+			camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			camera.position.z = 5;
+			camera.position.y = 3;
+			camera.position.x = 0;
+			camera.zoom = 3;
+			// scene
+			scene = new THREE.Scene();
+			var ambient = new THREE.AmbientLight( 0x101030 );
+			scene.add( ambient );
+			var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+			directionalLight.position.set( 0, 0, 1 );
+			scene.add( directionalLight );
+			// texture
+			var manager = new THREE.LoadingManager();
+			manager.onProgress = function ( item, loaded, total ) {
+				console.log( item, loaded, total );
+			};
+			var texture = new THREE.Texture();
+			var onProgress = function ( xhr ) {
+				if ( xhr.lengthComputable ) {
+					var percentComplete = xhr.loaded / xhr.total * 100;
+					console.log( Math.round(percentComplete, 2) + '% downloaded' );
+				}
+			};
+			var onError = function ( xhr ) {
+			};
+			var loader = new THREE.ImageLoader( manager );
+			loader.load( '../static/grids/blue_grid.jpg', function ( image ) {
+				texture.image = image;
+				texture.needsUpdate = true;
+			} );
+			// model
+			var loader = new THREE.OBJLoader( manager );
+			loader.load( '<modeltoload>', function ( object ) {
+				// Get the object to allow for rotation later
+				model = object;
+				object.traverse( function ( child ) {
+					if ( child instanceof THREE.Mesh ) {
+						child.material.map = texture;
+					}
+				} );
+				object.position.y = 0;
+				scene.add( object );
+			}, onProgress, onError );
+			//
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( document.getElementById('model-preview-pane').offsetWidth, document.getElementById('model-preview-pane').offsetHeight );
+			container.appendChild( renderer.domElement );
+			container.addEventListener( 'mousewheel', mousewheel, false );
+			container.addEventListener( 'DOMMouseScroll', mousewheel, false ); // firefox
+
+			window.addEventListener( 'resize', onWindowResize, false );
+		}
+		function onWindowResize() {
+			div_preview = document.getElementById('model-preview-pane').getBoundingClientRect();
+
+			camera.aspect = (div_preview.width) / (div_preview.height);
+			camera.updateProjectionMatrix();
+			renderer.setSize( div_preview.width, div_preview.height );
+			renderer.render(scene, camera);
+		}
+		function mousewheel( e ) {
+			var d = ((typeof e.wheelDelta != "undefined")?(-e.wheelDelta):e.detail);
+			d = 100 * ((d>0)?1:-1);
+			var cPos = camera.position;
+			if (isNaN(cPos.x) || isNaN(cPos.y) || isNaN(cPos.y)) return;
+
+				// Your zomm limitation
+				// For X axe you can add anothers limits for Y / Z axes
+				if (cPos.x > 10 || cPos.x < 0 ){
+					return;
+				}
+			mb = d>0 ? 1.1 : 0.9;
+			cPos.x = cPos.x * mb;
+			cPos.y = cPos.y * mb;
+			cPos.z = cPos.z * mb;
+		}
+
+		var angularSpeed = 0.15;
+		var lastTime = 0;
+		function animate() {
+			camera.lookAt( scene.position );
+			var time = (new Date()).getTime();
+			var timeDiff = time - lastTime;
+			var angleChange = angularSpeed * timeDiff * 2 * Math.PI / 1000;
+			if(model) model.rotation.y += angleChange;
+			lastTime = time;
+
+			// render
+			renderer.render(scene, camera);
+
+			// request new frame
+			requestAnimationFrame(function () {
+					animate();
+			});
+
+		}
+
+	</script>
 
 </div>

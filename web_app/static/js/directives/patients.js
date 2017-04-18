@@ -9,10 +9,21 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 			scope.delete_id = -1;
 
 			// Load patients array of patients
-			function get_patients() {
-				$http.get("api/v1/patient?username=" + scope.directive_info.username).then(
+			function get_patients(user) {
+				$http.get("api/v1/patient?username=" + user).then(
 					function(response) {
 						scope.directive_info.patients = response.data.patients;
+					}
+				);
+			}
+
+			function get_photos(user){
+				$http.get("api/v1/photos?username=" + user).then(
+					function(response) {
+						scope.directive_info.zip_found = response.data.status;
+						if(response.data.status == "ZIPFILE_FOUND")	{
+							scope.directive_info.zip_url = success.data.url;
+						}
 					}
 				);
 			}
@@ -24,7 +35,8 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 						scope.directive_info.username  = success.data.success.username;
 						scope.directive_info.firstname = success.data.success.firstname;
 						scope.directive_info.lastname  = success.data.success.lastname;
-						get_patients();
+						get_photos(scope.directive_info.username);
+						get_patients(scope.directive_info.username);
 					}
 				);
 			}

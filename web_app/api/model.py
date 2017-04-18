@@ -196,7 +196,6 @@ def model_route():
         else:
             err_msg = str(filetype[1:].upper() + " filetype not supported")
             return jsonify(errors=[err_msg]), 400
-        #urls = ["www.google.com", "www.google.com"]
 
         cur = db.cursor()
         sql_string = "INSERT INTO Model (patientid, name, description, filename, filetype, model_url, fbx_url) VALUES ('"
@@ -204,10 +203,11 @@ def model_route():
         cur.execute(sql_string)
 
         cur = db.cursor()
-        find_modified = "Select lastmodified from Model where patientid = '" + str(patientID) + "' and filename = '" + str(filename) + "' and filetype = '" + str(filetype) + "';"
+        find_modified = "Select lastmodified from Model where patientid = '" + str(patientID) + "' and name = '" + str(name) +"' and filename = '" + str(filename) + "' and filetype = '" + str(filetype) + "';"
         cur.execute(find_modified)
 
         last_mod = cur.fetchone()['lastmodified']
+        print(last_mod)
 
         return jsonify({'name': name, 'description': description, 'filename': filename, 'filetype': filetype, 'model_url': urls[0], 'fbx_url': urls[1], 'lastmodified': str(last_mod)}), 200
 

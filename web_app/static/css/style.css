@@ -122,6 +122,35 @@ input[type="date"]:focus:before,
 	color: #ff0301;
 }
 
+.model-info{
+	height: calc(100vh - 52px);
+	min-height: 450px;
+	width: 58.33vw;
+	position: absolute;
+	display: inline-block;
+	overflow-y: auto;
+}
+
+#model-preview-pane{
+	height: calc((100vh - 52px)*2/3);
+	min-height: 300px;
+	width: 58.33vw;
+}
+
+#model-detail-pane{
+	height: calc((100vh - 52px)/3);
+	min-height: 150px;
+	width: 58.33vw;
+	background-color: #343539;
+	color: white;
+}
+
+.top{
+	width: 58.33vw;
+}
+
+
+
 .modal {
    position: absolute;
    margin-top: 15%;
@@ -171,6 +200,7 @@ input[type="date"]:focus:before,
 
 .models-list-group{
 	height: calc(100vh - 112px);
+	min-height: calc(450px - 60px);
 	background-color: #667481;
 	display: block;
 	overflow-y: auto;
@@ -218,6 +248,7 @@ input[type="date"]:focus:before,
 	border-left: 1px solid;
 	border-color: #13161a;
 	height: calc(100vh - 52px);
+	min-height: 450px;
 	overflow-y: auto;
 }
 

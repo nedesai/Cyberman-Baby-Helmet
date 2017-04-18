@@ -16,10 +16,15 @@
 	<!-- angularjs -->
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
 
+
 	<title>Head Models</title>
 </head>
 
 <body ng-app="Cyberman" ng-controller="CybermanController">
+
+	<!-- Three.js code for previews -->
+	<script src="../static/js/lib/three.js"></script>
+	<script src="../static/js/lib/OBJLoader.js"></script>
 
 	<!-- ============= Navbar ===================== -->
 	<nav class="navbar navbar-inverse">
@@ -31,6 +36,7 @@
 			<ul class="nav navbar-nav">
 				<li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Home' }"><a href="#" data-ng-click="setView(0)">Home</a></li>
 				<li data-ng-class="{active : info.menuItems[info.menuIndex] == 'Edit' }"><a href="#" data-ng-click="setView(1)">Edit Account</a></li>
+				<li><a href="{*info.zip_url*}" data-ng-if="info.zip_file == 'ZIPFILE_FOUND'"><span class="glyphicon glyphicon-download-alt"></span> Download 2D Photos</a></li>
 			</ul>
 
 			<!-- Logout portion -->
@@ -49,7 +55,7 @@
 
 		<patients ng-if="!info.viewmodel && !info.edit"></patients>
 
-		<models ng-if="info.viewmodel && !info.edit" username=info.username patientid=info.patientid></models>
+		<models ng-if="info.viewmodel && !info.edit"></models>
 
 	</div>
 
