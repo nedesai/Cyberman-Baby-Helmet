@@ -5,7 +5,7 @@ photos = Blueprint('photos', __name__, template_folder='templates')
 
 @photos.route('/api/v1/photos', methods=['GET'])
 def photos_route():
-    username = request.args.get('username')
+    username = session['username']
 
     db = connect_to_database()
     cur = db.cursor()
@@ -18,8 +18,10 @@ def photos_route():
         return jsonify(errors="Too many files")
 
     # Return the URL for the zipfile if one exists and a notification
-    # that it does not exist otherwise
+    # that it does not exist otherwise metadata
     if (len(results) == 1):
+        # Remove this zipfile's metadata from database
+        cur.execute('DELETE FROM PhotoZip WHERE username=\'{}\''.format(username))
         photos_url = results[0]['url']
         return jsonify(status="ZIPFILE_FOUND", url=photos_url)
     else:

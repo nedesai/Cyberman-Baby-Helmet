@@ -2,6 +2,8 @@ app.controller('CybermanController', ['$scope', 'SharedService', '$http', functi
 	
 	$scope.info = SharedService.sharedInfo;
 
+	$scope.modelviewcontrol = {};
+
 	// Update nav when clicked
 	$scope.setView = function(ind) {
 		$scope.info.viewmodel = false;
