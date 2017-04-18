@@ -2,13 +2,17 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 	return {
 		restrict: 'E',
 		scope: {
+			control: "=" 
 		},
 		templateUrl: 'static/js/directives/models.html',
 		link: function(scope, element, attrs) {
 
+			console.log("hi");
+			console.log(scope.control);
+
 			scope.directive_info = SharedService.sharedInfo;
 
-			scope.model_index = 0;
+			scope.model_index = 1;
 
 			scope.success = "";
 			scope.errors = [];

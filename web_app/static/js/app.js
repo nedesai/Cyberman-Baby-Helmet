@@ -17,15 +17,32 @@ app.filter('description', function(){
 app.directive('script', ['$http', 'SharedService', function($http, SharedService) {
 	return {
 		restrict: 'E',
+		replace: true,
 		scope: {
-			model: "="
+			control: "="
 		},
 		link: function(scope, elem, attr) {
+
+			console.log(scope.control);
+
+			scope.internalControl = scope.control || {};
+
 			scope.info = SharedService.sharedInfo;
 
+			scope.internalControl.load = function(){
+				console.log("function called");
+				// var model_file = "'~/tempmodel/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				// var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				// code = code.replace("'<modeltoload>'", model_file);
+				// var f = new Function(code);
+				// f();
+			}
+
 			function loadModel(){
-				var model_file = "'~/tempmodel/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+
+				var model_file = "'../static/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
 				//var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+
 				code = code.replace("'<modeltoload>'", model_file);
 				var f = new Function(code);
 				f();
@@ -66,7 +83,7 @@ app.factory('SharedService', function() {
 			lastname: "",
 			zip_file: "NO_ZIPFILE_FOUND",
 			zip_url: "#",
-			model_index: 0,
+			model_index: 1,
 			log_in: true,
 			viewmodel: false,
 			edit: false,

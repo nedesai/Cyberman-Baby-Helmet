@@ -4,7 +4,7 @@
 	<div class="col-sm-3 model-list-bar pull-left">
 		<div class="model-list-header"> <h1>Models</h1> </div>
 		<div class="models-list-group">
-			<a data-ng-repeat="model_info in directive_info.models" href="#" data-ng-click="clickModel($index)">
+			<a data-ng-repeat="model_info in directive_info.models" href="#" data-ng-click="clickModel($index); modelviewcontrol.load();">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
 					<h4>{* model_info.name *}</h4>
 					<small>Last Modified: {* model_info.lastmodified | date:'EEE hh:mm a MMM d, y' *}</small>
@@ -78,7 +78,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript-lazy" id="script" model="modelname">
+	<script type="text/javascript-lazy" id="script" control="control">
 		var div_preview = document.getElementById('model-preview-pane').getBoundingClientRect();
 
 		var container;

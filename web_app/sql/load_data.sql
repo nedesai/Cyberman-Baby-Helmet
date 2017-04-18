@@ -13,16 +13,16 @@ INSERT INTO Patient (username, firstname, lastname, dob) VALUES
 ('headmodel22', 'Paul', 'Paulson', '2016-05-13');
 
 INSERT INTO Model (patientid, filetype, model_url, fbx_url, description, name, filename) VALUES
-('2', 'fbx', 'https://s3.amazonaws.com/babyhead/2_batman70.fbx', 'https://s3.amazonaws.com/babyhead/2_PI_Modified.fbx', 'head model bob', "Child's Head", 'child_head_model'),
-('5', 'fbx', 'https://s3.amazonaws.com/babyhead/5_batman70.fbx', 'https://s3.amazonaws.com/babyhead/5_batman70.fbx', 'hand model joe', "Batman", 'batman_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'https://s3.amazonaws.com/babyhead/6_PI_Modified.fbx', 'foot model jack', "Head", 'child_head_model'),
-('3', 'fbx', 'https://s3.amazonaws.com/babyhead/3_batman70.fbx', 'https://s3.amazonaws.com/babyhead/3_batman70.fbx', 'arm model jake', "Batman Figure", 'batman_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'finger model neeral', "Son's Head", 'child_head_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'toe model zach', "Batman Actionfigure", 'batman_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'https://s3.amazonaws.com/babyhead/6_PI_Modified.fbx', 'eye model robert', "Neeral's Baby Head", 'child_head_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'ear model kuong', "Child's Playtoy", 'batman_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'chest model eric', "Deformed Head Model", 'child_head_model'),
-('2', 'fbx', 'https://s3.amazonaws.com/babyhead/2_batman70.fbx', 'https://s3.amazonaws.com/babyhead/2_batman70.fbx', 'stomach model john', "Test Model", 'batman_model'),
-('1', 'fbx', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'teeth model bill', "Zach's Head", 'child_head_model'),
-('6', 'fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'hair model billy', "Batman Figurine", 'batman_model');
+('2', '.obj', 'https://s3.amazonaws.com/babyhead/2_batman70.obj', 'https://s3.amazonaws.com/babyhead/2_PI_Modified.fbx', 'head model bob', "Child's Head", 'PI_Modified'),
+('5', '.obj', 'https://s3.amazonaws.com/babyhead/5_batman70.obj', 'https://s3.amazonaws.com/babyhead/5_batman70.fbx', 'hand model joe', "Batman", 'batman70'),
+('6', '.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.obj', 'https://s3.amazonaws.com/babyhead/6_PI_Modified.fbx', 'foot model jack', "Head", 'PI_Modified'),
+('3', '.obj', 'https://s3.amazonaws.com/babyhead/3_batman70.obj', 'https://s3.amazonaws.com/babyhead/3_batman70.fbx', 'arm model jake', "Batman Figure", 'batman70'),
+('1', '.obj', 'https://s3.amazonaws.com/babyhead/1_batman70.obj', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'finger model neeral', "Son's Head", 'PI_Modified'),
+('1', '.obj', 'https://s3.amazonaws.com/babyhead/1_batman70.obj', 'https://s3.amazonaws.com/babyhead/1_batman70.fbx', 'toe model zach', "Batman Actionfigure", 'batman70'),
+('6', '.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.obj', 'https://s3.amazonaws.com/babyhead/6_PI_Modified.fbx', 'eye model robert', "Neeral's Baby Head", 'PI_Modified'),
+('6', '.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'ear model kuong', "Child's Playtoy", 'batman70'),
+('1', '.obj', 'https://s3.amazonaws.com/babyhead/1_batman70.obj', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'chest model eric', "Deformed Head Model", 'PI_Modified'),
+('2', '.obj', 'https://s3.amazonaws.com/babyhead/2_batman70.obj', 'https://s3.amazonaws.com/babyhead/2_batman70.fbx', 'stomach model john', "Test Model", 'batman70'),
+('1', '.obj', 'https://s3.amazonaws.com/babyhead/1_batman70.obj', 'https://s3.amazonaws.com/babyhead/1_PI_Modified.fbx', 'teeth model bill', "Zach's Head", 'PI_Modified'),
+('6', '.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.obj', 'https://s3.amazonaws.com/babyhead/6_batman70.fbx', 'hair model billy', "Batman Figurine", 'batman70');
 
