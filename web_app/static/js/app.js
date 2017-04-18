@@ -82,7 +82,7 @@ app.factory('SharedService', function() {
 			lastname: "",
 			zip_file: "NO_ZIPFILE_FOUND",
 			zip_url: "#",
-			model_index: 1,
+			model_index: 0,
 			log_in: true,
 			viewmodel: false,
 			edit: false,

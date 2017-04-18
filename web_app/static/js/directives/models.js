@@ -12,7 +12,7 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 
 			scope.directive_info = SharedService.sharedInfo;
 
-			scope.model_index = 1;
+			scope.model_index = 0;
 
 			scope.success = "";
 			scope.errors = [];
