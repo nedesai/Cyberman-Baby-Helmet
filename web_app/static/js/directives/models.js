@@ -2,32 +2,17 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 	return {
 		restrict: 'E',
 		scope: {
-			username: "=",
-			patientid: "="
 		},
-		//templateUrl: 'static/js/directives/preview.html',
 		templateUrl: 'static/js/directives/models.html',
 		link: function(scope, element, attrs) {
-			
+
 			scope.directive_info = SharedService.sharedInfo;
 
-			scope.modelname = "Avent.obj";
-			scope.model_index = -1;
+			scope.model_index = 0;
 
 			scope.success = "";
 			scope.errors = [];
 			scope.uploading = false;
-
-			// Toggle the display of the form and turn off success message
-			scope.uploadToggle = function() {
-				scope.add_model = !scope.add_model;
-				scope.success = "";
-			}
-
-			scope.clearMessages = function() {
-				scope.success = "";
-				scope.errors = [];
-			}
 
 			// Load the Models
 			$http.get("api/v1/model?username=" + String(scope.directive_info.username) + "&patientid=" + String(scope.directive_info.patientid)).then(
@@ -41,6 +26,17 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 					scope.errors = error.data.errors;
 				}
 			);
+
+			// Toggle the display of the form and turn off success message
+			scope.uploadToggle = function() {
+				scope.add_model = !scope.add_model;
+				scope.success = "";
+			}
+
+			scope.clearMessages = function() {
+				scope.success = "";
+				scope.errors = [];
+			}
 
 			scope.fileUpload = function() {
 				scope.clearMessages();
@@ -83,6 +79,12 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 						scope.errors = error.data.errors;
 					}
 				);
+			}
+
+			scope.clickModel = function(ind) {
+				scope.directive_info.model_index = ind;
+				console.log(ind);
+				console.log(scope.directive_info.models[ind].fbx_url);
 			}
 
 			scope.printmodel = function(url) {

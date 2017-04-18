@@ -13,22 +13,49 @@ app.filter('description', function(){
 	}
 });
 
-app.directive('script', function() {
+
+app.directive('script', ['$http', 'SharedService', function($http, SharedService) {
 	return {
 		restrict: 'E',
 		scope: {
 			model: "="
 		},
 		link: function(scope, elem, attr) {
-			if (attr.type === 'text/javascript-lazy') {
-				console.log(scope.model);
-				var code = elem.text();
+			scope.info = SharedService.sharedInfo;
+
+			function loadModel(){
+				var model_file = "'~/tempmodel/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				//var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				code = code.replace("'<modeltoload>'", model_file);
 				var f = new Function(code);
 				f();
 			}
+
+			if (attr.type === 'text/javascript-lazy') {
+				var code = elem.text();
+				if(scope.info.models.length === 0 || scope.info.models.length < scope.info.model_index) {
+					// Load the Models if not there
+					$http.get("api/v1/model?username=" + String(scope.info.username) + "&patientid=" + String(scope.info.patientid)).then(
+						function(response) {
+							scope.info.models = response.data.models;
+							for(var x = 0; x < scope.info.models.length; ++x){
+								scope.info.models[x]['lastmodified'] = new Date(scope.info.models[x]['lastmodified']);
+							}
+							loadModel();
+						},
+						function(error) {
+							scope.errors = error.data.errors;
+						}
+					);
+				}
+				else{
+					loadModel();
+				}
+				
+			}
 		}
 	};
-});
+}]);
 
 // Information share acroess directives
 app.factory('SharedService', function() {
@@ -39,6 +66,7 @@ app.factory('SharedService', function() {
 			lastname: "",
 			zip_file: "NO_ZIPFILE_FOUND",
 			zip_url: "#",
+			model_index: 0,
 			log_in: true,
 			viewmodel: false,
 			edit: false,
