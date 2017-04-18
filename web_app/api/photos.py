@@ -14,11 +14,12 @@ def photos_route():
 
     # Only one result should be returned since users can only have one zipfile
     # of photos hosted on our site at a time
-    assert(len(results) <= 1)
+    if(len(results) > 1):
+        return jsonify(errors="Too many files")
 
     # Return the URL for the zipfile if one exists and a notification
     # that it does not exist otherwise
-    if len(results == 1):
+    if (len(results) == 1):
         photos_url = results[0]['url']
         return jsonify(status="ZIPFILE_FOUND", url=photos_url)
     else:
