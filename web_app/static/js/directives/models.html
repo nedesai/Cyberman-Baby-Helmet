@@ -4,7 +4,7 @@
 	<div class="col-sm-3 model-list-bar pull-left">
 		<div class="model-list-header"> <h1>Models</h1> </div>
 		<div class="models-list-group">
-			<a data-ng-repeat="model_info in directive_info.models" href="#" data-ng-click="clickModel($index); modelviewcontrol.load();">
+			<a data-ng-repeat="model_info in directive_info.models" href="#" data-ng-click="clickModel($index); control.load();">
 				<button type="button" class="list-group-item list-group-item-action model-panel">
 					<h4>{* model_info.name *}</h4>
 					<small>Last Modified: {* model_info.lastmodified | date:'EEE hh:mm a MMM d, y' *}</small>
@@ -91,6 +91,12 @@
 		animate();
 		function init() {
 			container = document.getElementById('model-preview-pane');
+			// remove existing model from preview
+			while (container.firstChild) {
+				container.removeChild(container.firstChild);
+			}
+			//var load_msg = "<div class='panel-heading'><div class='loader'> </div> Uploading Model</div>";
+			//container.appendChild(load_msg);
 			camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			camera.position.z = 5;
 			camera.position.y = 3;
@@ -135,7 +141,7 @@
 				object.position.y = 0;
 				scene.add( object );
 			}, onProgress, onError );
-			//
+			
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( document.getElementById('model-preview-pane').offsetWidth, document.getElementById('model-preview-pane').offsetHeight );
@@ -153,6 +159,7 @@
 			renderer.setSize( div_preview.width, div_preview.height );
 			renderer.render(scene, camera);
 		}
+		// To zoom in and out with the mouse wheel
 		function mousewheel( e ) {
 			var d = ((typeof e.wheelDelta != "undefined")?(-e.wheelDelta):e.detail);
 			d = 100 * ((d>0)?1:-1);
@@ -172,6 +179,7 @@
 
 		var angularSpeed = 0.15;
 		var lastTime = 0;
+		// Automatic rotation animation
 		function animate() {
 			camera.lookAt( scene.position );
 			var time = (new Date()).getTime();

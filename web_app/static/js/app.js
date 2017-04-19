@@ -23,32 +23,22 @@ app.directive('script', ['$http', 'SharedService', function($http, SharedService
 		},
 		link: function(scope, elem, attr) {
 
-			console.log(scope.control);
-
 			scope.internalControl = scope.control || {};
 
 			scope.info = SharedService.sharedInfo;
 
 			scope.internalControl.load = function(){
-				console.log("function called");
-				// var model_file = "'~/tempmodel/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
-				// var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
-				// code = code.replace("'<modeltoload>'", model_file);
-				// var f = new Function(code);
-				// f();
-			}
-
-			function loadModel(){
-				//var model_file = "'../static/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
-				var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
-
+				var model_file = "'../static/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				//var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				// Get code so we can modify the model path
+				code = elem.text();
 				code = code.replace("'<modeltoload>'", model_file);
 				var f = new Function(code);
 				f();
 			}
 
 			if (attr.type === 'text/javascript-lazy') {
-				var code = elem.text();
+				var code = "";
 				if(scope.info.models.length === 0 || scope.info.models.length < scope.info.model_index) {
 					// Load the Models if not there
 					$http.get("api/v1/model?username=" + String(scope.info.username) + "&patientid=" + String(scope.info.patientid)).then(
@@ -57,7 +47,7 @@ app.directive('script', ['$http', 'SharedService', function($http, SharedService
 							for(var x = 0; x < scope.info.models.length; ++x){
 								scope.info.models[x]['lastmodified'] = new Date(scope.info.models[x]['lastmodified']);
 							}
-							loadModel();
+							scope.internalControl.load();
 						},
 						function(error) {
 							scope.errors = error.data.errors;
@@ -65,7 +55,7 @@ app.directive('script', ['$http', 'SharedService', function($http, SharedService
 					);
 				}
 				else{
-					loadModel();
+					scope.internalControl.load();
 				}
 				
 			}

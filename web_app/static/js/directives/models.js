@@ -7,9 +7,6 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 		templateUrl: 'static/js/directives/models.html',
 		link: function(scope, element, attrs) {
 
-			console.log("hi");
-			console.log(scope.control);
-
 			scope.directive_info = SharedService.sharedInfo;
 
 			scope.model_index = 0;
@@ -87,8 +84,9 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 
 			scope.clickModel = function(ind) {
 				scope.directive_info.model_index = ind;
-				console.log(ind);
-				console.log(scope.directive_info.models[ind].fbx_url);
+				console.log(scope.directive_info.model_index);
+				console.log(scope.directive_info.models);
+				//scope.control.load();
 			}
 
 			scope.printmodel = function(url) {
