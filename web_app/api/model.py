@@ -6,7 +6,7 @@ import boto3
 import hashlib
 import os
 #only comment out for local testing
-import fbx
+#import fbx
 
 model = Blueprint('model', __name__, template_folder='templates')
 
