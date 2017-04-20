@@ -20,9 +20,9 @@ app.directive('patients', ['$http', 'SharedService', function($http, SharedServi
 			function get_photos(user){
 				$http.get("api/v1/photos?username=" + user).then(
 					function(response) {
-						scope.directive_info.zip_found = response.data.status;
+						scope.directive_info.zip_file = response.data.status;
 						if(response.data.status == "ZIPFILE_FOUND")	{
-							scope.directive_info.zip_url = success.data.url;
+							scope.directive_info.zip_url = response.data.url;
 						}
 					}
 				);

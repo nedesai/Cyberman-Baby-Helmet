@@ -80,7 +80,9 @@ class PhotoEmailService:
 		url = 'https://s3.amazonaws.com/babyhead/{0}'.format(zipfile_name)
 		print('\nUploaded zipfile to:\n{0}\n'.format(url))
 
-		# Insert this zipfile's data into the database
+		# Insert this zipfile's data into the database (clean database beforehand)
+		cur = self.db.cursor()
+		cur.execute('DELETE FROM PhotoZip WHERE username=\'{}\''.format(username))
 		cur = self.db.cursor()
 		cur.execute('INSERT INTO PhotoZip (username, url) VALUES ' + 
 					'(\'{0}\', \'{1}\')'.format(username, url))
