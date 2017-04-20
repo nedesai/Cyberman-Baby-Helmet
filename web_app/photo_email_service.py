@@ -62,7 +62,7 @@ class PhotoEmailService:
 	# zipfile and photos from temporary local storage
 	def add_to_s3_and_database(self, username, photo_number):
 		# Create new zipfile
-		zipfile_name = 'photos.zip'
+		zipfile_name = 'photos_{0}.zip'.format(username)
 		zipfile_path_and_name = os.path.join(IMAGE_PATH, zipfile_name)
 		zf = zipfile.ZipFile(zipfile_path_and_name, mode='w')
 
@@ -72,26 +72,12 @@ class PhotoEmailService:
 			photo_path_and_name = os.path.join(IMAGE_PATH, filename)
 			zf.write(photo_path_and_name, basename(photo_path_and_name))
 			os.remove(photo_path_and_name)
-
-		# If user already has an S3 photo bucket, delete its photos
-		user_photo_bucket = '{0}-photos'.format(username)
-		buckets = []
-		s3_client = boto3.client('s3')
-		s3 = boto3.resource('s3')
-		for bucket in s3.buckets.all():
-			buckets.append(bucket.name)
-		if user_photo_bucket in buckets:
-			for key in bucket.objects.all():
-				key.delete()
-
-		# Else, create a new bucket on S3 to hold this user's photos if they
-		# do not already have a photo bucket created for them
-		else:
-			s3_client.create_bucket(Bucket=user_photo_bucket)
+		zf.close()
 
 		# Upload user's photos zipfile to user's S3 photo bucket and construct its S3 URL
-		s3_client.upload_file(zipfile_path_and_name, user_photo_bucket, zipfile_name)
-		url = 'https://s3.amazonaws.com/{0}/{1}'.format(user_photo_bucket, zipfile_path_and_name)
+		s3_client = boto3.client('s3')
+		s3_client.upload_file(zipfile_path_and_name, 'babyhead', zipfile_name)
+		url = 'https://s3.amazonaws.com/babyhead/{0}'.format(zipfile_name)
 		print('\nUploaded zipfile to:\n{0}\n'.format(url))
 
 		# Insert this zipfile's data into the database
@@ -100,7 +86,6 @@ class PhotoEmailService:
 					'(\'{0}\', \'{1}\')'.format(username, url))
 
 		# Delete zipfile from temporary local storage
-		zf.close()
 		os.remove(zipfile_path_and_name)
 
 	# Sends an email
