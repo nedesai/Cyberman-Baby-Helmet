@@ -89,9 +89,6 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 
 			scope.clickModel = function(ind) {
 				scope.directive_info.model_index = ind;
-				console.log(scope.directive_info.model_index);
-				console.log(scope.directive_info.models);
-				//scope.control.load();
 			}
 
 			scope.printmodel = function(url) {
