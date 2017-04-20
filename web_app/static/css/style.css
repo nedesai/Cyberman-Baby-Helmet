@@ -122,13 +122,13 @@ input[type="date"]:focus:before,
 	color: #ff0301;
 }
 
-.model-info{
+#model-info{
 	height: calc(100vh - 52px);
 	min-height: 450px;
 	width: 58.33vw;
 	position: absolute;
 	display: inline-block;
-	overflow-y: auto;
+	/*overflow-y: auto;*/
 }
 
 #model-preview-pane{
@@ -136,6 +136,16 @@ input[type="date"]:focus:before,
 	min-height: 300px;
 	width: 58.33vw;
 	background-color: black;
+	text-align: center;
+	position: relative;
+}
+
+#load_msg{
+	position: absolute;
+	color: white;
+	left: 24vw;
+	top: 25vh;
+	width: 120px;
 }
 
 #model-detail-pane{

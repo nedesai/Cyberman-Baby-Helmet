@@ -30,6 +30,7 @@ app.directive('script', ['$http', 'SharedService', function($http, SharedService
 			scope.internalControl.load = function(){
 				var model_file = "'../static/" + scope.info.patientid + "_" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
 				//var model_file = "'../static/assets/" + scope.info.models[scope.info.model_index].filename + scope.info.models[scope.info.model_index].filetype + "'";
+				
 				// Get code so we can modify the model path
 				code = elem.text();
 				code = code.replace("'<modeltoload>'", model_file);

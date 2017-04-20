@@ -60,7 +60,7 @@
 
 
 	<!-- For model info and picture cycling? -->
-	<div class="model-info">
+	<div id="model-info">
 		<div id="model-preview-pane">
 		</div>
 		<div id="model-detail-pane">	
@@ -91,12 +91,17 @@
 		animate();
 		function init() {
 			container = document.getElementById('model-preview-pane');
+
 			// remove existing model from preview
 			while (container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
-			//var load_msg = "<div class='panel-heading'><div class='loader'> </div> Uploading Model</div>";
-			//container.appendChild(load_msg);
+
+			var load_msg = document.createElement("div");
+			load_msg.id = "load_msg";
+			load_msg.innerHTML = "<div class='loader'> </div> Loading Model";
+			container.appendChild(load_msg);
+
 			camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			camera.position.z = 5;
 			camera.position.y = 3;
@@ -118,10 +123,18 @@
 			var onProgress = function ( xhr ) {
 				if ( xhr.lengthComputable ) {
 					var percentComplete = xhr.loaded / xhr.total * 100;
+
+					// When done loading, remove loading message
+					if(Math.round(percentComplete, 2) == 100) {
+						var child = document.getElementById("load_msg");
+						container.removeChild(child);
+					}
 					console.log( Math.round(percentComplete, 2) + '% downloaded' );
 				}
 			};
 			var onError = function ( xhr ) {
+				var child = document.getElementById("load_msg");
+				child.innerHTML = "Error Loading Model";
 			};
 			var loader = new THREE.ImageLoader( manager );
 			loader.load( '../static/grids/blue_grid.jpg', function ( image ) {
@@ -139,13 +152,15 @@
 					}
 				} );
 				object.position.y = 0;
+
 				scene.add( object );
 			}, onProgress, onError );
-			
+
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( document.getElementById('model-preview-pane').offsetWidth, document.getElementById('model-preview-pane').offsetHeight );
 			container.appendChild( renderer.domElement );
+
 			container.addEventListener( 'mousewheel', mousewheel, false );
 			container.addEventListener( 'DOMMouseScroll', mousewheel, false ); // firefox
 

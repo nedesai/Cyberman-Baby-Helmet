@@ -72,12 +72,17 @@ app.directive('models', ['$http', 'SharedService', function($http, SharedService
 						var new_model = success.data;
 						new_model['lastmodified'] = new Date(new_model['lastmodified'] + " GMT");
 						scope.directive_info.models.unshift(new_model);
+						// To make sure description is the same since we are adding to the front of the array
+						scope.directive_info.model_index += 1;
 						scope.uploading = false;
 						scope.success = "Added Model " + new_model['filename']+new_model['filetype'];
 					},
 					function(error) {
 						scope.uploading = false;
 						scope.errors = error.data.errors;
+						if(scope.errors.length == 0){
+							errors.push("Network Issue Uploading Model");
+						}
 					}
 				);
 			}
