@@ -49,7 +49,7 @@ Happy modeling!
 
 # Use ./photos when testing locally 
 # (note the '.'; this prevents a permission issue from being raised on local machines)
-IMAGE_PATH = './home/ubuntu/photos/'
+IMAGE_PATH = '/home/ubuntu/photos/'
 
 class PhotoEmailService:
 	def __init__(self):
@@ -163,7 +163,7 @@ class PhotoEmailService:
 			# representation of the message
 			response = connection.retr(i+1)
 			raw_message = response[1]
-			str_message = email.message_from_bytes(b'\n'.join(raw_message))
+			str_message = email.message_from_strings(raw_message)
 
 			#--------------------------------#
 			# Check if from address is valid #
