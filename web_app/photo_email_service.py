@@ -49,7 +49,7 @@ Happy modeling!
 
 # Use ./photos when testing locally 
 # (note the '.'; this prevents a permission issue from being raised on local machines)
-IMAGE_PATH = '/home/ubuntu/photos/'
+IMAGE_PATH = '/photos/'
 
 class PhotoEmailService:
 	def __init__(self):
