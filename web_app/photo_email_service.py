@@ -163,7 +163,8 @@ class PhotoEmailService:
 			# representation of the message
 			response = connection.retr(i+1)
 			raw_message = response[1]
-			str_message = email.message_from_strings(raw_message)
+			str_message = email.message_from_string('\n'.join(raw_message)) # For Python 2
+			# str_message = email.message_from_bytes(b'\n'.join(raw_message)) # For Python 3
 
 			#--------------------------------#
 			# Check if from address is valid #
