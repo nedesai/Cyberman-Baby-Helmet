@@ -5,9 +5,9 @@ photos = Blueprint('photos', __name__, template_folder='templates')
 
 @photos.route('/api/v1/photos', methods=['GET'])
 def photos_route():
-    #if 'username' not in session:
-    #    return jsonify(errors="User not logged in")
-    username = 'zmclark'#session['username']
+    if 'username' not in session:
+        return jsonify(errors="User not logged in")
+    username = session['username']
 
     db = connect_to_database()
     cur = db.cursor()
