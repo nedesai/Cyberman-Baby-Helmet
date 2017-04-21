@@ -107,7 +107,7 @@ class PhotoEmailService:
 				s.starttls()
 				s.ehlo()
 				s.login(WEB_APP_EMAIL_USERNAME, WEB_APP_EMAIL_PASSWORD)
-				s.send_message(msg)
+				s.sendmail(WEB_APP_EMAIL_USERNAME, [to_address], msg.as_string())
 				s.close()
 				break
 
